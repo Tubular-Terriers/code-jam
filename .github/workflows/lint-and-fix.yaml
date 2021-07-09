@@ -31,3 +31,10 @@ jobs:
         with:
           black: true
           auto_fix: true
+
+      - name: Discord Webhook
+        uses: nebularg/actions-discord-webhook@v1.0.0
+        if: always()
+        with:
+          webhook_url: ${{ secrets.BOT_UPDATES }}
+          status: ${{ job.status }}

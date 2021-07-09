@@ -55,6 +55,14 @@ jobs:
           # Force pre-commit to do a system install.
           PIP_USER: 0
 
+      - name: Discord Webhook
+        uses: nebularg/actions-discord-webhook@v1.0.0
+        if: always()
+        with:
+          webhook_url: ${{ secrets.BOT_UPDATES }}
+          status: ${{ job.status }}
+
+
         # Pipenv setup
         # - name: Run hooks through our Pipenv environment.
         #  run: |
