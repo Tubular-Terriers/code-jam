@@ -36,7 +36,7 @@ def draw_menu(stdscr):
         height, width = stdscr.getmaxyx()
 
         # Exit menu
-        if k == ord('q'):
+        if k == ord("q"):
             return
 
         # Deal with arrow keys
@@ -53,11 +53,17 @@ def draw_menu(stdscr):
         cursor_y = clamp(0, cursor_y, height - 1)
 
         # Declaration of strings
-        title = "Curses example"[:width-1]
-        subtitle = "Written by Clay McLeod"[:width-1]
+        title = "Curses example"[: width - 1]
+        subtitle = "Written by Clay McLeod"[: width - 1]
         # Two ways of padding
-        keystr = f"{f'Last key pressed: {k}':{width-1}}" if k != 0 else "No key press detected...".ljust(width - 1)
-        statusbarstr = "Press 'q' to exit | STATUS BAR | Pos: {}, {}".format(cursor_x, cursor_y)
+        keystr = (
+            f"{f'Last key pressed: {k}':{width-1}}"
+            if k != 0
+            else "No key press detected...".ljust(width - 1)
+        )
+        statusbarstr = "Press 'q' to exit | STATUS BAR | Pos: {}, {}".format(
+            cursor_x, cursor_y
+        )
 
         # Centering calculations
         # This can be done with f strings as well
@@ -76,8 +82,10 @@ def draw_menu(stdscr):
 
         # Render status bar
         stdscr.attron(curses.color_pair(3))
-        stdscr.addstr(height-1, 0, statusbarstr)
-        stdscr.addstr(height-1, len(statusbarstr), " " * (width - len(statusbarstr) - 1))
+        stdscr.addstr(height - 1, 0, statusbarstr)
+        stdscr.addstr(
+            height - 1, len(statusbarstr), " " * (width - len(statusbarstr) - 1)
+        )
         stdscr.attroff(curses.color_pair(3))
 
         # Rendering title
@@ -89,7 +97,7 @@ def draw_menu(stdscr):
 
         # Print rest of text
         stdscr.addstr(start_y + 1, start_x_subtitle, subtitle)
-        stdscr.addstr(start_y + 3, (width // 2) - 2, '-' * 4)
+        stdscr.addstr(start_y + 3, (width // 2) - 2, "-" * 4)
         stdscr.addstr(start_y + 5, start_x_keystr, keystr)
         stdscr.move(cursor_y, cursor_x)
 
