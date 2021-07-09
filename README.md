@@ -1,7 +1,25 @@
 
 # Quick start
 
-Type `cmd` in the file explorer address bar of our project
+# Navigating GitHub
+
+Click the copy button like this
+
+![Image](https://cdn.discordapp.com/attachments/863077317667323976/863148700364046336/unknown.png)
+
+# Local
+
+These steps are all done on your computer
+
+# Cloning
+
+Type `cmd` in the file explorer address bar of our project (create empty file before doing this)
+
+do `git clone <rightclick - this pastes the url> .`
+
+It will generate the repo in our current repository
+
+# Quick start this project
 
 `python -m venv .venv`
 
