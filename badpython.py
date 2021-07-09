@@ -1,6 +1,6 @@
 # IMPORTANT ################
-from curses import wrapper
 import curses
+from curses import wrapper
 
 stdscr = curses.initscr()
 #############################
