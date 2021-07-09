@@ -18,7 +18,7 @@ jobs:
           python-version: 3.8
 
       - name: install linter
-        uses: pip install black
+        run: pip install black
 
       - name: lint-action
         uses: wearerequired/lint-action@v1.10.0
