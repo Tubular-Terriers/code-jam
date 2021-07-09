@@ -56,6 +56,12 @@ to exit, just run `deactivate` like `(.venv) >deactivate` and it will exit
 
 What this does is essentially runs a "prehook" when you run `git commit`. These are various checks before a developer actually commits something to a git repository.
 
+# Installing Windows Terminal
+
+Search for Microsoft Store in your taskbar
+
+Launch it and install `Windows Terminal`
+
 # Few notes
 
 You have push access. Go ham with the code
