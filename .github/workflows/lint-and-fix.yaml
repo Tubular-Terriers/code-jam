@@ -17,8 +17,14 @@ jobs:
         with:
           python-version: 3.8
 
+      - name: install dev
+        run: pip install -r dev-requirements.txt
+
       - name: install linter
         run: pip install black
+
+      - name: isort
+        run: isort .
 
       - name: lint-action
         uses: wearerequired/lint-action@v1.10.0
