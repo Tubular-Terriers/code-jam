@@ -4,6 +4,7 @@
 import colorsys
 import contextlib
 import math
+
 ################################
 # Run this in windows terminal instead of cmd
 ###############################
@@ -21,24 +22,31 @@ def scale_255(val):
 
 def rgb_at_xy(term, x, y, t):
     h, w = term.height, term.width
-    hue = 4.0 + (
-        math.sin(x / 16.0)
-        + math.sin(y / 32.0)
-        + math.sin(math.sqrt(
-            ((x - w / 2.0) * (x - w / 2.0)
-             + (y - h / 2.0) * (y - h / 2.0))
-        ) / 8.0 + t * 3)
-    ) + math.sin(math.sqrt((x * x + y * y)) / 8.0)
+    hue = (
+        4.0
+        + (
+            math.sin(x / 16.0)
+            + math.sin(y / 32.0)
+            + math.sin(
+                math.sqrt(
+                    ((x - w / 2.0) * (x - w / 2.0) + (y - h / 2.0) * (y - h / 2.0))
+                )
+                / 8.0
+                + t * 3
+            )
+        )
+        + math.sin(math.sqrt((x * x + y * y)) / 8.0)
+    )
     saturation = y / h
     lightness = x / w
     return tuple(map(scale_255, colorsys.hsv_to_rgb(hue / 8.0, saturation, lightness)))
 
 
 def screen_plasma(term, plasma_fn, t):
-    result = ''
+    result = ""
     for y in range(term.height - 1):
         for x in range(term.width):
-            result += term.on_color_rgb(*plasma_fn(term, x, y, t)) + ' '
+            result += term.on_color_rgb(*plasma_fn(term, x, y, t)) + " "
     return result
 
 
@@ -55,17 +63,17 @@ def elapsed_timer():
 
 
 def show_please_wait(term):
-    txt_wait = 'please wait ...'
+    txt_wait = "please wait ..."
     outp = term.move_yx(term.height - 1, 0) + term.clear_eol + term.center(txt_wait)
-    print(outp, end='')
+    print(outp, end="")
     sys.stdout.flush()
 
 
 def show_paused(term):
-    txt_paused = 'paused'
+    txt_paused = "paused"
     outp = term.move_yx(term.height - 1, int(term.width / 2 - len(txt_paused) / 2))
     outp += txt_paused
-    print(outp, end='')
+    print(outp, end="")
     sys.stdout.flush()
 
 
@@ -86,12 +94,19 @@ def next_color(color, forward):
 
 
 def status(term, elapsed):
-    left_txt = (f'{term.number_of_colors} colors - '
-                f'{term.color_distance_algorithm} - ?: help ')
-    right_txt = f'fps: {1 / elapsed:2.2f}'
-    return ('\n' + term.normal
-            + term.white_on_blue + term.clear_eol + left_txt
-            + term.rjust(right_txt, term.width - len(left_txt)))
+    left_txt = (
+        f"{term.number_of_colors} colors - "
+        f"{term.color_distance_algorithm} - ?: help "
+    )
+    right_txt = f"fps: {1 / elapsed:2.2f}"
+    return (
+        "\n"
+        + term.normal
+        + term.white_on_blue
+        + term.clear_eol
+        + left_txt
+        + term.rjust(right_txt, term.width - len(left_txt))
+    )
 
 
 def main(term):
@@ -105,27 +120,29 @@ def main(term):
                 with elapsed_timer() as elapsed:
                     outp = term.home + screen_plasma(term, rgb_at_xy, t)
                 outp += status(term, elapsed())
-                print(outp, end='')
+                print(outp, end="")
                 sys.stdout.flush()
                 dirty = False
             if pause:
                 show_paused(term)
 
             inp = term.inkey(timeout=0.01 if not pause else None)
-            if inp == '?':
+            if inp == "?":
                 return
-            if inp == '\x0c':
+            if inp == "\x0c":
                 dirty = True
-            if inp in ('[', ']'):
+            if inp in ("[", "]"):
                 term.color_distance_algorithm = next_algo(
-                    term.color_distance_algorithm, inp == '[')
+                    term.color_distance_algorithm, inp == "["
+                )
                 show_please_wait(term)
                 dirty = True
-            if inp == ' ':
+            if inp == " ":
                 pause = not pause
             if inp.code in (term.KEY_TAB, term.KEY_BTAB):
                 term.number_of_colors = next_color(
-                    term.number_of_colors, inp.code == term.KEY_TAB)
+                    term.number_of_colors, inp.code == term.KEY_TAB
+                )
                 show_please_wait(term)
                 dirty = True
 
