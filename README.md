@@ -5,11 +5,9 @@
 
 Click the copy button like this
 
-![Image](https://cdn.discordapp.com/attachments/863077317667323976/863148700364046336/unknown.png)
+![Image](https://cdn.discordapp.com/attachments/799265265820237834/863153436487843911/rVZsBs7xsU.gif)
 
-# Local
-
-These steps are all done on your computer
+Now go to your project folder
 
 # Cloning
 
@@ -57,6 +55,10 @@ to exit, just run `deactivate` like `(.venv) >deactivate` and it will exit
 ```
 
 What this does is essentially runs a "prehook" when you run `git commit`. These are various checks before a developer actually commits something to a git repository.
+
+# Few notes
+
+You have push access
 
 # Ask questions on Discord
 
