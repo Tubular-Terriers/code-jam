@@ -1,0 +1,27 @@
+
+name: Lint and fix using black
+
+on: [push]
+
+
+jobs:
+  lint-and-fix-black:
+    name: Lint Action
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: set python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+
+      - name: install linter
+        uses: pip install black
+
+      - name: lint-action
+        uses: wearerequired/lint-action@v1.10.0
+        with:
+          black: true
+          auto_fix: true
