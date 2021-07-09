@@ -60,6 +60,17 @@ What this does is essentially runs a "prehook" when you run `git commit`. These 
 
 You have push access. Go ham with the code
 
+Here are my vscode settings. If you use vsc, make a `.vscode/settings.json` file and paste this in
+```json
+{
+	"python.linting.flake8Enabled": true,
+	"python.linting.enabled": true,
+	"editor.tabSize": 4,
+	"editor.detectIndentation": false,
+	"editor.insertSpaces": true
+}
+```
+
 # Ask questions on Discord
 
 You are most probably not alone! Asking is faster than googling
