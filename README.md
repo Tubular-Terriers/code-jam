@@ -7,6 +7,20 @@ Click the copy button like this
 
 ![Image](https://cdn.discordapp.com/attachments/799265265820237834/863153436487843911/rVZsBs7xsU.gif)
 
+If the command line says that you don't have permission, set your credentials
+
+Get your no reply email here https://github.com/settings/emails
+
+![image](https://cdn.discordapp.com/attachments/799265265820237834/863183120738811934/unknown.png)
+
+```
+git config --global user.name "fname lname"
+git config --global user.email "no reply email here"
+git config --global user.password "secret"
+```
+
+> Note: this is not a good method of setting credentials. But if you are just learning git, it doesn't matter that much
+
 Now go to your project folder
 
 # Cloning
@@ -61,6 +75,10 @@ What this does is essentially runs a "prehook" when you run `git commit`. These 
 Search for Microsoft Store in your taskbar
 
 Launch it and install `Windows Terminal`
+
+You can go to your project directory like this
+
+![image](https://cdn.discordapp.com/attachments/799265265820237834/863181507392438272/unknown.png)
 
 # Few notes
 
