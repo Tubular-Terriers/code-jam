@@ -58,7 +58,7 @@ What this does is essentially runs a "prehook" when you run `git commit`. These 
 
 # Few notes
 
-You have push access
+You have push access. Go ham with the code
 
 # Ask questions on Discord
 
