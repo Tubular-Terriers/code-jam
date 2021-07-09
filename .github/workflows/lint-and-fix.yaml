@@ -1,5 +1,5 @@
 
-name: Lint and fix using black
+name: Black
 
 on: [push]
 
