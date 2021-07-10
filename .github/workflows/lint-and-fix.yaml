@@ -26,11 +26,17 @@ jobs:
       - name: isort
         run: isort .
 
+      - name: debug
+        run: git status
+
       - name: lint-action
         uses: wearerequired/lint-action@v1.10.0
         with:
           black: true
           auto_fix: true
+
+      - name: debug
+        run: git status
 
       - name: Discord Webhook
         uses: nebularg/actions-discord-webhook@v1.0.0
