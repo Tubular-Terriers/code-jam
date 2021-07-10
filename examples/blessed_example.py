@@ -4,6 +4,7 @@
 import colorsys
 import contextlib
 import math
+
 ################################
 # Run this in windows terminal instead of cmd
 ###############################
