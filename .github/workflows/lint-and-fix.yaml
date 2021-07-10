@@ -6,7 +6,7 @@ on: [push]
 
 jobs:
   lint-and-fix-black:
-    name: Lint Action
+    name: Lint and Fix
     runs-on: ubuntu-latest
     env:
       # Set an environment variable to select pip's cache directory for us to actually cache between runs.
@@ -51,7 +51,6 @@ jobs:
         with:
           commit_message: Isort auto commit
           add_options: '-u'
-          skip_dirty_check: true
           commit_options: --no-verify
 
       # Run precomit
