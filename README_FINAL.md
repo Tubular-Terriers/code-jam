@@ -9,3 +9,4 @@ nopeless will take care of renaming/deleting the readme files before submitting
 > [MePhew](https://github.com/Me-Phew) - Team member  
 > [Karthik_Mv](https://github.com/karthikmurakonda) - Team member  
 > [nobalpha](https://github.com/Me-Phew) - Team member
+> [madara uchiha](https://github.com/pritansh-sahsani) - Team member
