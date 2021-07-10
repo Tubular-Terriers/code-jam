@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # std imports
+################################
+# Run this in windows terminal instead of cmd
+###############################
 
 import colorsys
 import contextlib
 import math
-################################
-# Run this in windows terminal instead of cmd
-###############################
 import sys
 import time
 import timeit
