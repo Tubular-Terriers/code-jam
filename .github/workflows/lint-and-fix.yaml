@@ -52,6 +52,7 @@ jobs:
           commit_message: Isort auto commit
           add_options: '-u'
           skip_dirty_check: true
+          commit_options: --no-verify
 
       # Run precomit
       - name: Run hooks through our requirement file
