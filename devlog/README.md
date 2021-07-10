@@ -24,3 +24,5 @@ We decided to make a battle royale style pong game
 Created the project structure with game, client, and server
 
 ![image](https://cdn.discordapp.com/attachments/862242420863139855/863488446328733736/unknown.png)
+
+![image](https://cdn.discordapp.com/attachments/862242420863139853/863511003668676608/Untitled_Diagram_1.png)
