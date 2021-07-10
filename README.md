@@ -21,6 +21,8 @@ git config --global user.password "secret"
 
 > Note: this is not a good method of setting credentials. But if you are just learning git, it doesn't matter that much
 
+> Another note: If that doesn't work, clone using the command line and select `Web Browser` for authentication
+
 Now go to your project folder
 
 # Cloning
