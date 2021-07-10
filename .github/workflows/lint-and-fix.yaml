@@ -8,11 +8,17 @@ jobs:
   lint-and-fix-black:
     name: Lint Action
     runs-on: ubuntu-latest
+    env:
+      # Set an environment variable to select pip's cache directory for us to actually cache between runs.
+      PIP_CACHE_DIR: /tmp/pip-cache-dir
+      # The Python version your project uses. Feel free to change this if required.
+      PYTHON_VERSION: 3.9
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
 
       - name: set python
+        id: python
         uses: actions/setup-python@v2
         with:
           python-version: ${{ env.PYTHON_VERSION }}
