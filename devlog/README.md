@@ -22,3 +22,5 @@ Our idea revolves around the game `pong` the first game ever created
 We decided to make a battle royale style pong game
 
 Created the project structure with game, client, and server
+
+![image](https://cdn.discordapp.com/attachments/862242420863139855/863488446328733736/unknown.png)
