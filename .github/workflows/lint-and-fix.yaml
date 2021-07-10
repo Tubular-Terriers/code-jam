@@ -27,7 +27,7 @@ jobs:
         run: isort .
 
       - name: debug
-        run: git status
+        run: git add .
 
       - name: lint-action
         uses: wearerequired/lint-action@v1.10.0
