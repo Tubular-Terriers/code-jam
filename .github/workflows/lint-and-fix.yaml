@@ -27,7 +27,7 @@ jobs:
         run: isort .
 
       - name: debug
-        run: git add .
+        run: git add . && git status
 
       - name: lint-action
         uses: wearerequired/lint-action@v1.10.0
@@ -35,7 +35,8 @@ jobs:
           black: true
           auto_fix: true
 
-      - name: debug
+      - name: git status
+        if: always()
         run: git status
 
       - name: Discord Webhook
