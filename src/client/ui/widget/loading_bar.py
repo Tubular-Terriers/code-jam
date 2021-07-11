@@ -1,8 +1,6 @@
 import curses
 import time
 
-curses.initscr()
-
 
 class loading_bar:
     def __init__(self, width, y, x, message=None):
@@ -30,9 +28,11 @@ class loading_bar:
         self.update()
 
 
-a = loading_bar(width=32, y=0, x=0)
-loading = 0
-while loading < 100:
-    loading += 1
-    time.sleep(0.03)
-    a.set_progress(loading)
+if __name__ == "__main__":
+    curses.initscr()
+    a = loading_bar(width=32, y=0, x=0)
+    loading = 0
+    while loading < 100:
+        loading += 1
+        time.sleep(0.03)
+        a.set_progress(loading)
