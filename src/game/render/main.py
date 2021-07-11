@@ -32,7 +32,6 @@ class Renderer:
 
     async def update_loop(self):
         while True:
-            print("rendering")
             self.update()
             # TODO  find a way to sync this with game tick rate
             await asyncio.sleep(1 / 10)

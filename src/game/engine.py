@@ -51,7 +51,6 @@ class Game:
 
     async def loop(self):
         while True:
-            print("ticking")
             self.tick()
             # TODO: Fix this to dynamically sleep that compensates the tick time
             await asyncio.sleep(1 / self.tickrate)
