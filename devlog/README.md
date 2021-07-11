@@ -34,3 +34,26 @@ Refined the pipeline structure of data and communications
 ![image](https://cdn.discordapp.com/attachments/862242420863139853/863805255904919552/unknown.png)
 
 Since `curses window.getch` will be blocking or cost a lot of cpu, we have to use a non-blocking, event-based, asyncio compatible key reading library. Maybe we need a custom one
+
+Our team split roles
+
+curses team:
+ * front end menu:
+    * karthik
+    * madara uchiha
+ * front end game render:
+    * mephew
+
+backend-web team:
+ * nope
+ * nick
+
+backend-engine team:
+ * nope
+ * joshuqa
+
+We have new concept art as well
+
+![image](https://media.discordapp.net/attachments/862242420863139855/863666768080928778/unknown.png)
+
+The players are inside the box in this version
