@@ -64,8 +64,14 @@ class Renderer:
 
     def update(self):
         for event in pygame.event.get():
-            pass
+            if (
+                event.type == pygame.QUIT
+                or event.type == pygame.KEYDOWN
+                and event.key == pygame.K_ESCAPE
+            ):
+                return False
         self.screen.fill("GRAY")
         self.space.debug_draw(self.draw_options)
         pygame.display.update()
         self.space.step(0.01)
+        return True
