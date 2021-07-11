@@ -15,7 +15,7 @@ class loading_bar:
         self.win.border(0)
 
     def update(self):
-        if self.message != None:
+        if self.message is not None:
             self.win.addstr(1, 1, self.message)
         x = int(self.progress)
         x = x * ((self.width - 2) / float(100))
