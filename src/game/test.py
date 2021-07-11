@@ -8,15 +8,17 @@ game = engine.Game()
 
 
 i = 0
-while True:
-    i += 1
-    game.render.update()
-    time.sleep(0.1)
-
-# async def main():
-#     while True:
-#         game.render.update()
-#         print("print")
+# while True:
+#     i += 1
+#     game.render.update()
+#     time.sleep(0.1)
 
 
-# asyncio.run(main())
+async def main():
+    while True:
+        if not game.render.update():
+            return
+        await asyncio.sleep(0.1)
+
+
+asyncio.run(main())
