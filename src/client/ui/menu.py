@@ -2,9 +2,9 @@ import asyncio
 import time
 from time import sleep
 
-from _ui import UI
+from appstate import AppState
 
-from ..appstate import AppState
+from ._ui import UI
 from .widget.progress_bar import ProgressBar
 from .widget.simple_button import Button
 
