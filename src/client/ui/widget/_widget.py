@@ -12,5 +12,4 @@ class Widget:
 
     def refresh(self):
         if self.window:
-            self.window.erase()
-            self.window.refresh()
+            self.window.noutrefresh()
