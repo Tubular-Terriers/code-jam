@@ -3,8 +3,6 @@ import sys
 from types import SimpleNamespace
 
 from input.input_manager import input_manager
-
-# import multiple screens
 from ui.menu import menu
 
 sys.path.append(".")
