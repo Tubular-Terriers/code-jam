@@ -55,7 +55,7 @@ class ProgressBar(Widget):
     def set_progress(self, progress: float):
         self.progress = progress / 100
 
-    def _create_message_(self):
+    def _create_message_(self) -> str:
         if self.message_alignment is MessageAlignment.CENTER:
             offset = int((self.width - len(self.message_text)) / 2)
 
