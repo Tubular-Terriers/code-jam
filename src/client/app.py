@@ -26,6 +26,8 @@ class App:
         self.stdscr = stdscr
         self.screen = stdscr
 
+        curses.noecho()
+
         # Register UIs
         self.ui = SimpleNamespace()
         self.ui.menu = menu
@@ -34,11 +36,15 @@ class App:
         self.input_manager = input_manager
 
         def hook(e):
-            self.selected_ui.key_press_on(e)
+            self.selected_ui.hook(e)
 
         self.hook = hook
-        # Do not use `hook` somewhere else
-        self.input_manager.hook(self.hook)
+        self.input_manager.hook(hook)
+
+        def press_on(e):
+            self.selected_ui.press_on(e)
+
+        self.input_manager.on_press(press_on)
 
     def destroy(self):
         """Cleans up the resources"""

@@ -30,16 +30,20 @@ class UI:
         w = app.screen.getmaxyx()[1]
         self.window = curses.newwin(h, w, 0, 0)
 
-    def key_press_on(self, k):
+    def press_on(self, k):
         """
         `on_press_key` but backwards
 
         default behavior is to loop all widgets
         """
         for w in self.widgets:
-            w.key_press_on(k)
+            w.press_on(k)
+
+    def hook(self, key):
+        pass
 
     def refresh(self):
         self.window.refresh()
         for w in self.widgets:
-            w.refresh()
+            if (res := w.refresh()) is not None:
+                return res

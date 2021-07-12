@@ -47,5 +47,8 @@ class InputManager:
         """`keyboard.unhook`"""
         return keyboard.unhook(*args)
 
+    def on_press(self, cb):
+        return keyboard.on_press(cb)
+
 
 input_manager = InputManager()

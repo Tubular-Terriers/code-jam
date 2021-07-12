@@ -6,6 +6,7 @@ from appstate import AppState
 from ui.UI import UI
 
 from .widget.loading_bar import LoadingBar
+from .widget.simple_button import Button
 
 
 class Menu(UI):
@@ -17,12 +18,21 @@ class Menu(UI):
         # Required
         super().view(app)
         self.time += 10
-        my_bar = LoadingBar(width=32, y=3, x=3, message="hello")
+        my_bar = LoadingBar(width=32, y=1, x=0, message="Press space 4 times to exit")
         my_bar.set_progress(self.time)
-        self.widgets = [my_bar]
-        self.window.addstr(0, 0, "I am a menu")
-        self.refresh()
-        return AppState.MENU
+        my_button = Button(2, 14, go_to=AppState.EXIT)
+        self.widgets = [my_bar, my_button]
+        res = None
+        i = 0
+        while True:
+            # Main loop for rendering the menu
+            i += 1
+            self.window.addstr(0, 0, f"I am a menu {i}")
+            my_bar.set_progress(i % 100)
+            if res := self.refresh():
+                break
+            await asyncio.sleep(0.1)
+        return res
 
 
 # Return single menu object

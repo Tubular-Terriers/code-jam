@@ -3,7 +3,14 @@
 
 class Widget:
     def __init__(self, name):
+        self.name = name
         pass
 
-    def key_press_on(self, key):
+    def press_on(self, key):
+        """Called with the argument `key`"""
         pass
+
+    def refresh(self, key):
+        if self.window:
+            self.window.erase()
+            self.window.refresh()
