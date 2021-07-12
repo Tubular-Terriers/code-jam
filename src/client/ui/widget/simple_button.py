@@ -17,7 +17,7 @@ class Button(Widget):
     def refresh(self):
         self.window.border(0)
         self.window.addch(1, 1, "o" if self.toggled else "x")
-        self.window.refresh()
+        self.window.noutrefresh()
         if self.toggle_count > 3:
             if self.go_to is not None:
                 return self.go_to

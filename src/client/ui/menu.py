@@ -1,4 +1,5 @@
 import asyncio
+import curses
 import time
 from time import sleep
 
@@ -22,7 +23,7 @@ class Menu(UI):
             width=32, y=1, x=0, message_text="Press space 4 times to exit"
         )
         my_bar.set_progress(self.time)
-        my_button = Button(2, 14, go_to=AppState.EXIT)
+        my_button = Button(2, 34, go_to=AppState.EXIT)
         self.widgets = [my_bar, my_button]
         res = None
         i = 0
@@ -33,6 +34,7 @@ class Menu(UI):
             my_bar.set_progress(i % 100)
             if res := self.refresh():
                 break
+            curses.doupdate()
             await asyncio.sleep(0.1)
         return res
 
