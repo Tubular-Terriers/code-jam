@@ -28,56 +28,28 @@ class Listdisplay:
     def display(self, tab=0):
         self.pad = curses.newpad(1 + len(self.lst[tab]) + 1, self.width)
         for n in range(len(self.lst[tab])):
-            self.pad.addstr(n + 1, 1, self.lst[tab][n])
+            self.pad.addstr(n, 1, self.lst[tab][n])
 
-        self.pad.refresh(
-            self.currentpos,
-            0,
-            self.start_y + 1,
-            self.start_x + 1,
-            self.height - 1,
-            self.width - 1,
-        )
+        self.refresh_pad()
 
     def scrollup(self):
         self.currentpos += 1
         self.currentpos = min(
             len(self.lst[self.currenttab]) - self.height + 3, self.currentpos
         )
-        self.pad.refresh(
-            self.currentpos,
-            0,
-            self.start_y + 1,
-            self.start_x + 1,
-            self.height - 1,
-            self.width - 1,
-        )
+        self.refresh_pad()
 
     def scrolldown(self):
         self.currentpos -= 1
         self.currentpos = max(0, self.currentpos)
-        self.pad.refresh(
-            self.currentpos,
-            0,
-            self.start_y + 1,
-            self.start_x + 1,
-            self.height - 1,
-            self.width - 1,
-        )
+        self.refresh_pad()
 
     def switchtab_right(self):
         self.currentpos = 0
         self.currenttab += 1
         self.currenttab = min(len(self.lst), self.currenttab)
         self.pad.erase()
-        self.pad.refresh(
-            self.currentpos,
-            0,
-            self.start_y + 1,
-            self.start_x + 1,
-            self.height - 1,
-            self.width - 1,
-        )
+        self.refresh_pad()
         self.display(self.currenttab)
 
     def switchtab_left(self):
@@ -85,6 +57,10 @@ class Listdisplay:
         self.currenttab -= 1
         self.currenttab = max(0, self.currenttab)
         self.pad.erase()
+        self.refresh_pad()
+        self.display(self.currenttab)
+
+    def refresh_pad(self):
         self.pad.refresh(
             self.currentpos,
             0,
@@ -93,7 +69,6 @@ class Listdisplay:
             self.height - 1,
             self.width - 1,
         )
-        self.display(self.currenttab)
 
 
 def main(stdscr):
