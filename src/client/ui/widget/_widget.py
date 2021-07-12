@@ -10,7 +10,7 @@ class Widget:
         """Called with the argument `key`"""
         pass
 
-    def refresh(self, key):
+    def refresh(self):
         if self.window:
             self.window.erase()
             self.window.refresh()
