@@ -1,3 +1,6 @@
+from render.render_engine import RenderEngine
+from map.map_manager import MapManager
+from entity_manager import EntityManager
 import pygame
 import pymunk
 import pymunk.pygame_util
@@ -32,6 +35,19 @@ class App:
             space.step(0.01)
 
         pygame.quit()
+
+
+def entity_test():
+    mapmng = MapManager()
+    print(mapmng.set_level(0, """
+            -----oooo-oo-oooo---
+            --ppp-----o--oo--o--"""
+                           ))
+    mapmng.parse(0)
+    renderer = RenderEngine(" ", 30, 30, True)
+    enmng = EntityManager(mapmng.get_raw_level(0), renderer)
+    enmng.parse()
+    print(renderer.entities)
 
 
 if __name__ == "__main__":
