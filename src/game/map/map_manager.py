@@ -20,9 +20,8 @@ class MapManager:
     def get_raw_level(self, level):
         return self.intervals[level]
 
-    def generate(
-        self, level=0
-    ):  # generate random map, even tho not random for the moment
+    def generate(self, level=0):
+        """Generate random map, even tho not random for the moment"""
         pass
 
     def parse(self, level=0) -> List[dict]:
