@@ -3,7 +3,7 @@ import time
 from time import sleep
 
 from appstate import AppState
-from ui.UI import UI
+from _ui.UI import UI
 
 from .widget.loading_bar import LoadingBar
 
