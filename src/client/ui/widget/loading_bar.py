@@ -18,15 +18,15 @@ class LoadingBar:
         x = x / 10
         x = int(x)
         display = (
-            self.message
-            + "\n┌──────────┐\n│"
+            "\n┌──────────┐\n│"
             + "#" * x
             + "-" * (10 - x)
             + "│\n└──────────┘"
         )
-        if x != 0:
-            self.win.addstr(0, 1, f"{display}")
-            self.win.refresh()
+        if self.message != None:
+            display=self.message+display
+        self.win.addstr(0, 1, f"{display}")
+        self.win.refresh()
 
     def set_progress(self, progress: float):
         self.progress = progress
@@ -39,5 +39,5 @@ if __name__ == "__main__":
     loading = 0
     while loading < 100:
         loading += 1
-        time.sleep(0.03)
+        time.sleep(0.3)
         a.set_progress(loading)
