@@ -2,10 +2,10 @@ import asyncio
 import time
 from time import sleep
 
-from _ui.UI import UI
-from appstate import AppState
+from _ui import UI
+from ..appstate import AppState
 
-from .widget.progress_bar import LoadingBar
+from .widget.progress_bar import ProgressBar
 from .widget.simple_button import Button
 
 
@@ -18,7 +18,7 @@ class Menu(UI):
         # Required
         super().view(app)
         self.time += 10
-        my_bar = LoadingBar(width=32, y=1, x=0, message="Press space 4 times to exit")
+        my_bar = ProgressBar(width=32, y=1, x=0, message_text="Press space 4 times to exit")
         my_bar.set_progress(self.time)
         my_button = Button(2, 14, go_to=AppState.EXIT)
         self.widgets = [my_bar, my_button]

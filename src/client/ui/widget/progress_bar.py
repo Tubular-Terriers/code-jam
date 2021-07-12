@@ -25,10 +25,10 @@ class MessageCreationFailed(Exception):
 class ProgressBar(Widget):
     def __init__(
         self,
-        height: int,
         width: int,
         x: int,
         y: int,
+        height: int = 1,
         message_text: str = None,
         message_alignment: MessageAlignment = MessageAlignment.CENTER,
     ):
