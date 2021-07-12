@@ -1,24 +1,60 @@
-import asyncio
-import time
+import pygame
+import pymunk
+import pymunk.pygame_util
 
-import engine
-
-game = engine.Game()
-# game.start()
-
-
-i = 0
-# while True:
-#     i += 1
-#     game.render.update()
-#     time.sleep(0.1)
+GRAY = (220, 220, 220)
+space = pymunk.Space()
+space.gravity = 0, 0
+boundary1 = space.static_body
+boundary2 = space.static_body
+boundary3 = space.static_body
+boundary4 = space.static_body
 
 
-async def main():
-    while True:
-        if not game.render.update():
-            return
-        await asyncio.sleep(0.1)
+class App:
+    size = 1000, 700
+
+    def __init__(self):
+        pygame.init()
+        self.screen = pygame.display.set_mode(self.size)
+        self.draw_options = pymunk.pygame_util.DrawOptions(self.screen)
+        self.running = True
+
+    def run(self):
+        while self.running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.running = False
+
+            self.screen.fill(GRAY)
+            space.debug_draw(self.draw_options)
+            pygame.display.update()
+            space.step(0.01)
+
+        pygame.quit()
 
 
-asyncio.run(main())
+if __name__ == "__main__":
+    p0, p1 = (0, 0), (1000, 0)
+    segment1 = pymunk.Segment(boundary1, p0, p1, 4)
+    p0, p1 = (1000, 0), (1000, 700)
+    segment2 = pymunk.Segment(boundary2, p0, p1, 4)
+    p0, p1 = (1000, 700), (0, 700)
+    segment3 = pymunk.Segment(boundary3, p0, p1, 4)
+    p0, p1 = (0, 700), (0, 0)
+    segment4 = pymunk.Segment(boundary4, p0, p1, 4)
+
+    segment1.elasticity = 1
+    segment2.elasticity = 1
+    segment3.elasticity = 1
+    segment4.elasticity = 1
+
+    player_b = pymunk.Body(mass=1, moment=10)
+    player_b.position = (100, 200)
+
+    player = pymunk.Circle(player_b, radius=15)
+    player.elasticity = 0.95
+
+    space.add(player, player_b, segment1, segment2, segment3, segment4)
+
+    App().run()
