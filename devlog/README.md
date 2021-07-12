@@ -57,3 +57,15 @@ We have new concept art as well
 ![image](https://media.discordapp.net/attachments/862242420863139855/863666768080928778/unknown.png)
 
 The players are inside the box in this version
+
+# July 12th
+
+Finished the UI and Widget framework
+
+Unlike curses, this framework is entirely asynchronous and callback based
+
+This allows lively menus like this
+
+![image](https://cdn.discordapp.com/attachments/862242420863139855/864174792713043988/widgetdemo.gif)
+
+All thanks to the contribution of the members, we were able to create a new world above curses
