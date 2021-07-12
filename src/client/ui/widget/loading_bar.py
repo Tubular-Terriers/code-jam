@@ -5,7 +5,7 @@ curses.initscr()
 
 
 class loading_bar:
-    def __init__(self, width, y, x, message="lol"):
+    def __init__(self, width, y, x, message=None):
         self.height = 5
         self.width = width
         self.y = y
@@ -26,10 +26,3 @@ class loading_bar:
     def set_progress(self, progress: float):
         self.progress = progress
         self.update()
-
-a = loading_bar( 32, 3, 30, "nani") 
-loading = 0
-while loading < 100:
-    loading += 1
-    a.set_progress(loading)
-    time.sleep(0.03)
