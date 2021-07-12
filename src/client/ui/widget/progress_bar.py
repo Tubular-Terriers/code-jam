@@ -1,5 +1,6 @@
 import curses
 from enum import Enum
+
 # Fix later
 try:
     from ._widget import Widget
@@ -7,6 +8,7 @@ except ImportError:
     from _widget import Widget
 # Debug only imports
 import time
+
 import keyboard
 
 
@@ -21,8 +23,15 @@ class MessageCreationFailed(Exception):
 
 
 class ProgressBar(Widget):
-    def __init__(self, height: int, width: int, x: int, y: int, message_text: str = None,
-                 message_alignment: MessageAlignment = MessageAlignment.CENTER):
+    def __init__(
+        self,
+        height: int,
+        width: int,
+        x: int,
+        y: int,
+        message_text: str = None,
+        message_alignment: MessageAlignment = MessageAlignment.CENTER,
+    ):
         super().__init__("progress bar")
         self.height = height if height >= 4 else 4
         self.width = width if width >= 11 else 11
@@ -38,15 +47,15 @@ class ProgressBar(Widget):
     def update(self):
         self.window.erase()
         completed = int(self.progress * self.width)
-        
+
         display = "\n┌" + "─" * self.width + "┐\n"
 
         rows = self.height - 3
         for row in range(rows):
             display += "│" + "#" * completed + "-" * (self.width - completed) + "│\n"
-                  
+
         display += "└" + "─" * self.width + "┘"
-        
+
         if self.message is not None:
             display = self.message + display
         self.window.addstr(0, 1, f"{display}")
@@ -69,13 +78,21 @@ class ProgressBar(Widget):
 
             return " " * offset + self.message_text
         else:
-            raise MessageCreationFailed(f"Message alignment must be of type {MessageAlignment}")
+            raise MessageCreationFailed(
+                f"Message alignment must be of type {MessageAlignment}"
+            )
 
 
 if __name__ == "__main__":
     curses.initscr()
-    a = ProgressBar(height=10, width=50, y=10, x=40
-                    , message_text="Hello world!", message_alignment=MessageAlignment.CENTER)
+    a = ProgressBar(
+        height=10,
+        width=50,
+        y=10,
+        x=40,
+        message_text="Hello world!",
+        message_alignment=MessageAlignment.CENTER,
+    )
     loading = 0
     while loading < 100:
         loading += 1
