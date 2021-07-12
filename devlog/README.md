@@ -69,3 +69,11 @@ This allows lively menus like this
 ![image](https://cdn.discordapp.com/attachments/862242420863139855/864174792713043988/widgetdemo.gif)
 
 All thanks to the contribution of the members, we were able to create a new world above curses
+
+Added a flowchart for the UI and Widget framework
+
+![image](https://cdn.discordapp.com/attachments/862242420863139855/864218016437501982/rendering_framework.png)
+
+Edited the pipeline framework so that the server structure is more explicit
+
+![image](https://cdn.discordapp.com/attachments/862242420863139855/864217895622017064/pipeline_1.png)
