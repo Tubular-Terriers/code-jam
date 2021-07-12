@@ -39,10 +39,14 @@ class App:
 
 def entity_test():
     mapmng = MapManager()
-    print(mapmng.set_level(0, """
+    print(
+        mapmng.set_level(
+            0,
+            """
             -----oooo-oo-oooo---
-            --ppp-----o--oo--o--"""
-                           ))
+            --ppp-----o--oo--o--""",
+        )
+    )
     mapmng.parse(0)
     renderer = RenderEngine(" ", 30, 30, True)
     enmng = EntityManager(mapmng.get_raw_level(0), renderer)
