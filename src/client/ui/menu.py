@@ -2,8 +2,8 @@ import asyncio
 import time
 from time import sleep
 
+from _ui.UI import UI
 from appstate import AppState
-from ui.UI import UI
 
 from .widget.loading_bar import LoadingBar
 from .widget.simple_button import Button

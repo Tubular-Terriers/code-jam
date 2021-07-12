@@ -4,9 +4,9 @@ import time
 
 # Fix later
 try:
-    from .Widget import Widget
+    from ._widget import Widget
 except Exception:
-    from Widget import Widget
+    from _widget import Widget
 
 
 class LoadingBar(Widget):
@@ -41,7 +41,7 @@ class LoadingBar(Widget):
 
 if __name__ == "__main__":
     curses.initscr()
-    a = LoadingBar(width=32, y=0, x=0)
+    a = LoadingBar(width=32, y=20, x=25)
     loading = 0
     while loading < 100:
         loading += 1
