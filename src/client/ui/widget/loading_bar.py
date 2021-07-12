@@ -10,6 +10,7 @@ class LoadingBar:
         self.x = x
         self.message = message
         self.win = curses.newwin(self.height, self.width, self.y, self.x)
+        self.window = self.win
 
     def update(self):
         self.win.erase()
