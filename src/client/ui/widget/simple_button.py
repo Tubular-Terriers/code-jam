@@ -2,7 +2,7 @@ import curses
 import sys
 import time
 
-from .Widget import Widget
+from _widget import Widget
 
 
 class Button(Widget):
