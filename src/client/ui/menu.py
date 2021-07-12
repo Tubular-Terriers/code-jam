@@ -8,6 +8,7 @@ from appstate import AppState
 from ._ui import UI
 from .widget.progress_bar import ProgressBar
 from .widget.simple_button import Button
+from .widget.simple_textbox import Box
 
 
 class Menu(UI):
@@ -23,8 +24,10 @@ class Menu(UI):
             width=32, y=1, x=0, message_text="Press space 4 times to exit"
         )
         my_bar.set_progress(self.time)
-        my_button = Button(2, 34, go_to=AppState.EXIT)
-        self.widgets = [my_bar, my_button]
+        my_button = Button(2, 14, go_to=AppState.EXIT)
+        editor = Box(3, 20)
+        # You can manually refresh them as well
+        self.widgets = [my_bar, my_button, editor]
         res = None
         i = 0
         while True:
