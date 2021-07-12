@@ -8,6 +8,7 @@ except ImportError:
     from _widget import Widget
 # Debug only imports
 import time
+
 import keyboard
 
 
