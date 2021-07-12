@@ -1,6 +1,7 @@
 import asyncio
-import pymunk
+
 import pygame
+import pymunk
 
 
 class RenderEngine:

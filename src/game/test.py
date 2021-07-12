@@ -1,9 +1,9 @@
-from render.render_engine import RenderEngine
-from map.map_manager import MapManager
-from entity_manager import EntityManager
 import pygame
 import pymunk
 import pymunk.pygame_util
+from entity_manager import EntityManager
+from map.map_manager import MapManager
+from render.render_engine import RenderEngine
 
 GRAY = (220, 220, 220)
 space = pymunk.Space()
