@@ -30,20 +30,39 @@ class Listdisplay:
         for n in range(len(self.lst[tab])):
             self.pad.addstr(n + 1, 1, self.lst[tab][n])
 
-        self.pad.refresh(self.currentpos, 0, self.start_y+1, self.start_x+1, self.height-1, self.width-1)
+        self.pad.refresh(
+            self.currentpos,
+            0,
+            self.start_y + 1,
+            self.start_x + 1,
+            self.height - 1,
+            self.width - 1,
+        )
 
     def scrollup(self):
         self.currentpos += 1
-        self.currentpos = min(len(self.lst[self.currenttab]) - self.height+3, self.currentpos)
+        self.currentpos = min(
+            len(self.lst[self.currenttab]) - self.height + 3, self.currentpos
+        )
         self.pad.refresh(
-            self.currentpos, 0, self.start_y+1, self.start_x+1, self.height-1, self.width - 1
+            self.currentpos,
+            0,
+            self.start_y + 1,
+            self.start_x + 1,
+            self.height - 1,
+            self.width - 1,
         )
 
     def scrolldown(self):
         self.currentpos -= 1
         self.currentpos = max(0, self.currentpos)
         self.pad.refresh(
-            self.currentpos, 0, self.start_y+1, self.start_x+1, self.height-1, self.width-1
+            self.currentpos,
+            0,
+            self.start_y + 1,
+            self.start_x + 1,
+            self.height - 1,
+            self.width - 1,
         )
 
     def switchtab_right(self):
@@ -51,7 +70,14 @@ class Listdisplay:
         self.currenttab += 1
         self.currenttab = min(len(self.lst), self.currenttab)
         self.pad.erase()
-        self.pad.refresh(self.currentpos, 0, self.start_y+1, self.start_x+1, self.height-1, self.width-1)
+        self.pad.refresh(
+            self.currentpos,
+            0,
+            self.start_y + 1,
+            self.start_x + 1,
+            self.height - 1,
+            self.width - 1,
+        )
         self.display(self.currenttab)
 
     def switchtab_left(self):
@@ -59,13 +85,23 @@ class Listdisplay:
         self.currenttab -= 1
         self.currenttab = max(0, self.currenttab)
         self.pad.erase()
-        self.pad.refresh(self.currentpos, 0, self.start_y+1, self.start_x+1, self.height-1, self.width-1)
+        self.pad.refresh(
+            self.currentpos,
+            0,
+            self.start_y + 1,
+            self.start_x + 1,
+            self.height - 1,
+            self.width - 1,
+        )
         self.display(self.currenttab)
 
 
 def main(stdscr):
     curses.init_color(1, 0, 0, 0)
-    lst = [["hii", "hello", "dkfjalkfjkjlkjlkj", "lajdflkdf"], ["tab2", "tambs"]]  # for debugging
+    lst = [
+        ["hii", "hello", "dkfjalkfjkjlkjlkj", "lajdflkdf"],
+        ["tab2", "tambs"],
+    ]  # for debugging
     stdscr.clear()
     a = Listdisplay(lst, 1, 1, 5, 10)
     time.sleep(2)
