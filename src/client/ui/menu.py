@@ -5,7 +5,7 @@ from time import sleep
 from _ui.UI import UI
 from appstate import AppState
 
-from .widget.loading_bar import LoadingBar
+from .widget.progress_bar import LoadingBar
 from .widget.simple_button import Button
 
 
