@@ -17,14 +17,9 @@ class LoadingBar:
         x = int(self.progress)
         x = x / 10
         x = int(x)
-        display = (
-            "\n┌──────────┐\n│"
-            + "#" * x
-            + "-" * (10 - x)
-            + "│\n└──────────┘"
-        )
+        display = "\n┌──────────┐\n│" + "#" * x + "-" * (10 - x) + "│\n└──────────┘"
         if self.message != None:
-            display=self.message+display
+            display = self.message + display
         self.win.addstr(0, 1, f"{display}")
         self.win.refresh()
 
