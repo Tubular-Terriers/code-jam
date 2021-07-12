@@ -26,7 +26,10 @@ class App:
         self.stdscr = stdscr
         self.screen = stdscr
 
+        # FIXME remove this in self.destroy
         curses.noecho()
+        curses.nocbreak()
+        curses.curs_set(0)
 
         # Register UIs
         self.ui = SimpleNamespace()
