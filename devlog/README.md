@@ -80,4 +80,4 @@ Edited the pipeline framework so that the server structure is more explicit
 
 Created fancy progress bar
 
-![image](https://cdn.discordapp.com/attachments/776517583359967232/864225948214886430/Progress_bar.gif)
+![image](https://cdn.discordapp.com/attachments/776517583359967232/864227818266558494/progress_bar.gif)
