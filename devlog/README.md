@@ -77,3 +77,7 @@ Added a flowchart for the UI and Widget framework
 Edited the pipeline framework so that the server structure is more explicit
 
 ![image](https://cdn.discordapp.com/attachments/862242420863139855/864217895622017064/pipeline_1.png)
+
+Created fancy progress bar
+
+![image](https://cdn.discordapp.com/attachments/776517583359967232/864225948214886430/Progress_bar.gif)
