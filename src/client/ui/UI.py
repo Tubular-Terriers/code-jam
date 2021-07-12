@@ -43,6 +43,7 @@ class UI:
         pass
 
     def refresh(self):
+        """Default behavior. Recommended that you change it"""
         self.window.refresh()
         for w in self.widgets:
             if (res := w.refresh()) is not None:
