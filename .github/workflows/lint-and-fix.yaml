@@ -44,14 +44,14 @@ jobs:
           black: true
           auto_fix: true
 
-      # - name: isort
-      #   run: isort .
+      - name: isort
+        run: isort .
 
-      # - uses: stefanzweifel/git-auto-commit-action@v4
-      #   with:
-      #     commit_message: Isort auto commit
-      #     add_options: '-u'
-      #     commit_options: --no-verify
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Isort auto commit
+          add_options: '-u'
+          commit_options: --no-verify
 
       # Run precomit
       - name: Run hooks through our requirement file
