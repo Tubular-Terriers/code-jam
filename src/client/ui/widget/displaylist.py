@@ -28,7 +28,7 @@ class Listdisplay:
     def display(self, tab=0):
         self.pad = curses.newpad(1 + len(self.lst[tab]) + 1, self.width)
         for n in range(len(self.lst[tab])):
-            self.pad.addstr(n + 1, 1, self.lst[tab][n])
+            self.pad.addstr(n, 1, self.lst[tab][n])
 
         self.refresh_pad()
 
