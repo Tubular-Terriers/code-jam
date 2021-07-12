@@ -1,9 +1,17 @@
 import curses
+import sys
 import time
 
+# Fix later
+try:
+    from .Widget import Widget
+except Exception:
+    from Widget import Widget
 
-class LoadingBar:
-    def __init__(self, width, y, x, message=None):
+
+class LoadingBar(Widget):
+    def __init__(self, width, y, x, message=""):
+        super().__init__("loading bar")
         self.height = 5
         self.width = width
         self.y = y
@@ -11,6 +19,7 @@ class LoadingBar:
         self.message = message
         self.win = curses.newwin(self.height, self.width, self.y, self.x)
         self.window = self.win
+        self.progress = 0
 
     def update(self):
         self.win.erase()
@@ -26,10 +35,12 @@ class LoadingBar:
         )
         if x != 0:
             self.win.addstr(0, 1, f"{display}")
-            self.win.refresh()
+        self.win.refresh()
 
     def set_progress(self, progress: float):
         self.progress = progress
+
+    def refresh(self):
         self.update()
 
 
@@ -41,3 +52,4 @@ if __name__ == "__main__":
         loading += 1
         time.sleep(0.03)
         a.set_progress(loading)
+        a.refresh()
