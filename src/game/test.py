@@ -1,6 +1,6 @@
+import pygame
 import pymunk
 import pymunk.pygame_util
-import pygame
 
 GRAY = (220, 220, 220)
 space = pymunk.Space()
