@@ -10,8 +10,10 @@ boundary2 = space.static_body
 boundary3 = space.static_body
 boundary4 = space.static_body
 
+
 class App:
     size = 1000, 700
+
     def __init__(self):
         pygame.init()
         self.screen = pygame.display.set_mode(self.size)
@@ -31,7 +33,8 @@ class App:
 
         pygame.quit()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     p0, p1 = (0, 0), (1000, 0)
     segment1 = pymunk.Segment(boundary1, p0, p1, 4)
     p0, p1 = (1000, 0), (1000, 700)
@@ -51,7 +54,7 @@ if __name__ == '__main__':
 
     player = pymunk.Circle(player_b, radius=15)
     player.elasticity = 0.95
-   
+
     space.add(player, player_b, segment1, segment2, segment3, segment4)
 
     App().run()
