@@ -1,4 +1,6 @@
 # input manager imports keyboard.py
+# TEMPORARY
+import curses
 from types import SimpleNamespace
 from typing import Optional
 
@@ -70,6 +72,8 @@ class InputManager:
                     self.callback.on_text_update(self.get_text())
 
             def on_press(k):
+                # FIXME find a way to disable curses input buffer
+                curses.flushinp()
                 if not is_focused():
                     return
                 if self.state == InputState.TYPING:
@@ -80,6 +84,8 @@ class InputManager:
         else:
 
             def on_press(k):
+                # FIXME find a way to disable curses input buffer
+                curses.flushinp()
                 if not is_focused():
                     return
                 self.callback.on_press(k)

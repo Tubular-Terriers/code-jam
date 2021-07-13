@@ -48,8 +48,6 @@ class App:
         # self.input_manager.hook(hook)
 
         def press_on(e):
-            # FIXME find a way to disable curses input buffer
-            curses.flushinp()
             self.selected_ui.press_on(e)
 
         def release_on(e):
@@ -59,8 +57,6 @@ class App:
             self.selected_ui.start_text_on(e)
 
         def update_text_on(e):
-            # FIXME find a way to disable curses input buffer
-            curses.flushinp()
             self.selected_ui.update_text_on(e)
 
         def end_text_on(e):
