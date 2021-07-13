@@ -16,13 +16,14 @@ class SoundEffects(Enum):
 
 
 class Music(Enum):
-    MENU = random.choice(
+    MENU = os.path.join(filepath, "music/tetris/tetris_theme.ogg")
+    LOADING = random.choice(
         [
-            os.path.join(filepath, "music/menu/military.mp3"),
-            os.path.join(filepath, "music/menu/cyberpunk_midtempo.mp3"),
+            os.path.join(filepath, "music/loading_screen/military.mp3"),
+            os.path.join(filepath, "music/loading_screen/cyberpunk_midtempo.mp3"),
+            os.path.join(filepath, "music/loading_screen/true_grit.mp3")
         ]
     )
-    LOADING = os.path.join(filepath, "music/loading_screen/true_grit.mp3")
     BACKGROUND = [
         os.path.join(filepath, "music/retro/retro.mp3"),
         os.path.join(filepath, "music/retro/vintage_retro.mp3"),
