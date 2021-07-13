@@ -10,8 +10,8 @@ while not crashed:
     counter += 1
     clock.tick(30)  # will be 10 in the next run """
 
-import pymunk  # Import pymunk..
 import pygame
+import pymunk  # Import pymunk..
 import pymunk.pygame_util
 
 pygame.init()

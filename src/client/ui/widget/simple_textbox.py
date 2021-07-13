@@ -1,9 +1,10 @@
+import asyncio
 import curses
 import sys
 import time
-import asyncio
 
 from pynput import keyboard
+
 from ._widget import Widget
 
 

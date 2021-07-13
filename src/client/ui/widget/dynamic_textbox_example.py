@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 
+import asyncio
 import curses
 import curses.textpad
-import asyncio
+
 import pygame
 from pynput import keyboard
 
