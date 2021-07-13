@@ -12,12 +12,18 @@ class SoundEffects(Enum):
 
 
 class Music(Enum):
-    MENU = random.choice([os.path.join(filepath, "music/menu/military.mp3"),
-                          os.path.join(filepath, "music/menu/cyberpunk_midtempo.mp3")])
+    MENU = random.choice(
+        [
+            os.path.join(filepath, "music/menu/military.mp3"),
+            os.path.join(filepath, "music/menu/cyberpunk_midtempo.mp3"),
+        ]
+    )
     LOADING = os.path.join(filepath, "music/loading_screen/true_grit.mp3")
-    BACKGROUND = [os.path.join(filepath, "music/retro/retro.mp3"),
-                  os.path.join(filepath, "music/retro/vintage_retro.mp3"),
-                  os.path.join(filepath, "music/retro/60s_summer.mp3"),
-                  os.path.join(filepath, "music/retro/retro_arcade_80s.mp3"),
-                  os.path.join(filepath, "music/retro/retro_instrumental.mp3"),
-                  os.path.join(filepath, "music/retro/retro_the_road.mp3")]
+    BACKGROUND = [
+        os.path.join(filepath, "music/retro/retro.mp3"),
+        os.path.join(filepath, "music/retro/vintage_retro.mp3"),
+        os.path.join(filepath, "music/retro/60s_summer.mp3"),
+        os.path.join(filepath, "music/retro/retro_arcade_80s.mp3"),
+        os.path.join(filepath, "music/retro/retro_instrumental.mp3"),
+        os.path.join(filepath, "music/retro/retro_the_road.mp3"),
+    ]
