@@ -58,7 +58,7 @@ class RichPresence:
 if __name__ == "__main__":
     r = RichPresence()
     r.start_connection()
-    r.update_activity(state="dsasd")
+    r.update_activity(details="In lobby", state="2/4 players alive")
     
     while True:
         time.sleep(15)
