@@ -74,8 +74,12 @@ class RichPresence:
 if __name__ == "__main__":
     r = RichPresence()
     r.start_connection()
-    r.update_activity(details="Playing online multiplayer", state="2/4 players alive",
-                      start=int(time.time()), end=int(time.time() + 120))
+    r.update_activity(
+        details="Playing online multiplayer",
+        state="2/4 players alive",
+        start=int(time.time()),
+        end=int(time.time() + 120),
+    )
 
     while True:
         time.sleep(15)
