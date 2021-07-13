@@ -2,11 +2,13 @@ import curses
 import sys
 import time
 
+from pynput import keyboard
+
 from ._widget import Widget
 
 
 class Button(Widget):
-    def __init__(self, y, x, toggled=False, key="space", go_to=None):
+    def __init__(self, y, x, toggled=False, key=keyboard.Key.space, go_to=None):
         super().__init__("button")
         self.window = curses.newwin(3, 3, y, x)
         self.toggled = toggled
@@ -23,6 +25,6 @@ class Button(Widget):
                 return self.go_to
 
     def press_on(self, key):
-        if key.name == self.key:
+        if key == self.key:
             self.toggle_count += 1
             self.toggled = not self.toggled
