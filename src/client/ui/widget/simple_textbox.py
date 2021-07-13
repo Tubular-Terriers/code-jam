@@ -26,6 +26,7 @@ class Box(Widget):
     def press_on(self, key):
         if key == keyboard.Key.enter:
             self.input_manager.trigger_input()
+            self.typing = True
 
     def start_text_on(self, *_):
         self.typing = True
@@ -34,6 +35,7 @@ class Box(Widget):
         if len(text) > 10:
             self.input_manager.set_text(text[:10])
         self.text = text
+        self.window.refresh()
 
     def end_text_on(self, *_):
         self.typing = False

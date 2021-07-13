@@ -1,4 +1,5 @@
-""" pygame.init()
+"""
+pygame.init()
 
 clock = pygame.time.Clock()
 
@@ -8,7 +9,8 @@ counter = 1
 while not crashed:
     print(counter)
     counter += 1
-    clock.tick(30)  # will be 10 in the next run """
+    clock.tick(30)  # will be 10 in the next run
+"""
 
 import pygame
 import pymunk  # Import pymunk..
