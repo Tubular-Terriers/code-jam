@@ -41,7 +41,7 @@ class Box(Widget):
             return
         if len(text) > 10:
             self.input_manager.set_text(text[:10])
-        self.text = text
+        self.text = text[:10]
         self.window.refresh()
 
     def end_text_on(self, *_):
