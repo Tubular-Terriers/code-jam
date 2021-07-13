@@ -168,4 +168,11 @@ Our backend team created a mapping diagram so entities can be loaded/unloaded
 ```
 
 They also added a better testing ground
+
 ![image](https://cdn.discordapp.com/attachments/862242420863139855/864386058040508416/unknown.png)
+
+# July 13th
+
+made a application state diagram
+
+![image](https://media.discordapp.net/attachments/862242420863139855/864418416089366528/unknown.png)
