@@ -11,9 +11,9 @@ We went for a faster development speed instead
 
 Almost every member did their first commit by adding their name on the readme
 
-Lint action was acting up but we found out that the error was rather a non-issue
+Lint action was acting up, but we found out that the error was rather a non-issue
 
-We drafted out ideas on a shared drawing board
+We drafted our ideas on a shared drawing board
 
 Our idea revolves around the game `pong` the first game ever created
 
@@ -177,14 +177,14 @@ made a application state diagram
 
 ![image](https://media.discordapp.net/attachments/862242420863139855/864418416089366528/unknown.png)
 
-Finally created a custom keytext input handler and a textbox widget
+Finally, created a custom keytext input handler and a textbox widget
 
 when typing text, other keys do not affect the widget
 
 ![image](https://cdn.discordapp.com/attachments/862242420863139855/864527737195724800/textbox.gif)
 
 
-Refined the textbox widget so it includes other accessible api as well
+Refined the textbox widget, so it includes other accessible api as well
 
 Now keys like `ctrl+c` and `ctrl+backspace` does not appear on the screen and get ignored
 
@@ -194,4 +194,13 @@ it also has `is_pressed(key)` support
 
 ![image](https://cdn.discordapp.com/attachments/862242420863139855/864590228190003200/is_pressed_demo.gif)
 
-> The best part of this is that everything is non-blocking, and keyboard events are open so instantaneous text rendering is also supported
+> The best part of this is that everything is non-blocking, and keyboard events are open, so it also supports instantaneous text rendering
+
+Implemented support for Discord rich presence system
+
+![image](https://cdn.discordapp.com/attachments/776517583359967232/864639192528846848/unknown.png)
+
+Added files for background music and worked on creating engines for music and sound effects playback  
+> Menu screen has its own non-copyrighted version of original tetris soundtrack  
+> Loading screen has a few songs from which the music engine randomly selects one to play during each loading  
+> Music in the core gameplay is being randomly shuffled throughout the play from a variety of non-copyrighted retro songs
