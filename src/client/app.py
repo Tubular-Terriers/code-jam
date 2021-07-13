@@ -6,6 +6,8 @@ from input.input_manager import input_manager
 from ui.menu import menu
 
 sys.path.append(".")
+import curses
+
 from appstate import AppState
 
 
@@ -20,7 +22,6 @@ class App:
         self.state = AppState.MENU
 
         if not stdscr:
-            import curses
 
             stdscr = curses.initscr()
         self.stdscr = stdscr
@@ -30,6 +31,7 @@ class App:
         curses.noecho()
         curses.nocbreak()
         curses.curs_set(0)
+        curses.raw()
 
         # Register UIs
         self.ui = SimpleNamespace()
@@ -46,6 +48,8 @@ class App:
         # self.input_manager.hook(hook)
 
         def press_on(e):
+            # FIXME find a way to disable curses input buffer
+            curses.flushinp()
             self.selected_ui.press_on(e)
 
         def release_on(e):
