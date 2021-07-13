@@ -53,9 +53,11 @@ class InputManager:
             def text_manager(k):
                 if self.text is None:
                     self.text = []
-                    self.callback.on_text_start(self.get_text())
                 if is_typeable_char(k):
                     self.text.append(get_char_of_key(k))
+                    self.callback.on_text_update(self.get_text())
+                elif k == keyboard.Key.space:
+                    self.text.append(" ")
                     self.callback.on_text_update(self.get_text())
                 elif k == keyboard.Key.enter:
                     self.callback.on_text_end(self.get_text())
@@ -124,7 +126,7 @@ class InputManager:
     ###############################################
 
     def trigger_input(self):
-        self.state = InputState.TYPING
+        self.set_state(InputState.TYPING)
 
     def is_pressed(self, key):
         if not is_focused():
@@ -147,6 +149,8 @@ class InputManager:
             return
         self.last_state = self.state
         self.state = state
+        if state == InputState.TYPING:
+            self.on_text_start(self.get_text())
 
     def get_text(self) -> Optional[str]:
         if self.text is not None:
