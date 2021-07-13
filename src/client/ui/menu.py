@@ -4,6 +4,7 @@ import time
 from time import sleep
 
 from appstate import AppState
+from pynput import keyboard
 
 from ._ui import UI
 from .widget.progress_bar import ProgressBar
@@ -24,10 +25,13 @@ class Menu(UI):
             width=32, y=1, x=0, message_text="Press space 4 times to exit"
         )
         my_bar.set_progress(self.time)
-        my_button = Button(2, 14, go_to=AppState.EXIT)
-        editor = Box(3, 20)
+        my_button = Button(2, 34, go_to=AppState.EXIT)
+        editor = Box(3, 20, 5, 0)
         # You can manually refresh them as well
         self.widgets = [my_bar, my_button, editor]
+        self.register_input_managers(
+            *self.widgets
+        )  # Give them access to the input_manager
         res = None
         i = 0
         while True:
