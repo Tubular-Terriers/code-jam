@@ -7,27 +7,28 @@ filepath = os.path.dirname(__file__)
 
 class SoundEffects(Enum):
     PADDLE_BOUNCE = os.path.join(
-        filepath, "sound_effects/original_pong_sounds/paddle_bounce.mp3"
+        filepath, "sound_effects/original_pong_sounds/paddle_bounce.ogg"
     )
     WALL_BOUNCE = os.path.join(
-        filepath, "sound_effects/original_pong_sounds/wall_bounce.mp3"
+        filepath, "sound_effects/original_pong_sounds/wall_bounce.ogg"
     )
-    SCORE = os.path.join(filepath, "sound_effects/original_pong_sounds/score.mp3")
+    SCORE = os.path.join(filepath, "sound_effects/original_pong_sounds/score.ogg")
 
 
 class Music(Enum):
-    MENU = random.choice(
+    MENU = os.path.join(filepath, "music/tetris/tetris_theme.ogg")
+    LOADING = random.choice(
         [
-            os.path.join(filepath, "music/menu/military.mp3"),
-            os.path.join(filepath, "music/menu/cyberpunk_midtempo.mp3"),
+            os.path.join(filepath, "music/loading_screen/military.ogg"),
+            os.path.join(filepath, "music/loading_screen/cyberpunk_midtempo.ogg"),
+            os.path.join(filepath, "music/loading_screen/true_grit.ogg"),
         ]
     )
-    LOADING = os.path.join(filepath, "music/loading_screen/true_grit.mp3")
     BACKGROUND = [
-        os.path.join(filepath, "music/retro/retro.mp3"),
-        os.path.join(filepath, "music/retro/vintage_retro.mp3"),
-        os.path.join(filepath, "music/retro/60s_summer.mp3"),
-        os.path.join(filepath, "music/retro/retro_arcade_80s.mp3"),
-        os.path.join(filepath, "music/retro/retro_instrumental.mp3"),
-        os.path.join(filepath, "music/retro/retro_the_road.mp3"),
+        os.path.join(filepath, "music/retro/retro.ogg"),
+        os.path.join(filepath, "music/retro/vintage_retro.ogg"),
+        os.path.join(filepath, "music/retro/60s_summer.ogg"),
+        os.path.join(filepath, "music/retro/retro_arcade_80s.ogg"),
+        os.path.join(filepath, "music/retro/retro_instrumental.ogg"),
+        os.path.join(filepath, "music/retro/retro_the_road.ogg"),
     ]
