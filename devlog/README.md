@@ -179,6 +179,19 @@ made a application state diagram
 
 Finally created a custom keytext input handler and a textbox widget
 
+when typing text, other keys do not affect the widget
+
 ![image](https://cdn.discordapp.com/attachments/862242420863139855/864527737195724800/textbox.gif)
 
-when typing text, other keys do not affect the widget
+
+Refined the textbox widget so it includes other accessible api as well
+
+Now keys like `ctrl+c` and `ctrl+backspace` does not appear on the screen and get ignored
+
+it also has `is_pressed(key)` support
+
+![image](https://cdn.discordapp.com/attachments/862242420863139855/864589327517220914/texboxdemo.gif)
+
+![image](https://cdn.discordapp.com/attachments/862242420863139855/864590228190003200/is_pressed_demo.gif)
+
+> The best part of this is that everything is non-blocking, and keyboard events are open so instantaneous text rendering is also supported
