@@ -176,3 +176,9 @@ They also added a better testing ground
 made a application state diagram
 
 ![image](https://media.discordapp.net/attachments/862242420863139855/864418416089366528/unknown.png)
+
+Finally created a custom keytext input handler and a textbox widget
+
+![image](https://cdn.discordapp.com/attachments/862242420863139855/864527737195724800/textbox.gif)
+
+when typing text, other keys do not affect the widget
