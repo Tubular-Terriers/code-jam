@@ -29,6 +29,7 @@ class Menu(UI):
         editor = Box(3, 20, 5, 0)
         # You can manually refresh them as well
         self.widgets = [my_bar, my_button, editor]
+        self.input_manager = app.input_manager
         self.register_input_managers(
             *self.widgets
         )  # Give them access to the input_manager
@@ -37,7 +38,11 @@ class Menu(UI):
         while True:
             # Main loop for rendering the menu
             i += 1
-            self.window.addstr(0, 0, f"I am a menu {i}")
+            self.window.addstr(
+                0,
+                0,
+                f"I am a menu {i} - is 'i' pressed? {'yes' if self.input_manager.is_pressed('i') else 'no '}",
+            )
             my_bar.set_progress(i % 100)
             if res := self.refresh():
                 break
