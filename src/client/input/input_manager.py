@@ -39,6 +39,7 @@ class InputManager:
         """`keyboard.unhook`"""
         raise NotImplementedError
         # return keyboard.unhook(*args)
+
     def set_state(self, state: InputState) -> None:
         """Has to be one of the states"""
         self.state = state
