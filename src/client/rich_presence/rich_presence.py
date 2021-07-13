@@ -5,6 +5,8 @@ from os import environ, getpid
 from dotenv import load_dotenv
 from pypresence import Client
 
+from .__static__ import RichPresenceDetails
+
 
 class RichPresenceState(Enum):
     DISCONNECTED = "disconnected"
