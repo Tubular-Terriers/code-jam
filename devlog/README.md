@@ -11,7 +11,7 @@ We went for a faster development speed instead
 
 Almost every member did their first commit by adding their name on the readme
 
-Lint action was acting up but nopeless found out that the error was rather a non-issue
+Lint action was acting up but we found out that the error was rather a non-issue
 
 We drafted out ideas on a shared drawing board
 
