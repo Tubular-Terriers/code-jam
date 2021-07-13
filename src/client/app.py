@@ -38,11 +38,12 @@ class App:
         # Register input_manager
         self.input_manager = input_manager
 
-        def hook(e):
-            self.selected_ui.hook(e)
+        # No longer a function since we moved to pynput
+        # def hook(e):
+        #     self.selected_ui.hook(e)
 
-        self.hook = hook
-        self.input_manager.hook(hook)
+        # self.hook = hook
+        # self.input_manager.hook(hook)
 
         def press_on(e):
             self.selected_ui.press_on(e)
@@ -52,7 +53,8 @@ class App:
     def destroy(self):
         """Cleans up the resources"""
         # Release keyboard hook
-        self.input_manager.unhook(self.hook)
+        # No longer a function
+        # self.input_manager.unhook(self.hook)
 
     async def set_ui(self, ui):
         self.selected_ui = ui
