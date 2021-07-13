@@ -3,19 +3,24 @@ import asyncio
 
 import events
 import pymunk
+import pygame
 from status import Status
+from entity_manager import EntityManager
+from map.map_manager import MapManager
+from render.render_engine import RenderEngine
 
 
 class Game:
-    def __init__(self):
+    def __init__(self, entities, space):
         # TODO: make these customizable
         self.width = 600
         self.height = 600
         # 20 as default
         self.tickrate = 20
-
+        self.objects = {}
+        self.entities = entities
         # Enitialize the simulation environment
-        self.space = pymunk.Space((self.width, self.height))
+        self.space = space
         self.space.gravity = 0, 0
 
         # TEMP CODE######################################
@@ -35,10 +40,9 @@ class Game:
         # TEMP CODE###########################
 
         # TODO add launch debug option
-        if "debug":
-            import render
-
-            self.render = render.Renderer(self.space)
+        # if "debug":
+        #   import render
+        #    self.render = render.Renderer(self.space)
 
         # TODO: make this an option
         self.running = False
@@ -48,6 +52,20 @@ class Game:
     # Process an event
     def process(self):
         pass
+
+    def parse_entities(self):
+        for i in self.entities:
+            entity = self.entities[i]
+            print(pymunk.Segment(space, (0, 0), (50, 40), radius=10))
+            type = entity["type"]
+            if type not in self.objects:
+                self.objects[type] = []
+            if type == "o":
+                self.objects[type].append(entity)
+        return True
+
+    def get_objects(self):
+        return self.objects
 
     async def loop(self):
         while True:
@@ -75,3 +93,26 @@ class Game:
         if self.coroutine is not None:
             return True
         return False
+
+
+space = pymunk.Space()
+space.gravity = 0, 0
+mapmng = MapManager()
+print(
+    mapmng.set_level(
+        0,
+        """
+            -----oooo-oo-oooo---
+            --ppp-----o--oo--o--""",
+    )
+)
+mapmng.parse(0)
+renderer = RenderEngine(" ", 30, 30, True)
+enmng = EntityManager(mapmng.get_raw_level(0), renderer)
+enmng.parse()
+
+game = Game(enmng.get_entities(), space)
+game.parse_entities()
+print(game.get_objects())
+
+pygame.quit()

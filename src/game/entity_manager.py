@@ -6,6 +6,7 @@ class EntityManager:
     def __init__(self, map, renderer) -> None:
         self.renderer = renderer
         self.map = map
+        self.entities = {}
 
     def parse(self, map=None):
         name_map = {"o": "obstacle", "p": "player", "h": "health", "b": "ball"}
@@ -23,7 +24,7 @@ class EntityManager:
     def add(self, name, type, x, y, width) -> bool:
         try:
             _uuid = uuid.uuid4()
-            self.renderer.entities[str(_uuid)] = {
+            self.entities[str(_uuid)] = {
                 "name": name,
                 "type": type,
                 "x": x,
@@ -51,3 +52,6 @@ class EntityManager:
                 print(e)
                 return False
         return True
+
+    def get_entities(self) -> dict:
+        return self.entities
