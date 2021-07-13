@@ -48,7 +48,25 @@ class App:
         def press_on(e):
             self.selected_ui.press_on(e)
 
+        def release_on(e):
+            self.selected_ui.release_on(e)
+
+        def start_text_on(e):
+            self.selected_ui.start_text_on(e)
+
+        def update_text_on(e):
+            self.selected_ui.update_text_on(e)
+
+        def end_text_on(e):
+            self.selected_ui.end_text_on(e)
+
         self.input_manager.on_press(press_on)
+        self.input_manager.on_release(release_on)
+        self.input_manager.on_text_start(start_text_on)
+        self.input_manager.on_text_update(update_text_on)
+        self.input_manager.on_text_end(end_text_on)
+
+        menu.input_manager = self.input_manager
 
     def destroy(self):
         """Cleans up the resources"""
