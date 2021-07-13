@@ -1,4 +1,6 @@
 # input manager imports keyboard.py
+# TEMPORARY
+import curses
 from types import SimpleNamespace
 from typing import Optional
 
@@ -44,6 +46,8 @@ class InputManager:
         self.callback.on_text_update = lambda _: None
         self.callback.on_text_end = lambda _: None
 
+        self.pressed_keys = set()
+
         on_press = None
         text_manager = None
 
@@ -53,9 +57,14 @@ class InputManager:
             def text_manager(k):
                 if self.text is None:
                     self.text = []
-                    self.callback.on_text_start(self.get_text())
                 if is_typeable_char(k):
-                    self.text.append(get_char_of_key(k))
+                    ch = get_char_of_key(k)
+                    if ord(ch) < 32 or 126 < ord(ch) < 128:
+                        return
+                    self.text.append(ch)
+                    self.callback.on_text_update(self.get_text())
+                elif k == keyboard.Key.space:
+                    self.text.append(" ")
                     self.callback.on_text_update(self.get_text())
                 elif k == keyboard.Key.enter:
                     self.callback.on_text_end(self.get_text())
@@ -68,8 +77,13 @@ class InputManager:
                     self.callback.on_text_update(self.get_text())
 
             def on_press(k):
+                # FIXME find a way to disable curses input buffer
+                curses.flushinp()
                 if not is_focused():
                     return
+
+                # Handle
+                self.pressed_keys.add(k)
                 if self.state == InputState.TYPING:
                     text_manager(k)
                 else:
@@ -78,13 +92,21 @@ class InputManager:
         else:
 
             def on_press(k):
+                # FIXME find a way to disable curses input buffer
+                curses.flushinp()
                 if not is_focused():
                     return
+
+                # Handle
+                self.pressed_keys.add(k)
                 self.callback.on_press(k)
 
         def on_release(k):
             if not is_focused():
                 return
+
+            # Handle
+            self.pressed_keys.remove(k)
             self.callback.on_release(k)
 
         keyboard.Listener(on_press=on_press, on_release=on_release).start()
@@ -124,14 +146,16 @@ class InputManager:
     ###############################################
 
     def trigger_input(self):
-        self.state = InputState.TYPING
+        self.set_state(InputState.TYPING)
 
     def is_pressed(self, key):
         if not is_focused():
             return False
+        if isinstance(key, str):
+            key = keyboard.KeyCode.from_char(key)
         if self.state == InputState.TYPING:
             return False
-        return keyboard.is_pressed(key)
+        return key in self.pressed_keys
 
     def exit_input(self):
         """Exits input mode to original mode"""
@@ -147,6 +171,8 @@ class InputManager:
             return
         self.last_state = self.state
         self.state = state
+        if state == InputState.TYPING:
+            self.on_text_start(self.get_text())
 
     def get_text(self) -> Optional[str]:
         if self.text is not None:

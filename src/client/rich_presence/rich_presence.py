@@ -2,9 +2,10 @@ import time
 from enum import Enum
 from os import environ, getpid
 
-from __static__ import RichPresenceDetails
 from dotenv import load_dotenv
 from pypresence import Client
+
+from .__static__ import RichPresenceDetails
 
 
 class RichPresenceState(Enum):
