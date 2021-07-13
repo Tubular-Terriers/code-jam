@@ -30,8 +30,15 @@ class Box(Widget):
 
     def start_text_on(self, *_):
         self.typing = True
+        self.refresh()
+        curses.doupdate()
 
     def update_text_on(self, text, *_):
+        if text is None:
+            self.text = "enter a value"
+            self.refresh()
+            curses.doupdate()
+            return
         if len(text) > 10:
             self.input_manager.set_text(text[:10])
         self.text = text
