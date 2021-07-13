@@ -11,7 +11,7 @@ We went for a faster development speed instead
 
 Almost every member did their first commit by adding their name on the readme
 
-Lint action was acting up but nopeless found out that the error was rather a non-issue
+Lint action was acting up but we found out that the error was rather a non-issue
 
 We drafted out ideas on a shared drawing board
 
@@ -82,6 +82,97 @@ Created fancy progress bar
 
 ![image](https://cdn.discordapp.com/attachments/776517583359967232/864227818266558494/progress_bar.gif)
 
+Our backend team created a mapping diagram so entities can be loaded/unloaded
+
+```json
+[
+  {
+    "0": {
+      "d3e76c82-dcd6-4a1e-a762-760a6948ec60": {
+        "name": "obstacle",
+        "type": "o",
+        "x": 0,
+        "y": 0,
+        "w": 2
+      },
+      "02e4c3c1-b1fc-4336-af03-ab221983d5a6": {
+        "name": "obstacle",
+        "type": "o",
+        "x": 3,
+        "y": 0,
+        "w": 3
+      },
+      "449298f6-1def-4103-a4b6-46e0c4be2fe0": {
+        "name": "obstacle",
+        "type": "o",
+        "x": 3,
+        "y": 1,
+        "w": 1
+      },
+      "6fd438d2-c910-44ff-b283-808812d88fbc": {
+        "name": "player",
+        "type": "p",
+        "x": 0,
+        "y": 1,
+        "w": 2
+      },
+      "dc7c8a0d-7e9f-4ac3-aab0-eaf62f8b9650": {
+        "name": "player",
+        "type": "p",
+        "x": 5,
+        "y": 1,
+        "w": 2
+      }
+    }
+  },
+  {
+    "1": {
+      "5e617d97-10ed-495c-9544-40bb6901022f": {
+        "name": "obstacle",
+        "type": "o",
+        "x": 0,
+        "y": 0,
+        "w": 2
+      },
+      "3f884497-0526-46cd-90a8-28d4af19399a": {
+        "name": "obstacle",
+        "type": "o",
+        "x": 3,
+        "y": 0,
+        "w": 3
+      },
+      "945e91c1-7b68-4692-91ce-442466b095f2": {
+        "name": "obstacle",
+        "type": "o",
+        "x": 3,
+        "y": 1,
+        "w": 1
+      },
+      "23c4174c-e7e3-4648-bde1-d644f5d11343": {
+        "name": "player",
+        "type": "p",
+        "x": 0,
+        "y": 1,
+        "w": 2
+      },
+      "fb9aa93e-cc34-4a72-910e-4e31f7242a93": {
+        "name": "player",
+        "type": "p",
+        "x": 5,
+        "y": 1,
+        "w": 2
+      }
+    }
+  }
+]
+```
+
+They also added a better testing ground
+
+![image](https://cdn.discordapp.com/attachments/862242420863139855/864386058040508416/unknown.png)
+
 # July 13th
+
 made a application state diagram
+
 ![image](https://media.discordapp.net/attachments/862242420863139855/864418416089366528/unknown.png)
