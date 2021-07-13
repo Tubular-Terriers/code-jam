@@ -46,6 +46,8 @@ class InputManager:
         self.callback.on_text_update = lambda _: None
         self.callback.on_text_end = lambda _: None
 
+        self.pressed_keys = set()
+
         on_press = None
         text_manager = None
 
@@ -79,6 +81,9 @@ class InputManager:
                 curses.flushinp()
                 if not is_focused():
                     return
+
+                # Handle
+                self.pressed_keys.add(k)
                 if self.state == InputState.TYPING:
                     text_manager(k)
                 else:
@@ -91,11 +96,17 @@ class InputManager:
                 curses.flushinp()
                 if not is_focused():
                     return
+
+                # Handle
+                self.pressed_keys.add(k)
                 self.callback.on_press(k)
 
         def on_release(k):
             if not is_focused():
                 return
+
+            # Handle
+            self.pressed_keys.remove(k)
             self.callback.on_release(k)
 
         keyboard.Listener(on_press=on_press, on_release=on_release).start()
@@ -140,9 +151,11 @@ class InputManager:
     def is_pressed(self, key):
         if not is_focused():
             return False
+        if isinstance(key, str):
+            key = keyboard.KeyCode.from_char(key)
         if self.state == InputState.TYPING:
             return False
-        return keyboard.is_pressed(key)
+        return key in self.pressed_keys
 
     def exit_input(self):
         """Exits input mode to original mode"""
