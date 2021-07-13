@@ -81,3 +81,7 @@ Edited the pipeline framework so that the server structure is more explicit
 Created fancy progress bar
 
 ![image](https://cdn.discordapp.com/attachments/776517583359967232/864227818266558494/progress_bar.gif)
+
+# July 13th
+made a application state diagram
+![image](https://discord.com/channels/862242420459438093/862242420863139855/864414558794153994)
