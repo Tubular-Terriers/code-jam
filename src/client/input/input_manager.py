@@ -56,7 +56,10 @@ class InputManager:
                 if self.text is None:
                     self.text = []
                 if is_typeable_char(k):
-                    self.text.append(get_char_of_key(k))
+                    ch = get_char_of_key(k)
+                    if ord(ch) < 32 or 126 < ord(ch) < 128:
+                        return
+                    self.text.append(ch)
                     self.callback.on_text_update(self.get_text())
                 elif k == keyboard.Key.space:
                     self.text.append(" ")
