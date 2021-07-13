@@ -83,7 +83,7 @@ class Sim:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
-                    pygame.image.save(self.screen, 'intro.png')
+                    pygame.image.save(self.screen, "intro.png")
 
             self.screen.fill(GRAY)
             space.debug_draw(self.draw_options)
@@ -93,7 +93,7 @@ class Sim:
         pygame.quit()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     p0, p1 = (0, 0), (700, 0)
     segment = pymunk.Segment(b0, p0, p1, 4)
     segment.elasticity = 1.5
