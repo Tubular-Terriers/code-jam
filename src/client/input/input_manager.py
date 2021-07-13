@@ -148,7 +148,7 @@ class InputManager:
         return None
 
     def set_text(self, s: str):
-        self.text = s
+        self.text = list(s)
 
 
 input_manager = InputManager()
