@@ -21,7 +21,7 @@ class Music(Enum):
         [
             os.path.join(filepath, "music/loading_screen/military.mp3"),
             os.path.join(filepath, "music/loading_screen/cyberpunk_midtempo.mp3"),
-            os.path.join(filepath, "music/loading_screen/true_grit.mp3")
+            os.path.join(filepath, "music/loading_screen/true_grit.mp3"),
         ]
     )
     BACKGROUND = [
