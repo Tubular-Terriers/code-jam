@@ -30,6 +30,15 @@ class InputManager:
             return False
         return keyboard.is_pressed(key)
 
+    def hook(self, *args):
+        """`keyboard.hook` Raw hook"""
+        raise NotImplementedError
+        # return keyboard.hook(*args)
+
+    def unhook(self, *args):
+        """`keyboard.unhook`"""
+        raise NotImplementedError
+        # return keyboard.unhook(*args)
     def set_state(self, state: InputState) -> None:
         """Has to be one of the states"""
         self.state = state
