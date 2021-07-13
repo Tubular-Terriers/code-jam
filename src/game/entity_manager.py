@@ -1,5 +1,5 @@
-import uuid
 from re import T
+import uuid
 
 
 class EntityManager:
@@ -23,13 +23,7 @@ class EntityManager:
     def add(self, name, type, x, y, width) -> bool:
         try:
             _uuid = uuid.uuid4()
-            self.renderer.entities[str(_uuid)] = {
-                "name": name,
-                "type": type,
-                "x": x,
-                "y": y,
-                "w": width,
-            }
+            self.renderer.entities[str(_uuid)] = {"name": name, "type": type, "x": x, "y": y, "w": width}
         except Exception as e:
             print(e)
             return False

@@ -1,8 +1,6 @@
 import asyncio
-
-import pygame
 import pymunk
-import pymunk.pygame_util
+import pygame
 
 
 class RenderEngine:
@@ -47,21 +45,25 @@ class RenderEngine:
         while self.running:
             # Check for quit
             for event in pygame.event.get():
-                if event.type == pygame.QUIT or (
-                    event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE
+                if (
+                    event.type == pygame.QUIT
+                    or event.type == pygame.KEYDOWN
+                    and event.key == pygame.K_ESCAPE
                 ):
                     self.running = False
 
             # TODO someone make this rgb
-            self.screen.fill(pygame.Color((255, 255, 255)))
+            self.screen.fill(pygame.Color("white"))
 
     def update(self):
         for event in pygame.event.get():
-            if event.type == pygame.QUIT or (
-                event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE
+            if (
+                event.type == pygame.QUIT
+                or event.type == pygame.KEYDOWN
+                and event.key == pygame.K_ESCAPE
             ):
                 return False
-        self.screen.fill((128, 128, 128))
+        self.screen.fill("GRAY")
         self.space.debug_draw(self.draw_options)
         pygame.display.update()
         self.space.step(0.01)
