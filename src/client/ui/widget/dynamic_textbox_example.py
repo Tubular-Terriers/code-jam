@@ -9,7 +9,6 @@ from pynput import keyboard
 
 def static_vars(**kwargs):
     def async_wrapper(callback):
-
         def inner(key):
             temp = asyncio.run(callback(key))
             # key combinations traitement
@@ -18,11 +17,13 @@ def static_vars(**kwargs):
             else:
                 kwargs["_str"] += temp
             print_scr(window, kwargs["_str"])
+
         return inner
+
     return async_wrapper
 
 
-@ static_vars(_str="")
+@static_vars(_str="")
 async def on_release(key):
     # await asyncio.sleep(1)  # async support
     if key == keyboard.Key.esc:
@@ -49,7 +50,9 @@ def print_scr(stdscr, text):
     text_lspace = (width - len(text)) // 2
     text_rspace = width - len(text) - text_lspace
     stdscr.addstr(1, 0, f"│ {' ' * ( text_lspace)}{text}{' ' * ( text_rspace)} │")
-    stdscr.addstr(2, 0, f"└─{'─' * ( title_lspace)}{'─'*len(title)}{'─' * (title_rspace)}─┘")
+    stdscr.addstr(
+        2, 0, f"└─{'─' * ( title_lspace)}{'─'*len(title)}{'─' * (title_rspace)}─┘"
+    )
 
     stdscr.refresh()
     return True
@@ -63,8 +66,7 @@ window = curses.newwin(20, 20, 0, 0)
 
 
 # non-blocking listener
-listener = keyboard.Listener(
-    on_release=on_release)
+listener = keyboard.Listener(on_release=on_release)
 listener.start()
 
 # for non-blocking code, used below loop

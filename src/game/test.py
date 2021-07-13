@@ -21,17 +21,18 @@ boundary4 = space.static_body
 class App:
     size = 1000, 700
 
-# i = 0
-# while True:
-#     i += 1
-#     game.render.update()
-#     time.sleep(0.1)
+    # i = 0
+    # while True:
+    #     i += 1
+    #     game.render.update()
+    #     time.sleep(0.1)
 
     def run(self):
         while self.running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
+
 
 # async def main():
 #     while True:
@@ -42,10 +43,14 @@ class App:
 
 def entity_test():
     mapmng = MapManager()
-    print(mapmng.set_level(0, """
+    print(
+        mapmng.set_level(
+            0,
+            """
             -----oooo-oo-oooo---
-            --ppp-----o--oo--o--"""
-                           ))
+            --ppp-----o--oo--o--""",
+        )
+    )
     mapmng.parse(0)
     renderer = RenderEngine(" ", 30, 30, True)
     enmng = EntityManager(mapmng.get_raw_level(0), renderer)
