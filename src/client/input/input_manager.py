@@ -60,6 +60,12 @@ class InputManager:
                 elif k == keyboard.Key.enter:
                     self.callback.on_text_end(self.get_text())
                     self.exit_input()
+                elif k == keyboard.Key.backspace:
+                    if len(self.text):
+                        self.text.pop()
+                    else:
+                        self.text = None
+                    self.callback.on_text_update(self.get_text())
 
             def on_press(k):
                 if not is_focused():
@@ -143,7 +149,7 @@ class InputManager:
         self.state = state
 
     def get_text(self) -> Optional[str]:
-        if self.text:
+        if self.text is not None:
             return "".join(self.text)
         return None
 
