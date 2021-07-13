@@ -1,7 +1,7 @@
 # determines whether to import linux or windows
-import platform
-import os
 import ctypes
+import os
+import platform
 import time
 
 
