@@ -59,6 +59,8 @@ class App:
             self.selected_ui.start_text_on(e)
 
         def update_text_on(e):
+            # FIXME find a way to disable curses input buffer
+            curses.flushinp()
             self.selected_ui.update_text_on(e)
 
         def end_text_on(e):
