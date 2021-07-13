@@ -19,6 +19,7 @@ class UI:
         self.name = name
         # use this for setting widgets for now
         self.widgets = []
+        self.input_manager = None
 
     def view(self, app):
         """
@@ -30,15 +31,42 @@ class UI:
         w = app.screen.getmaxyx()[1]
         self.window = curses.newwin(h, w, 0, 0)
 
+    def register_input_managers(self, *args):
+        for w in args:
+            w.input_manager = self.input_manager
+
     def press_on(self, k):
         """
-        `on_press_key` but backwards
+        `on_press` but backwards
 
         default behavior is to loop all widgets
         """
         for w in self.widgets:
             w.press_on(k)
 
+    def release_on(self, k):
+        """
+        `on_press` but backwards
+
+        default behavior is to loop all widgets
+        """
+        for w in self.widgets:
+            w.release_on(k)
+
+    # Text related methods
+    def start_text_on(self, k):
+        for w in self.widgets:
+            w.start_text_on(k)
+
+    def update_text_on(self, k):
+        for w in self.widgets:
+            w.update_text_on(k)
+
+    def end_text_on(self, k):
+        for w in self.widgets:
+            w.end_text_on(k)
+
+    # Deprecated
     def hook(self, key):
         pass
 
