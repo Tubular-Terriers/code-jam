@@ -84,4 +84,4 @@ Created fancy progress bar
 
 # July 13th
 made a application state diagram
-![image](https://discord.com/channels/862242420459438093/862242420863139855/864414558794153994)
+![image](https://media.discordapp.net/attachments/862242420863139855/864418416089366528/unknown.png)
