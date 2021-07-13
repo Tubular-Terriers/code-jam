@@ -2,12 +2,12 @@
 import asyncio
 
 import events
-import pymunk
 import pygame
-from status import Status
+import pymunk
 from entity_manager import EntityManager
 from map.map_manager import MapManager
 from render.render_engine import RenderEngine
+from status import Status
 
 
 class Game:
