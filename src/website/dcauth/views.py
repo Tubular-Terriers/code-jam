@@ -1,12 +1,9 @@
-from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect, render
+from django.urls import reverse
+from django.views import View
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
-from django.views import View
-from django.http import HttpResponseRedirect
-from django.shortcuts import render
-from django.shortcuts import redirect
-from django.urls import reverse
-
 
 gameserver_url = "https://pongconsole.xyz/"
 discord_auth_url = "https://discord.com/api/oauth2/authorize?client_id=864848740387782666&redirect_uri=https%3A%2F%2Fpongconsole.xyz%2F&response_type=code&scope=identify"
