@@ -98,14 +98,14 @@ class Engine:
 
     def process_event(self, n, v):
         if MovePlayer.eq(n):
-            self.move_player(v)
+            self._move_player(v)
         elif MoveBar.eq(n):
-            self.move_bar(v)
+            self._move_bar(v)
 
     ############################
     # Events
 
-    def move_player(self, dir):
+    def _move_player(self, dir) -> None:
         if dir == MovePlayer.UP:
             pass
         elif dir == MovePlayer.DOWN:
@@ -115,7 +115,7 @@ class Engine:
         elif dir == MovePlayer.RIGHT:
             pass
 
-    def move_bar(self, dir):
+    def _move_bar(self, dir) -> None:
         if dir == MoveBar.UP:
             pass
         elif dir == MoveBar.DOWN:
