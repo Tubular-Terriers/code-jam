@@ -27,6 +27,3 @@ def get_window_pid(system):
         return int(
             ctypes.windll.user32.GetWindowThreadProcessId(active, ctypes.byref(pid))
         )
-
-
-
