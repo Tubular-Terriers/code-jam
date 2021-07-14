@@ -6,7 +6,7 @@ import pymunk
 import pymunk.pygame_util
 
 from .entities.player import Player
-from .events import MoveBar, MovePlayer
+from .events import Error, MoveBar, MovePlayer
 
 
 class Engine:
@@ -41,12 +41,26 @@ class Engine:
 
         self.load_mapdata()
 
+        # Add custom tick method so debug has an option to use it
+        self.tick_custom = lambda _=0: 0
+
         if debug:
 
+            # Process callbacks
             def process_key(key):
                 """Process key events passed from pygame window"""
+                if key == pygame.SPACE:
+                    print("space pressed")
 
-            self.debug_render = DebugRender(self.space, self.destroy, process_key)
+            # Process routines
+            def routine():
+                p = pygame.key.get_pressed()
+                if p[pygame.K_w]:
+                    print("moving up")
+                    self._emit(MovePlayer, MovePlayer.UP)
+
+            self.tick_custom = routine
+            self.debug_render = DebugRender(self.space, self.destroy)
 
         def on_collision(arbiter, space, data):
             for c in arbiter.contact_point_set.points:
@@ -79,6 +93,7 @@ class Engine:
             print("run loop is terminated")
 
     def tick(self):
+        self.tick_custom()
         self.tickcount += 1
         self.space.step(0.05)
 
@@ -129,6 +144,14 @@ class Engine:
     # Event emitter
 
     def _emit(self, name, value) -> None:
+        if not isinstance(name, str):
+            try:
+                name = name(0).name
+            except Exception as e:
+                print(e)
+                event = Error(e.message)
+                name = event.name
+                value = event.value
         for hook in self._hook.values():
             hook(name, value)
 
@@ -150,7 +173,7 @@ class Engine:
 class DebugRender:
     """Sync instance with Engine"""
 
-    def __init__(self, space, quitcb=lambda _: None, keycb=lambda _: None):
+    def __init__(self, space, quitcb=lambda _=0: 0, keycb=lambda _=0: 0):
         self.space = space
 
         # We are going to use a square arena anyway
@@ -187,7 +210,7 @@ class DebugRender:
             ):
                 pygame.quit()
                 return False
-            self.keycb(event.key)
+            # self.keycb(event.key)
         self.screen.fill("WHITE")
         self.space.debug_draw(self.draw_options)
         pygame.display.update()
