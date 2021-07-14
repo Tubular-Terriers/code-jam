@@ -15,7 +15,7 @@ from .widget.simple_textbox import Box
 class Main_menu(UI):
     def __init__(self):
         super().__init__("main_menu_scr")
-        
+
         self.message_text1 = " _   _                        _             "
         self.message_text2 = "| | | |                      (_)            "
         self.message_text3 = "| |_| |__   ___   ____   ___  _ _ __   __ _ "
@@ -36,25 +36,28 @@ class Main_menu(UI):
         curses.init_pair(2, 215, curses.COLOR_BLACK)
         self.window.attron(curses.color_pair(2))
         self.window.addstr(
-            int((height / 2) - 5), int(width / 2)  -17, f"{self.message_text1}", curses.color_pair(2) 
+            int((height / 2) - 5),
+            int(width / 2) - 17,
+            f"{self.message_text1}",
+            curses.color_pair(2),
         )
         self.window.addstr(
-            int((height / 2) - 4), int(width / 2)  -17, f"{self.message_text2}"
+            int((height / 2) - 4), int(width / 2) - 17, f"{self.message_text2}"
         )
         self.window.addstr(
-            int((height / 2) - 3), int(width / 2)  -17, f"{self.message_text3}"
+            int((height / 2) - 3), int(width / 2) - 17, f"{self.message_text3}"
         )
         self.window.addstr(
-            int((height / 2) - 2), int(width / 2)  -17, f"{self.message_text4}"
+            int((height / 2) - 2), int(width / 2) - 17, f"{self.message_text4}"
         )
         self.window.addstr(
-            int((height / 2) - 1), int(width / 2)  -17, f"{self.message_text5}"
+            int((height / 2) - 1), int(width / 2) - 17, f"{self.message_text5}"
         )
         self.window.addstr(
-            int((height / 2)), int(width / 2)  -17, f"{self.message_text6}"
+            int((height / 2)), int(width / 2) - 17, f"{self.message_text6}"
         )
         self.window.addstr(
-            int((height / 2) + 1), int(width / 2)  -17, f"{self.message_text7}"
+            int((height / 2) + 1), int(width / 2) - 17, f"{self.message_text7}"
         )
         self.window.addstr(
             int((height / 2) + 2), int(width / 2) - 17, f"{self.message_text8}"
