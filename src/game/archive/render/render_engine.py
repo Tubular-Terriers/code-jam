@@ -48,8 +48,12 @@ class RenderEngine:
                 text = "◉"
             else:
                 text = "d"
-            self.print_scr(entity["x"] * self.magnitude, entity["y"]
-                           * self.magnitude, entity["w"] * self.magnitude, text)
+            self.print_scr(
+                entity["x"] * self.magnitude,
+                entity["y"] * self.magnitude,
+                entity["w"] * self.magnitude,
+                text,
+            )
             self.init = True
         self.window.refresh()
         return True
@@ -60,12 +64,19 @@ class RenderEngine:
             entity = self.entities[uuid]
             type = entity["type"]
             if type == "b":
-                if (pos := self.ball_prev_pos):
+                if pos := self.ball_prev_pos:
                     self.window.delch(pos[1], pos[0])
-                self.ball_prev_pos = (entity["x"] * self.magnitude, entity["y"] * self.magnitude)
+                self.ball_prev_pos = (
+                    entity["x"] * self.magnitude,
+                    entity["y"] * self.magnitude,
+                )
                 print(entity)
-                self.print_scr(entity["x"] * self.magnitude, entity["y"]
-                               * self.magnitude, entity["w"] * self.magnitude, "◉")
+                self.print_scr(
+                    entity["x"] * self.magnitude,
+                    entity["y"] * self.magnitude,
+                    entity["w"] * self.magnitude,
+                    "◉",
+                )
         self.window.refresh()
         return True
 

@@ -3,7 +3,6 @@ from re import T
 
 
 class EntityManager:
-
     def __init__(self, map, renderer) -> None:
         self.renderer = renderer
         self.map = map
