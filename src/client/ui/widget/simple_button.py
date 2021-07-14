@@ -20,7 +20,7 @@ class Button(Widget):
         self.window.border(0)
         self.window.addch(1, 1, "o" if self.toggled else "x")
         self.window.noutrefresh()
-        if self.toggle_count > 3:
+        if self.toggle_count >= 1:
             if self.go_to is not None:
                 return self.go_to
 
