@@ -9,14 +9,14 @@ class SoundEffectsEngine:
         mixer.set_num_channels(mixer_channels)
         self.mixer_channels = mixer_channels
         self._volume_ = default_volume / 100
-        
+
         self._sounds_ = {}
-        
+
         for sound_effect in SoundEffects:
             sound = mixer.Sound(sound_effect.value)
             sound.set_volume(self._volume_)
             self._sounds_[sound_effect.value] = sound
-            
+
     def play_sound(self, sound: SoundEffects):
         self._sounds_[sound.value].play()
 
