@@ -6,6 +6,7 @@ import pymunk
 import pymunk.pygame_util
 
 from .entities.player import Player
+from .events import MoveBar, MovePlayer
 
 
 class Engine:
@@ -85,6 +86,26 @@ class Engine:
         ##########################
         # REMOVE THIS LINE
         asyncio.get_event_loop().stop()
+
+    def move_player(self, dir):
+        if dir == MovePlayer.UP:
+            pass
+        elif dir == MovePlayer.DOWN:
+            pass
+        elif dir == MovePlayer.LEFT:
+            pass
+        elif dir == MovePlayer.RIGHT:
+            pass
+
+    def move_bar(self, dir):
+        if dir == MoveBar.UP:
+            pass
+        elif dir == MoveBar.DOWN:
+            pass
+        elif dir == MoveBar.LEFT:
+            pass
+        elif dir == MoveBar.RIGHT:
+            pass
 
 
 class DebugRender:
