@@ -80,6 +80,8 @@ class App:
         # No longer a function
         # self.input_manager.unhook(self.hook)
 
+        curses.endwin()   # ending curses window(big problem in linux)
+
     async def set_ui(self, ui):
         self.selected_ui = ui
         return await ui.view(self)
