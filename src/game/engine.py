@@ -17,6 +17,8 @@ class Engine:
         self.debug_render = None
         self.tickcount = 0
 
+        self._hooks = {}
+
         self.width = 600
         self.height = 600
 
@@ -106,6 +108,21 @@ class Engine:
             pass
         elif dir == MoveBar.RIGHT:
             pass
+
+    def _emit(self, name, value) -> None:
+        for hook in self._hook.values():
+            hook(name, value)
+
+    def hook(self, callback):
+        """
+        Emits events using the value
+
+        `callback(event_name, event_value)`
+        """
+        self._hook[callback] = callback
+
+    def unhook(self, callback):
+        del self._hook[callback]
 
 
 class DebugRender:
