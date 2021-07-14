@@ -6,10 +6,12 @@ from src.game.archive.game_state import GameState
 
 
 class MusicEngine:
-    def __init__(self,
-                 game_paused_volume_percentage: int,
-                 default_volume: int,
-                 mixer_channels: int = 64):
+    def __init__(
+        self,
+        game_paused_volume_percentage: int,
+        default_volume: int,
+        mixer_channels: int = 64,
+    ):
         mixer.pre_init()
         mixer.init()
         pygame.init()
@@ -22,13 +24,15 @@ class MusicEngine:
         self._volume_ = default_volume
         self._music_ = mixer.music
         self.set_volume(self._volume_)
-        self._game_paused_volume_ = (game_paused_volume_percentage * self._volume_) / 100
+        self._game_paused_volume_ = (
+            game_paused_volume_percentage * self._volume_
+        ) / 100
         self._music_end_ = pygame.event.custom_type()
-        
+
     def set_volume(self, volume: int):
         self._volume_ = volume / 100
         self._music_.set_volume(self._volume_)
-        
+
     def set_game_paused_volume(self, volume: int):
         self._game_paused_volume_ = volume / 100
         if self._game_state_ == GameState.PAUSED:
@@ -62,13 +66,13 @@ class MusicEngine:
 
         elif self._game_state_ is GameState.PAUSED:
             self._music_.set_volume(self._game_paused_volume_)
-            
+
         elif self._game_state_ is GameState.GAME_WON:
             pass  # TODO: Add
-        
+
         elif self._game_state_ is GameState.GAME_OVER:
             pass  # TODO: Add
-            
+
     def check_music_end(self):
         for event in pygame.event.get(eventtype=self._music_end_):
             if event.type == self._music_end_:
@@ -76,8 +80,10 @@ class MusicEngine:
 
     def _play_next_song_(self):
         self.previous_track = self.current_track
-        new_tracks_list = [track for track in Music.BACKGROUND.value if track != self.previous_track]
+        new_tracks_list = [
+            track for track in Music.BACKGROUND.value if track != self.previous_track
+        ]
         self.current_track = random.choice(new_tracks_list)
-        
+
         self._music_.load(self.current_track)
         self._music_.play()
