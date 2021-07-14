@@ -45,7 +45,7 @@ class MusicEngine:
         self._game_state_ = game_state
         self._refresh_()
 
-    def _refresh_(self):
+    def _refresh_(self) -> None:
         if self._game_state_ is GameState.MAIN_MENU:
             self._music_.stop()
             self._music_.load(Music.MENU.value)
@@ -80,7 +80,7 @@ class MusicEngine:
             if event.type == self._music_end_:
                 self._play_next_song_()
 
-    def _play_next_song_(self):
+    def _play_next_song_(self) -> None:
         self.previous_track = self.current_track
         new_tracks_list = [
             track for track in Music.BACKGROUND.value if track != self.previous_track
