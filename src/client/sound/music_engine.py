@@ -9,10 +9,10 @@ from src.game.archive.game_state import GameState
 
 class MusicEngine:
     def __init__(
-            self,
-            game_paused_volume_percentage: int,
-            default_volume: int,
-            mixer_channels: int = 64,
+        self,
+        game_paused_volume_percentage: int,
+        default_volume: int,
+        mixer_channels: int = 64,
     ):
         mixer.pre_init()
         mixer.init()
@@ -27,8 +27,8 @@ class MusicEngine:
         self._music_ = mixer.music
         self.set_volume(self._volume_)
         self._game_paused_volume_ = (
-                                            game_paused_volume_percentage * self._volume_
-                                    ) / 100
+            game_paused_volume_percentage * self._volume_
+        ) / 100
         self._music_end_ = pygame.event.custom_type()
 
     def set_volume(self, volume: int) -> None:
