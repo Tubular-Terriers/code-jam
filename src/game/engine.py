@@ -122,9 +122,15 @@ class Engine:
         elif dir == MoveBar.RIGHT:
             pass
 
+    #########################################
+    # Event emitter
+
     def _emit(self, name, value) -> None:
         for hook in self._hook.values():
             hook(name, value)
+
+    #########################################
+    # Callback methods
 
     def hook(self, callback):
         """
