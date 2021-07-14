@@ -1,7 +1,7 @@
 import curses
+import time
 from enum import Enum
 
-import time
 
 class main_menu():
     def __init__(

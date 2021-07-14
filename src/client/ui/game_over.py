@@ -1,7 +1,7 @@
 import curses
+import time
 from enum import Enum
 
-import time
 
 class game_over():
     def __init__(
