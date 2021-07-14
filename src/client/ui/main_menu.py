@@ -3,7 +3,7 @@ from enum import Enum
 
 import time
 
-class game_over():
+class main_menu():
     def __init__(
         
     ):
