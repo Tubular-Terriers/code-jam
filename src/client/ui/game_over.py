@@ -32,6 +32,11 @@ class Game_over(UI):
         # Required
         super().view(app)
         height, width = self.window.getmaxyx()
+        curses.start_color()
+        curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)
+        curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
+        self.window.attron(curses.color_pair(2))
+        self.window.attron(curses.A_BOLD)
         self.window.addstr(
             int((height / 2) - 5), int(width / 2) - 15, f"{self.message_text1}"
         )
@@ -65,6 +70,8 @@ class Game_over(UI):
         self.window.addstr(
             int((height / 2) + 5), int(width / 2) - 15, f"{self.message_text11}"
         )
+        self.window.attroff(curses.color_pair(2))
+        self.window.attroff(curses.A_BOLD)
         self.refresh()
         menu_button = Button(
             (height // 2) + 7,
