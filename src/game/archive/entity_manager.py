@@ -3,6 +3,7 @@ from re import T
 
 
 class EntityManager:
+
     def __init__(self, map, renderer) -> None:
         self.renderer = renderer
         self.map = map
@@ -18,7 +19,7 @@ class EntityManager:
         except Exception as e:
             print(e)
             return False
-
+        self.renderer.entities = self.entities
         return True
 
     def add(self, name, type, x, y, width) -> bool:
@@ -38,7 +39,7 @@ class EntityManager:
 
     def remove(self, uuid) -> bool:
         try:
-            del self.renderer.entities[uuid]
+            del self.entities[uuid]
         except Exception as e:
             print(e)
             return False
@@ -47,7 +48,7 @@ class EntityManager:
     def update(self, uuid, updates: dict) -> bool:
         for key in updates.keys():
             try:
-                self.renderer[uuid][key] = updates[key]
+                self.entities[uuid][key] = updates[key]
             except Exception as e:
                 print(e)
                 return False

@@ -1,5 +1,16 @@
+import asyncio
+import curses
+import pymunk
 import pygame
-import pymunk.pygame_util
+import sys
+
+from pymunk.vec2d import Vec2d
+
+# FIXME: remove this import
+sys.path.append("..")
+# from entity_manager import EntityManager
+# from engine import Game
+# from map.map_manager import MapManager
 
 
 class RenderEngine:
@@ -10,71 +21,106 @@ class RenderEngine:
         space (pymunk.Space): the space to render
     """
 
-    def __init__(self, space, width, height, quiet=False):
+    def __init__(self, window, space, width, height, quiet=False):
         # TODO allow this 600 to be a variable
         self.w = width
         self.h = height
         self.space = space
         self.coroutine = None
         self.entities = {}
+        self.window = window
+        self.magnitude = 2
+        self.ball_prev_pos = None
+        self.init = False
         # self.loop = asyncio.get_event_loop()
-        if not quiet:
-            self.init_pygame()
+        # if not quiet:
+        #    self.init_pygame()
 
-    """
-    async def update_loop(self):
-        while True:
-            self.update()
-            # TODO  find a way to sync this with game tick rate
-            await asyncio.sleep(1 / 10)
-
-    """
-
-    def init_pygame(self):
-        pygame.init()
-        self.screen = pygame.display.set_mode((self.w, self.h))
-
-        # TODO Temporary debug code
-        self.draw_options = pymunk.pygame_util.DrawOptions(self.screen)
-        # self.coroutine = self.loop.create_task(self.update_loop())
-        # self.loop.run_until_complete(self.coroutine)
-
-        # self.run
-
-    # TODO implement this later
-    def run(self):
-        self.running = True
-        while self.running:
-            # Check for quit
-            for event in pygame.event.get():
-                if (
-                    event.type == pygame.QUIT
-                    or event.type == pygame.KEYDOWN
-                    and event.key == pygame.K_ESCAPE
-                ):
-                    self.running = False
-
-            # TODO someone make this rgb
-            self.screen.fill(pygame.Color("black"))
-
-    """
-    def update(self):
-        for event in pygame.event.get():
-            if (
-                event.type == pygame.QUIT
-                or event.type == pygame.KEYDOWN
-                and event.key == pygame.K_ESCAPE
-            ):
-                return False
-        self.screen.fill("GRAY")
-        self.space.debug_draw(self.draw_options)
-        pygame.display.update()
-        self.space.step(0.01)
+    def static_render(self):
+        # print("static render")
+        for uuid in self.entities:
+            entity = self.entities[uuid]
+            type = entity["type"]
+            if type == "o":
+                global text
+                text = "━"
+            elif type == "b":
+                text = "◉"
+            else:
+                text = "d"
+            self.print_scr(entity["x"] * self.magnitude, entity["y"]
+                           * self.magnitude, entity["w"] * self.magnitude, text)
+            self.init = True
+        self.window.refresh()
         return True
 
-    """
+    def dynamic_render(self):
+        for uuid in self.entities:
+            # print("dynamic render")
+            entity = self.entities[uuid]
+            type = entity["type"]
+            if type == "b":
+                if (pos := self.ball_prev_pos):
+                    self.window.delch(pos[1], pos[0])
+                self.ball_prev_pos = (entity["x"] * self.magnitude, entity["y"] * self.magnitude)
+                print(entity)
+                self.print_scr(entity["x"] * self.magnitude, entity["y"]
+                               * self.magnitude, entity["w"] * self.magnitude, "◉")
+        self.window.refresh()
+        return True
+
+    def print_scr(self, x, y, w, text):
+        w = int(w)
+        x = int(x)
+        y = int(y)
+        print(x, y, w)
+        for i in range(w):
+            self.window.addch(y * self.magnitude, (x + i) * self.magnitude, text)
+            # self.window.refresh()
+        return True
 
 
-space = pymunk.Space()
-render = RenderEngine(space, 600, 600)
-render.run()
+def test():
+    stdscr = curses.initscr()
+    print(f"max size (y, x): {stdscr.getmaxyx()}")
+    curses.curs_set(0)
+    curses.noecho()
+    curses.cbreak()
+    field = curses.newwin(10, 40, 0, 0)
+    space = pymunk.Space()
+    space.gravity = 0, 0
+    mapmng = MapManager()
+    print(
+        mapmng.set_level(
+            0,
+            """ --------------------
+                -----oooo-oo-oooo---
+                --ppp-----o--oo--o--
+                ------b-------------
+                --o---o-----o-----oo""",
+        )
+    )
+    mapmng.parse(0)
+    level_size = mapmng.get_level_size(0)
+    renderer = RenderEngine(field, space, level_size[0], level_size[1], True)
+    enmng = EntityManager(mapmng.get_raw_interval(0), renderer)
+    enmng.parse()
+    renderer.print_scr()
+    # level_size = mapmng.get_level_size(0)
+    # game = Game(level_size[0], level_size[1], renderer, enmng.get_entities(), space)
+    # game.generate_borders()
+    # game.parse_entities()
+    # game.apply_objects()
+    # game.start()
+
+    field.getch()
+
+    # classic conf
+    curses.nocbreak()
+    stdscr.keypad(False)
+    curses.echo()
+    curses.endwin()
+    # pygame.quit()
+
+
+# test()
