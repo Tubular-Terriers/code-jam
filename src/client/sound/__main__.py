@@ -1,7 +1,9 @@
 import random
 import time
+
 from music_engine import MusicEngine
 from sound_effects_engine import SoundEffectsEngine
+
 from src.client.sound.sounds import SoundEffects
 from src.game.archive.game_state import GameState
 
