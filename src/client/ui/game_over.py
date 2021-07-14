@@ -66,9 +66,22 @@ class Game_over(UI):
             int((height / 2) + 5), int(width / 2) - 15, f"{self.message_text11}"
         )
         self.refresh()
+        menu_button = Button((height // 2) + 7, (width // 2) - 15, key=keyboard.Key.space, go_to=AppState.MAIN_MENU)
+        self.window.addstr((height // 2) + 8, (width // 2) - 12, "Press Space to go to Game menu")
+        exit_button = Button((height // 2) + 10, (width // 2) - 15, key=keyboard.Key.esc, go_to=AppState.EXIT)
+        self.window.addstr((height // 2) + 11, (width // 2) - 12, "Press Escape to Exit")
 
-    def main_menu_r(self):
-        pass
+        self.input_manager = app.input_manager
+        self.widgets = [menu_button, exit_button]
+        self.register_input_managers(*self.widgets)
+        self.refresh()
+        res = None
+        while True:
+            if res := self.refresh():
+                break
+            curses.doupdate()
+            await asyncio.sleep(0.1)
+        return res
 
 
 game_over = Game_over()
