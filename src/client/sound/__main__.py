@@ -39,7 +39,7 @@ sfx_engine.set_volume(5)
 while True:
     music_engine.check_music_end()
     time.sleep(random.randint(0, 5))
-    
+
     if random.randint(0, 5) == 2:
         sfx_engine.play_sound(SoundEffects.SCORE)
     else:

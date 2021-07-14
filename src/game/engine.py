@@ -93,16 +93,19 @@ class Engine:
         # REMOVE THIS LINE
         asyncio.get_event_loop().stop()
 
-    ############################
-    # EVENTS
+    ###########################
+    # Process events from any other code
 
     def process_event(self, n, v):
         if MovePlayer.eq(n):
-            self.move_player(v)
+            self._move_player(v)
         elif MoveBar.eq(n):
-            self.move_bar(v)
+            self._move_bar(v)
 
-    def move_player(self, dir):
+    ############################
+    # Events
+
+    def _move_player(self, dir) -> None:
         if dir == MovePlayer.UP:
             pass
         elif dir == MovePlayer.DOWN:
@@ -112,7 +115,7 @@ class Engine:
         elif dir == MovePlayer.RIGHT:
             pass
 
-    def move_bar(self, dir):
+    def _move_bar(self, dir) -> None:
         if dir == MoveBar.UP:
             pass
         elif dir == MoveBar.DOWN:
@@ -122,9 +125,15 @@ class Engine:
         elif dir == MoveBar.RIGHT:
             pass
 
+    #########################################
+    # Event emitter
+
     def _emit(self, name, value) -> None:
         for hook in self._hook.values():
             hook(name, value)
+
+    #########################################
+    # Callback methods
 
     def hook(self, callback):
         """
