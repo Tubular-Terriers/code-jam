@@ -19,9 +19,9 @@ class Main_menu(UI):
         self.message_text1 = " _   _                        _             "
         self.message_text2 = "| | | |                      (_)            "
         self.message_text3 = "| |_| |__   ___   ____   ___  _ _ __   __ _ "
-        self.message_text4 = "| __|  _ \ / _ \ |  _ \ / _ \| |  _ \ / _  |"
+        self.message_text4 = "| __|  _ \\ / _ \\ |  _ \\ / _ \\| |  _ \\ / _  |"
         self.message_text5 = "| |_| | | |  __/ | |_) | (_) | | | | | (_| |"
-        self.message_text6 = " \__|_| |_|\___| |  __/ \___/|_|_| |_|\__, |"
+        self.message_text6 = " \\__|_| |_|\\___| |  __/ \\___/|_|_| |_|\\__, |"
         self.message_text7 = "                 | |                   __/ |"
         self.message_text8 = "                 |_|                  |___/ "
         # print(self.message)
