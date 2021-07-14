@@ -3,6 +3,8 @@ import sys
 from types import SimpleNamespace
 
 from input.input_manager import input_manager
+from ui.game_over import game_over
+from ui.main_menu import main_menu
 from ui.menu import menu
 
 sys.path.append(".")
@@ -36,6 +38,8 @@ class App:
         # Register UIs
         self.ui = SimpleNamespace()
         self.ui.menu = menu
+        self.ui.main_menu = main_menu
+        self.ui.game_over = game_over
 
         # Register input_manager
         self.input_manager = input_manager
@@ -84,6 +88,13 @@ class App:
         while True:
             if self.state == AppState.MENU:
                 self.state = await self.set_ui(self.ui.menu)
+            elif self.state == AppState.MAIN_MENU:
+                self.state = await self.set_ui(self.ui.main_menu)
+            elif self.state == AppState.GAME:
+                # TO-Do
+                break
+            elif self.state == AppState.GAME_OVER:
+                self.state = await self.set_ui(self.ui.game_over)
             elif self.state == AppState.EXIT:
                 break
             else:
