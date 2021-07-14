@@ -1,7 +1,7 @@
 from ._event import Event
 
 
-class MoveBar(Event):
+class MovePlayer(Event):
     UP = "UP"
     DOWN = "DOWN"
     LEFT = "LEFT"
