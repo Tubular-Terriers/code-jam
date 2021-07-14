@@ -6,6 +6,7 @@ class MovePlayer(Event):
     DOWN = "DOWN"
     LEFT = "LEFT"
     RIGHT = "RIGHT"
+    ID = "MOVE_PLAYER"
 
     def __init__(self, value):
-        super().__init__("MOVE_PLAYER", value)
+        super().__init__(self.ID, value)

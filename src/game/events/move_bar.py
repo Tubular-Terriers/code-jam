@@ -6,6 +6,7 @@ class MoveBar(Event):
     DOWN = "DOWN"
     LEFT = "LEFT"
     RIGHT = "RIGHT"
+    ID = "MOVE_BAR"
 
     def __init__(self, value):
-        super().__init__("MOVE_BAR", value)
+        super().__init__(self.ID, value)

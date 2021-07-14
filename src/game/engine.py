@@ -1,5 +1,6 @@
 import asyncio
 import time
+import traceback
 
 import pygame
 import pymunk
@@ -18,6 +19,7 @@ class Engine:
         self.tickcount = 0
 
         self._hooks = {}
+        self._hooks[self.process_event] = self.process_event
 
         self.width = 600
         self.height = 600
@@ -25,17 +27,18 @@ class Engine:
         self.tickrate = 20
 
         self.space = pymunk.Space()
-        self.space.gravity = 0, 10
+        self.space.gravity = 0, 0
 
-        b = pymunk.Body(1, 1)
-        self.space.add(b)
-        c = pymunk.Circle(b, 10)
-        b.position = (100, 100)
-        self.space.add(c)
+        # b = pymunk.Body(1, 1)
+        # self.space.add(b)
+        # c = pymunk.Circle(b, 10)
+        # b.position = (100, 100)
+        # self.space.add(c)
 
-        print(b, c)
+        # print(b, c)
 
         p = Player()
+        self.player = p
         p.position = (100, 200)
         self.space.add(*p.tuple)
 
@@ -57,7 +60,7 @@ class Engine:
                 p = pygame.key.get_pressed()
                 if p[pygame.K_w]:
                     print("moving up")
-                    self._emit(MovePlayer, MovePlayer.UP)
+                    self._emit(MovePlayer.ID, MovePlayer.UP)
 
             self.tick_custom = routine
             self.debug_render = DebugRender(self.space, self.destroy)
@@ -112,23 +115,16 @@ class Engine:
     # Process events from any other code
 
     def process_event(self, n, v):
-        if MovePlayer.eq(n):
+        if MovePlayer.ID == n:
             self._move_player(v)
-        elif MoveBar.eq(n):
+        elif MoveBar.ID == n:
             self._move_bar(v)
 
     ############################
     # Events
 
     def _move_player(self, dir) -> None:
-        if dir == MovePlayer.UP:
-            pass
-        elif dir == MovePlayer.DOWN:
-            pass
-        elif dir == MovePlayer.LEFT:
-            pass
-        elif dir == MovePlayer.RIGHT:
-            pass
+        self.player.process_move_direction(MovePlayer.UP)
 
     def _move_bar(self, dir) -> None:
         if dir == MoveBar.UP:
@@ -143,16 +139,14 @@ class Engine:
     #########################################
     # Event emitter
 
-    def _emit(self, name, value) -> None:
+    def _emit(self, name: str, value) -> None:
         if not isinstance(name, str):
-            try:
-                name = name(0).name
-            except Exception as e:
-                print(e)
-                event = Error(e.message)
-                name = event.name
-                value = event.value
-        for hook in self._hook.values():
+            e = "Event was not a string"
+            traceback.print_tb(e)
+            event = Error(e)
+            name = event.name
+            value = event.value
+        for hook in self._hooks.values():
             hook(name, value)
 
     #########################################

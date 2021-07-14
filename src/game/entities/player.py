@@ -8,7 +8,7 @@ from .entity_type import EntityType
 class Player(Entity, pymunk.Body):
     def __init__(self):
         Entity.__init__(self, EntityType.PLAYER)
-        pymunk.Body.__init__(self, body_type=pymunk.Body.STATIC)
+        pymunk.Body.__init__(self, mass=1, moment=1, body_type=pymunk.Body.DYNAMIC)
         self.name = "test player"
         self.uuid = None
 
@@ -40,8 +40,9 @@ class Player(Entity, pymunk.Body):
 
     def process_move_direction(self, dir):
         """`dir` is a type of MovePlayer"""
+        print("here")
         if dir == MovePlayer.UP:
-            self.velocity = (self.velocity[0], self.velocity[1] + 0.1)
+            self.velocity = (self.velocity[0], self.velocity[1] + 1.0)
 
     def process_bar_direction(self, dir):
         """`dir` is a type of MoveBar"""
