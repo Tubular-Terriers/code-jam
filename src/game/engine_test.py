@@ -13,7 +13,7 @@ while not crashed:
 """
 
 import pygame
-import pymunk  # Import pymunk..
+import pymunk
 import pymunk.pygame_util
 
 pygame.init()
