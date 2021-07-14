@@ -1,9 +1,9 @@
 import asyncio
 import curses
-import pymunk
-import pygame
 import sys
 
+import pygame
+import pymunk
 from pymunk.vec2d import Vec2d
 
 # FIXME: remove this import
