@@ -10,8 +10,9 @@ repos:
       - id: check-toml
       - id: check-yaml
       - id: end-of-file-fixer
-        exclude: "\\.drawio$"
+        exclude: "\\.(drawio|svg|js|html|css)$"
       - id: trailing-whitespace
+        exclude: "\\.(svg|js|html|css)$"
         args: [--markdown-linebreak-ext=md]
   - repo: https://github.com/pre-commit/pygrep-hooks
     rev: v1.5.1

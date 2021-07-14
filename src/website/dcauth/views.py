@@ -1,3 +1,5 @@
+from urllib import parse
+
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -6,7 +8,14 @@ from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
 
 gameserver_url = "https://pongconsole.xyz/"
-discord_auth_url = "https://discord.com/api/oauth2/authorize?client_id=864848740387782666&redirect_uri=https%3A%2F%2Fpongconsole.xyz%2F&response_type=code&scope=identify"
+
+client_id = "864835657091252234"
+redirect_uri = parse(f"{gameserver_url}login-success")
+
+discord_auth_url = (
+    "https://discord.com/api/oauth2/authorize?"
+    + f"client_id={client_id}&redirect_uri={redirect_uri}&response_type=code&scope=identify"
+)
 
 
 class todoHome(TemplateView):
