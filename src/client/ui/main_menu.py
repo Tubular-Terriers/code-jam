@@ -21,8 +21,8 @@ class Main_menu(UI):
         self.message_text3 = "| |_| |__   ___   ____   ___  _ _ __   __ _ "
         self.message_text4 = "| __|  _ \ / _ \ |  _ \ / _ \| |  _ \ / _  |"
         self.message_text5 = "| |_| | | |  __/ | |_) | (_) | | | | | (_| |"
-        self.message_text6 = " \__|_| |_|\___| |  __/ \___/|_|_| |_|\__, | "
-        self.message_text7 = "                 | |                   __/ | "
+        self.message_text6 = " \__|_| |_|\___| |  __/ \___/|_|_| |_|\__, |"
+        self.message_text7 = "                 | |                   __/ |"
         self.message_text8 = "                 |_|                  |___/ "
         # print(self.message)
 
@@ -31,7 +31,6 @@ class Main_menu(UI):
         super().view(app)
         height, width = self.window.getmaxyx()
         curses.start_color()
-        curses.use_default_colors()
         curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)
         curses.init_pair(2, 215, curses.COLOR_BLACK)
         self.window.attron(curses.color_pair(2))
@@ -65,14 +64,14 @@ class Main_menu(UI):
         self.window.attroff(curses.color_pair(2))
         self.window.attroff(curses.A_BOLD)
         self.refresh()
-        menu_button = Button(
+        game_button = Button(
             (height // 2) + 7,
             (width // 2) - 15,
             key=keyboard.Key.space,
-            go_to=AppState.MAIN_MENU,
+            go_to=AppState.GAME,
         )
         self.window.addstr(
-            (height // 2) + 8, (width // 2) - 12, "Press Space to go to Game menu"
+            (height // 2) + 8, (width // 2) - 12, "Press Space to go to join a Game"
         )
         exit_button = Button(
             (height // 2) + 10,
@@ -85,7 +84,7 @@ class Main_menu(UI):
         )
 
         self.input_manager = app.input_manager
-        self.widgets = [menu_button, exit_button]
+        self.widgets = [game_button, exit_button]
         self.register_input_managers(*self.widgets)
         self.refresh()
         res = None
