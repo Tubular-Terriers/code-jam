@@ -173,13 +173,13 @@ They also added a better testing ground
 
 # July 13th
 
-made a application state diagram
+Made an application state diagram
 
 ![image](https://media.discordapp.net/attachments/862242420863139855/864418416089366528/unknown.png)
 
 Finally, created a custom keytext input handler and a textbox widget
 
-when typing text, other keys do not affect the widget
+When typing text, other keys do not affect the widget
 
 ![image](https://cdn.discordapp.com/attachments/862242420863139855/864527737195724800/textbox.gif)
 
@@ -188,7 +188,7 @@ Refined the textbox widget, so it includes other accessible api as well
 
 Now keys like `ctrl+c` and `ctrl+backspace` does not appear on the screen and get ignored
 
-it also has `is_pressed(key)` support
+It also has `is_pressed(key)` support
 
 ![image](https://cdn.discordapp.com/attachments/862242420863139855/864589327517220914/texboxdemo.gif)
 
@@ -204,3 +204,7 @@ Added files for background music and worked on creating engines for music and so
 > Menu screen has its own non-copyrighted version of original tetris soundtrack  
 > Loading screen has a few songs from which the music engine randomly selects one to play during each loading  
 > Music in the core gameplay is being randomly shuffled throughout the play from a variety of non-copyrighted retro songs
+
+# July 14th
+
+Implemented sound system with separate engines for background music and sfx playback
