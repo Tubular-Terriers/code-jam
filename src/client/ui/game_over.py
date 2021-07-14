@@ -39,58 +39,58 @@ class Game_over(UI):
         self.window.attron(curses.color_pair(2))
         self.window.attron(curses.A_BOLD)
         self.window.addstr(
-            int((height / 2) - 5), int(width / 2) - 15, f"{self.message_text1}"
+            int((height / 2) - 7), int(width / 2) - 15, f"{self.message_text1}"
         )
         self.window.addstr(
-            int((height / 2) - 4), int(width / 2) - 15, f"{self.message_text2}"
+            int((height / 2) - 6), int(width / 2) - 15, f"{self.message_text2}"
         )
         self.window.addstr(
-            int((height / 2) - 3), int(width / 2) - 15, f"{self.message_text3}"
+            int((height / 2) - 5), int(width / 2) - 15, f"{self.message_text3}"
         )
         self.window.addstr(
-            int((height / 2) - 2), int(width / 2) - 15, f"{self.message_text4}"
+            int((height / 2) - 4), int(width / 2) - 15, f"{self.message_text4}"
         )
         self.window.addstr(
-            int((height / 2) - 1), int(width / 2) - 15, f"{self.message_text5}"
+            int((height / 2) - 3), int(width / 2) - 15, f"{self.message_text5}"
         )
         self.window.addstr(
-            int((height / 2)), int(width / 2) - 15, f"{self.message_text6}"
+            int((height / 2) - 2), int(width / 2) - 15, f"{self.message_text6}"
         )
         self.window.addstr(
-            int((height / 2) + 1), int(width / 2) - 15, f"{self.message_text7}"
+            int((height / 2) - 1), int(width / 2) - 15, f"{self.message_text7}"
         )
         self.window.addstr(
-            int((height / 2) + 2), int(width / 2) - 15, f"{self.message_text8}"
+            int((height / 2)), int(width / 2) - 15, f"{self.message_text8}"
         )
         self.window.addstr(
-            int((height / 2) + 3), int(width / 2) - 15, f"{self.message_text9}"
+            int((height / 2) + 1), int(width / 2) - 15, f"{self.message_text9}"
         )
         self.window.addstr(
-            int((height / 2) + 4), int(width / 2) - 15, f"{self.message_text10}"
+            int((height / 2) + 2), int(width / 2) - 15, f"{self.message_text10}"
         )
         self.window.addstr(
-            int((height / 2) + 5), int(width / 2) - 15, f"{self.message_text11}"
+            int((height / 2) + 3), int(width / 2) - 15, f"{self.message_text11}"
         )
         self.window.attroff(curses.color_pair(2))
         self.window.attroff(curses.A_BOLD)
         self.refresh()
         menu_button = Button(
-            (height // 2) + 7,
+            (height // 2) + 5,
             (width // 2) - 15,
             key=keyboard.Key.space,
             go_to=AppState.MAIN_MENU,
         )
         self.window.addstr(
-            (height // 2) + 8, (width // 2) - 12, "Press Space to go to Game menu"
+            (height // 2) + 6, (width // 2) - 12, "Press Space to go to Game menu"
         )
         exit_button = Button(
-            (height // 2) + 10,
+            (height // 2) + 8,
             (width // 2) - 15,
             key=keyboard.Key.esc,
             go_to=AppState.EXIT,
         )
         self.window.addstr(
-            (height // 2) + 11, (width // 2) - 12, "Press Escape to Exit"
+            (height // 2) + 9, (width // 2) - 12, "Press Escape to Exit"
         )
 
         self.input_manager = app.input_manager
