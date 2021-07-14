@@ -4,7 +4,7 @@
 
 import asyncio
 
-from app import app
+from client.app import app
 
 # Someone set up a logger
 # import logging

@@ -3,8 +3,9 @@ import curses
 import time
 from time import sleep
 
-from appstate import AppState
 from pynput import keyboard
+
+from client.appstate import AppState
 
 from ._ui import UI
 from .widget.progress_bar import ProgressBar

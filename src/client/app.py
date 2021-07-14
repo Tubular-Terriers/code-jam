@@ -2,15 +2,15 @@ import asyncio
 import sys
 from types import SimpleNamespace
 
-from input.input_manager import input_manager
-from ui.game_over import game_over
-from ui.main_menu import main_menu
-from ui.menu import menu
+from client.input.input_manager import input_manager
+from client.ui.game_over import game_over
+from client.ui.main_menu import main_menu
+from client.ui.menu import menu
 
 sys.path.append(".")
 import curses
 
-from appstate import AppState
+from client.appstate import AppState
 
 
 class App:
