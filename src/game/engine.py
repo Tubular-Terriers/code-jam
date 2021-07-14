@@ -24,7 +24,14 @@ class Engine:
         self.width = 600
         self.height = 600
 
-        self.tickrate = 20
+        # Game engine tick rate
+        self.tps = 100
+        # Controller tick rate
+        # ticks to controller
+        # a value of 5 would mean it will poll the controller every 5th tick
+        self.ttc = 5
+
+        self.ttc_tick = 0
 
         self.space = pymunk.Space()
         self.space.gravity = 0, 0
@@ -45,7 +52,7 @@ class Engine:
         self.load_mapdata()
 
         # Add custom tick method so debug has an option to use it
-        self.tick_custom = lambda _=0: 0
+        self.control = lambda _=0: 0
 
         if debug:
 
@@ -57,12 +64,15 @@ class Engine:
 
             # Process routines
             def routine():
-                p = pygame.key.get_pressed()
-                if p[pygame.K_w]:
-                    print("moving up")
-                    self._emit(MovePlayer.ID, MovePlayer.UP)
+                try:
+                    p = pygame.key.get_pressed()
+                    if p[pygame.K_w]:
+                        self._emit(MovePlayer.ID, MovePlayer.UP)
+                except Exception as e:
+                    print(e)
+                    self._emit(Error.ID, e.message)
 
-            self.tick_custom = routine
+            self.control = routine
             self.debug_render = DebugRender(self.space, self.destroy)
 
         def on_collision(arbiter, space, data):
@@ -91,14 +101,20 @@ class Engine:
         try:
             while self.running:
                 self.tick()
-                await asyncio.sleep(0.01)
+                await asyncio.sleep(1 / self.tps)
         except asyncio.CancelledError:
             print("run loop is terminated")
 
     def tick(self):
-        self.tick_custom()
+        # Update global tick count
         self.tickcount += 1
-        self.space.step(0.05)
+
+        # Do controller
+        self.ttc_tick += 1
+        if self.ttc_tick == self.ttc:
+            self.control()
+            self.ttc_tick = 0
+        self.space.step(1 / self.tps)
 
     def destroy(self):
         if self.debug_render:

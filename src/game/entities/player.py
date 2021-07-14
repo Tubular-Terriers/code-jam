@@ -16,7 +16,7 @@ class Player(Entity, pymunk.Body):
         # width
 
         width = 40
-        height = 4
+        height = 8
 
         self.bar_loc = 0
         # Value between 1 to -1. 1
@@ -40,9 +40,8 @@ class Player(Entity, pymunk.Body):
 
     def process_move_direction(self, dir):
         """`dir` is a type of MovePlayer"""
-        print("here")
         if dir == MovePlayer.UP:
-            self.velocity = (self.velocity[0], self.velocity[1] + 1.0)
+            self.velocity = (self.velocity[0], self.velocity[1] + 5.0)
 
     def process_bar_direction(self, dir):
         """`dir` is a type of MoveBar"""
