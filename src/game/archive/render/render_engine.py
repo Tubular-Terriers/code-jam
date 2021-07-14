@@ -12,6 +12,8 @@ sys.path.append("..")
 # from engine import Game
 # from map.map_manager import MapManager
 
+# flake8: noqa
+
 
 class RenderEngine:
     """
