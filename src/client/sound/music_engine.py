@@ -9,10 +9,10 @@ from src.game.archive.game_state import GameState
 
 class MusicEngine:
     def __init__(
-        self,
-        game_paused_volume_percentage: int,
-        default_volume: int,
-        mixer_channels: int = 64,
+            self,
+            game_paused_volume_percentage: int,
+            default_volume: int,
+            mixer_channels: int = 64,
     ):
         mixer.pre_init()
         mixer.init()
@@ -27,20 +27,20 @@ class MusicEngine:
         self._music_ = mixer.music
         self.set_volume(self._volume_)
         self._game_paused_volume_ = (
-            game_paused_volume_percentage * self._volume_
-        ) / 100
+                                            game_paused_volume_percentage * self._volume_
+                                    ) / 100
         self._music_end_ = pygame.event.custom_type()
 
-    def set_volume(self, volume: int):
+    def set_volume(self, volume: int) -> None:
         self._volume_ = volume / 100
         self._music_.set_volume(self._volume_)
 
-    def set_game_paused_volume(self, volume: int):
+    def set_game_paused_volume(self, volume: int) -> None:
         self._game_paused_volume_ = volume / 100
         if self._game_state_ == GameState.PAUSED:
             self._music_.set_volume(self._game_paused_volume_)
 
-    def update_game_state(self, game_state):
+    def update_game_state(self, game_state) -> None:
         self._previous_game_state_ = self._game_state_
         self._game_state_ = game_state
         self._refresh_()
@@ -75,7 +75,7 @@ class MusicEngine:
         elif self._game_state_ is GameState.GAME_OVER:
             pass  # TODO: Add
 
-    def check_music_end(self):
+    def check_music_end(self) -> None:
         for event in pygame.event.get(eventtype=self._music_end_):
             if event.type == self._music_end_:
                 self._play_next_song_()

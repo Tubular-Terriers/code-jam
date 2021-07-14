@@ -17,10 +17,10 @@ class SoundEffectsEngine:
             sound.set_volume(self._volume_)
             self._sounds_[sound_effect.value] = sound
             
-    def play_sound(self, sound: SoundEffects):
+    def play_sound(self, sound: SoundEffects) -> None:
         self._sounds_[sound.value].play()
 
-    def set_volume(self, volume: int):
+    def set_volume(self, volume: int) -> None:
         self._volume_ = volume / 100
         for sound in self._sounds_.values():
             sound.set_volume(self._volume_)
