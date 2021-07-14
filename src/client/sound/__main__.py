@@ -15,29 +15,32 @@ music_engine = MusicEngine(20, 10)
 
 music_engine.update_game_state(GameState.MAIN_MENU)
 
-time.sleep(5)
+cooldown = 5
+
+time.sleep(cooldown)
 
 music_engine.update_game_state(GameState.LOADING)
 
-time.sleep(5)
+time.sleep(cooldown)
 
 music_engine.update_game_state(GameState.PLAYING)
 
-time.sleep(5)
+time.sleep(cooldown)
 
 music_engine.update_game_state(GameState.PAUSED)
 
-time.sleep(5)
+time.sleep(cooldown)
 
 music_engine.update_game_state(GameState.PLAYING)
 
-score_snd = sfx_engine.create_sound(SoundEffects.SCORE)
-wall_bounce_snd = sfx_engine.create_sound(SoundEffects.WALL_BOUNCE)
+sfx_engine.play_sound(SoundEffects.SCORE)
+sfx_engine.set_volume(5)
 
 while True:
     music_engine.check_music_end()
     time.sleep(random.randint(0, 5))
+    
     if random.randint(0, 5) == 2:
-        score_snd.play()
+        sfx_engine.play_sound(SoundEffects.SCORE)
     else:
-        wall_bounce_snd.play()
+        sfx_engine.play_sound(SoundEffects.PADDLE_BOUNCE)
