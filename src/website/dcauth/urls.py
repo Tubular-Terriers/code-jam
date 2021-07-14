@@ -4,8 +4,7 @@ from . import views
 from .views import todoHome
 
 urlpatterns = [
-    path('',todoHome.as_view(),name='todoHome'),
-    path('login/',views.login_via_discord,name='logindiscord'),
+    path("", todoHome.as_view(), name="todoHome"),
+    path("login/", views.login_via_discord, name="logindiscord"),
     # path('login/redirect',views.login_redirect,name='loginredirect'),
-
 ]

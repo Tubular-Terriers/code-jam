@@ -1,5 +1,6 @@
 import pymunk.pygame_util
 
+
 class RenderEngine:
     """
     Creates instance of renderer
@@ -18,6 +19,7 @@ class RenderEngine:
         # self.loop = asyncio.get_event_loop()
         if not quiet:
             self.init_pygame()
+
     """
     async def update_loop(self):
         while True:
@@ -26,6 +28,7 @@ class RenderEngine:
             await asyncio.sleep(1 / 10)
 
     """
+
     def init_pygame(self):
         pygame.init()
         self.screen = pygame.display.set_mode((self.w, self.h))
@@ -69,6 +72,8 @@ class RenderEngine:
         return True
 
     """
+
+
 space = pymunk.Space()
-render = RenderEngine(space,600,600)
+render = RenderEngine(space, 600, 600)
 render.run()
