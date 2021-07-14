@@ -25,7 +25,7 @@ class Menu(UI):
             width=32, y=1, x=0, message_text="Press space 4 times to exit"
         )
         my_bar.set_progress(self.time)
-        my_button = Button(2, 34, go_to=AppState.EXIT)
+        my_button = Button(2, 34, go_to=AppState.GAME_OVER)
         editor = Box(3, 20, 5, 0)
         # You can manually refresh them as well
         self.widgets = [my_bar, my_button, editor]

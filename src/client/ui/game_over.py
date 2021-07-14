@@ -15,20 +15,16 @@ from .widget.simple_textbox import Box
 class Game_over(UI):
     def __init__(self):
         super().__init__("game_over_scr")
+        self.message_text = "\n███▀▀▀██ ███▀▀▀███ ███▀█▄█▀███ ██▀▀▀\n██    ██ ██     ██ ██   █   ██ ██   \n██   ▄▄▄ ██▄▄▄▄▄██ ██   ▀   ██ ██▀▀▀\n██    ██ ██     ██ ██       ██ ██   \n███▄▄▄██ ██     ██ ██       ██ ██▄▄▄\n                                    \n███▀▀▀███ ▀███  ██▀ ██▀▀▀ ██▀▀▀▀██▄ \n██     ██   ██  ██  ██    ██     ██ \n██     ██   ██  ██  ██▀▀▀ ██▄▄▄▄▄▀▀ \n██     ██   ██  █▀  ██    ██     ██ \n███▄▄▄███    ▀█▀    ██▄▄▄ ██     ██▄\n"    
+        # print(self.message)
 
-    async def view(self):
-        pass
-
+    async def view(self, app):
+        # Required
+        super().view(app)
+        self.window.addstr(0, 1, f"{self.message_text}")
+        self.refresh()
+        
     def main_menu_r(self):
         pass
 
-    def _create_message_(self) -> str:
-        pass
-
-
-# instanciate object from game_over class
 game_over = Game_over()
-
-
-if __name__ == "__main__":
-    curses.initscr()
