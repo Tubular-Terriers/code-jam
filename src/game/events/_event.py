@@ -5,3 +5,6 @@ class Event:
 
     def eq(self, name):
         return self.name == name
+
+    def __str__(self):
+        return self.name
