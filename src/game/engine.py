@@ -94,7 +94,7 @@ class Engine:
         asyncio.get_event_loop().stop()
 
     ############################
-    # EVENTS
+    # Events
 
     def process_event(self, n, v):
         if MovePlayer.eq(n):
