@@ -9,5 +9,5 @@ python src/client
 ## Game
 
 ```sh
-python src/game/test.py
+python src/run.game_engine_standalone.py
 ```
