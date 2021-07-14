@@ -89,9 +89,7 @@ class Game_over(UI):
             key=keyboard.Key.esc,
             go_to=AppState.EXIT,
         )
-        self.window.addstr(
-            (height // 2) + 9, (width // 2) - 12, "Press Escape to Exit"
-        )
+        self.window.addstr((height // 2) + 9, (width // 2) - 12, "Press Escape to Exit")
 
         self.input_manager = app.input_manager
         self.widgets = [menu_button, exit_button]

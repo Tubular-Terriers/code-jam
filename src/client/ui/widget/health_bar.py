@@ -40,11 +40,11 @@ class health_bar(Widget):
             self.window.addstr(1, 1, self.message)
         self.window.refresh()
 
-
     def set_health(self, minus_health):
         x = self.health - minus_health
         self.health = x
         self.refresh()
+
 
 if __name__ == "__main__":
     curses.initscr()
