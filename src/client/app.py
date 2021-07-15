@@ -98,7 +98,7 @@ class App:
 
     async def run(self):
         while True:  # To-do check this.
-            if self.screen_height < 35 or self.screen_width < 150:
+            if self.screen_height < 20 or self.screen_width < 130: #if doesnt work in your terminal, change these numbers
                 await self.set_ui(ss_error)
             elif self.state == AppState.MENU:
                 self.state = await self.set_ui(self.ui.menu)
