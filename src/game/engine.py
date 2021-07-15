@@ -7,7 +7,7 @@ import pygame
 import pymunk
 import pymunk.pygame_util
 
-from . import category
+from . import category, collision_type
 from .entities.ball import Ball
 from .entities.player import Player
 from .events import Error, MoveBar, MovePlayer
@@ -42,6 +42,8 @@ class Engine:
         self.space.static_body.filter = pymunk.ShapeFilter(
             categories=category.WALL, mask=category.MASK.WALL
         )
+
+        self.space.static_body.collision_type = collision_type.WALL
 
         # b = pymunk.Body(1, 1)
         # self.space.add(b)
@@ -113,6 +115,10 @@ class Engine:
             for c in arbiter.contact_point_set.points:
                 # check stuff
                 print("contact")
+            return True
+
+        ch = self.space.add_collision_handler(0, 0)
+        ch.pre_solve = on_collision
 
     def load_mapdata(self):
         """

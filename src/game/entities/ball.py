@@ -1,6 +1,6 @@
 import pymunk
 
-from .. import category
+from .. import category, collision_type
 from .entity import Entity
 from .entity_type import EntityType
 
@@ -17,6 +17,8 @@ class Ball(Entity, pymunk.Body):
 
         self.circle.elasticity = 1.0
         self.circle.friction = 0
+
+        self.circle.collision_type = collision_type.BALL
 
         self.tuple = self, self.circle
 

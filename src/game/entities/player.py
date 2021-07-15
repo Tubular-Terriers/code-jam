@@ -2,7 +2,7 @@ import json
 
 import pymunk
 
-from .. import category
+from .. import category, collision_type
 from ..events import MoveBar, MovePlayer
 from .entity import Entity
 from .entity_type import EntityType
