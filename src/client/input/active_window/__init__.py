@@ -1,8 +1,8 @@
 # determines whether to import linux or windows
-from ctypes import windll, wintypes, byref
 import os
 import platform
 import time
+from ctypes import byref, windll, wintypes
 
 
 def is_focused():
@@ -28,9 +28,7 @@ def get_window_pid(system):
         try:
             pid = wintypes.DWORD()
             active = windll.user32.GetForegroundWindow()
-            return int(
-                windll.user32.GetWindowThreadProcessId(active, byref(pid))
-            )
+            return int(windll.user32.GetWindowThreadProcessId(active, byref(pid)))
         except Exception:
             return None
 
