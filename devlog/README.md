@@ -236,3 +236,9 @@ In an arena 600x600 with a virtual screen of 300x200, the player should be aroun
 ![image](https://cdn.discordapp.com/attachments/864018053640486932/865175800609505280/unknown.png)
 
 Greatly improved user settings system
+
+Created a dump and load method for entities
+
+Now arbitrary physical data can be stored in `dict` form and loaded by the game engine
+
+![image](https://cdn.discordapp.com/attachments/862242420863139855/865255252890746890/xxGX4nDDoR.gif)
