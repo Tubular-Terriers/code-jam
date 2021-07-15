@@ -83,7 +83,7 @@ class InputManager:
                     return
 
                 # Add attribute so its easier to handle from uis
-                self.char = k.char if is_typeable_char(k) else None
+                k.char = k.char if is_typeable_char(k) else None
 
                 # Handle
                 self.pressed_keys.add(k)
