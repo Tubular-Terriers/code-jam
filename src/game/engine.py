@@ -114,12 +114,13 @@ class Engine:
         def on_hitbox_ball_hit(arbiter, space, data):
             """`arbiter.shapes[0]` is hitbox, `arbiter.shapes[1]` is ball"""
             self.space.remove(arbiter.shapes[1])
+            return True
 
         # ch = self.space.add_collision_handler(collision_type.BALL, collision_type.WALL)
         ch = self.space.add_collision_handler(
             collision_type.HITBOX, collision_type.BALL
         )
-        ch.post_solve = on_hitbox_ball_hit
+        ch.pre_solve = on_hitbox_ball_hit
 
     def load_mapdata(self):
         """
