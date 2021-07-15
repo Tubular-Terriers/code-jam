@@ -1,4 +1,5 @@
 import asyncio
+import os
 import sys
 import time
 from time import sleep
@@ -27,10 +28,26 @@ class App:
     def __init__(self, stdscr=None):
         self.state = AppState.MAIN_MENU  # temp
 
+        # FIXME Change this later
+        self.target_height = 30
+        self.target_width = 130
+
+        self.valid = True
+
         if not stdscr:
+            li = os.get_terminal_size().lines
+            c = os.get_terminal_size().columns
+            if li < self.target_height or c < self.target_width:
+                print("window is not big enough")
+                print(
+                    f"expected {self.target_height}x{self.target_width}, got {li}x{c}"
+                )
+                self.valid = False
+                return
 
             stdscr = curses.initscr()
             curses.start_color()
+            curses.endwin()
 
         # Register colors
         curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)
@@ -43,10 +60,6 @@ class App:
         curses.nocbreak()
         curses.curs_set(0)
         curses.raw()
-
-        # FIXME Change this later
-        self.target_height = 30
-        self.target_width = 130
 
         # Register UIs
         self.ui = SimpleNamespace()
@@ -101,6 +114,9 @@ class App:
         return await ui.view(self)
 
     async def run(self):
+        if not self.valid:
+            return
+            # Run a custom curses error screen maybe
         while True:  # To-do check this.
             if (
                 self.stdscr.getmaxyx()[0] < self.target_height
