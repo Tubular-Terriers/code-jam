@@ -69,10 +69,10 @@ class Main_menu(UI):
             (height // 2) + 3,
             (width // 2) - 15,
             key=keyboard.Key.space,
-            go_to=AppState.GAME,
+            go_to=AppState.GAME_OVER,
         )
         self.window.addstr(
-            (height // 2) + 4, (width // 2) - 12, "Press Space to go to join a Game"
+            (height // 2) + 4, (width // 2) - 12, "Press Space to join a Game"
         )
         exit_button = Button(
             (height // 2) + 6,
