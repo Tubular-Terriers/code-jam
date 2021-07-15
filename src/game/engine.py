@@ -102,7 +102,8 @@ class Engine:
             while self.running:
                 t = time.time()
                 self.tick()
-                await asyncio.sleep((time.time() - t + 1) / self.tps)
+                # Compensate for the calculation time in tick
+                await asyncio.sleep(t - time.time() + 1 / self.tps)
         except asyncio.CancelledError:
             print("run loop is terminated")
 
@@ -204,10 +205,12 @@ class DebugRender:
     async def update_loop(self):
         try:
             while True:
+                t = time.time()
                 if not self.update():
                     self.quitcb()
                     return
-                await asyncio.sleep(1 / 60)
+                # Compensate for the calculation time in tick
+                await asyncio.sleep(1 / 60 - (time.time() - t))
         except asyncio.CancelledError:
             print("game closed")
             return
