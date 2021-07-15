@@ -246,3 +246,9 @@ Now arbitrary physical data can be stored in `dict` form and loaded by the game 
 Automatically attempt to reinitialize the curses window
 
 ![image](https://cdn.discordapp.com/attachments/862242420863139855/865265533237461022/0xMzpMQc66.gif)
+
+> Note: the above didn't work quite as expected. So we scrapped the idea
+
+Finally, the first gameplay
+
+![image](https://cdn.discordapp.com/attachments/862242420863139855/865328632707809280/vFKYudiXuL.gif)
