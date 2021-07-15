@@ -83,13 +83,13 @@ class InputManager:
                     return
 
                 # Add attribute so its easier to handle from uis
-                k.char = k.char if is_typeable_char(k) else None
 
                 # Handle
                 self.pressed_keys.add(k)
                 if self.state == InputState.TYPING:
                     text_manager(k)
                 else:
+                    k.char = k.char if is_typeable_char(k) else None
                     self.callback.on_press(k)
 
         else:
