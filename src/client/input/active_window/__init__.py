@@ -28,9 +28,7 @@ def get_window_pid(system):
         try:
             pid = wintypes.DWORD()
             active = windll.user32.GetForegroundWindow()
-            return int(
-                windll.user32.GetWindowThreadProcessId(active, byref(pid))
-            )
+            return int(windll.user32.GetWindowThreadProcessId(active, byref(pid)))
         except Exception:
             return None
 
