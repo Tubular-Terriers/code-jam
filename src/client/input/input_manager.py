@@ -82,6 +82,9 @@ class InputManager:
                 if not is_focused():
                     return
 
+                # Add attribute so its easier to handle from uis
+                self.char = k.char if is_typeable_char(k) else None
+
                 # Handle
                 self.pressed_keys.add(k)
                 if self.state == InputState.TYPING:
@@ -96,6 +99,9 @@ class InputManager:
                 curses.flushinp()
                 if not is_focused():
                     return
+
+                # Add attribute so its easier to handle from uis
+                self.char = k.char if is_typeable_char(k) else None
 
                 # Handle
                 self.pressed_keys.add(k)
