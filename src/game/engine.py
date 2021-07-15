@@ -89,6 +89,15 @@ class Engine:
         # REMOVE THIS LINE
         asyncio.get_event_loop().stop()
 
+    ############################
+    # EVENTS
+
+    def process_event(self, n, v):
+        if MovePlayer.eq(n):
+            self.move_player(v)
+        elif MoveBar.eq(n):
+            self.move_bar(v)
+
     def move_player(self, dir):
         if dir == MovePlayer.UP:
             pass
