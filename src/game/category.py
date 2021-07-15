@@ -1,4 +1,4 @@
-from typing import SimpleNamespace
+from types import SimpleNamespace
 
 # fmt: off
 WALL               = 0b00001  # noqa: E221
