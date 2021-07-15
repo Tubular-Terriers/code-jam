@@ -40,7 +40,7 @@ class Player(Entity, pymunk.Body):
         # self.friction = 0
 
         # Create bounding box (circle)
-        self.bounding_box = pymunk.Circle(self, 25)
+        self.bounding_box = pymunk.Circle(self, 22)
 
         self.tuple = self, self.bounding_box  # , self.ball_collision_box, self.hitbox
 
