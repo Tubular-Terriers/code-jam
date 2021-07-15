@@ -49,6 +49,10 @@ class Engine:
         p.position = (100, 200)
         self.space.add(*p.tuple)
 
+        # Test bounding box
+        bb = pymunk.BB(50, 300, 150, 150)
+        # self.space.add(bb)
+
         self.load_mapdata()
 
         # Add custom tick method so debug has an option to use it
@@ -66,10 +70,15 @@ class Engine:
             def routine():
                 try:
                     p = pygame.key.get_pressed()
-                    if p[pygame.K_w]:
-                        self._emit(MovePlayer.ID, MovePlayer.UP)
+                    keys = {}
+                    keys[MovePlayer.UP] = p[pygame.K_w]
+                    keys[MovePlayer.DOWN] = p[pygame.K_s]
+                    keys[MovePlayer.LEFT] = p[pygame.K_a]
+                    keys[MovePlayer.RIGHT] = p[pygame.K_d]
+                    self._emit(MovePlayer.ID, keys)
                 except Exception as e:
                     print(e)
+                    print("hereerror")
                     self._emit(Error.ID, e.message)
 
             self.control = routine
@@ -134,25 +143,19 @@ class Engine:
 
     def process_event(self, n, v):
         if MovePlayer.ID == n:
-            self._move_player(v)
+            self._move_player_keys(v)
         elif MoveBar.ID == n:
-            self._move_bar(v)
+            self._move_bar_keys(v)
 
     ############################
     # Events
 
-    def _move_player(self, dir) -> None:
-        self.player.process_move_direction(MovePlayer.UP)
+    def _move_player_keys(self, keys) -> None:
+        """`keys` dict where [MovePlayer.KEY] is True or False"""
+        self.player.process_move_keys(keys)
 
-    def _move_bar(self, dir) -> None:
-        if dir == MoveBar.UP:
-            pass
-        elif dir == MoveBar.DOWN:
-            pass
-        elif dir == MoveBar.LEFT:
-            pass
-        elif dir == MoveBar.RIGHT:
-            pass
+    def _move_bar_keys(self, dir) -> None:
+        pass
 
     #########################################
     # Event emitter

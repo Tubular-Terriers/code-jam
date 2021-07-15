@@ -1,5 +1,6 @@
 import pymunk
 
+from .. import category
 from ..events import MoveBar, MovePlayer
 from .entity import Entity
 from .entity_type import EntityType
@@ -26,22 +27,37 @@ class Player(Entity, pymunk.Body):
         self.horizontal = True
 
         # create rectangle player box
-        self.player_box = pymunk.Poly(
-            self,
-            [
-                (-width / 2, -height / 2),
-                (width / 2, -height / 2),
-                (width / 2, height / 2),
-                (-width / 2, height / 2),
-            ],
-        )
+        # self.player_box = pymunk.Poly(
+        #     self,
+        #     [
+        #         (-width / 2, -height / 2),
+        #         (width / 2, -height / 2),
+        #         (width / 2, height / 2),
+        #         (-width / 2, height / 2),
+        #     ],
+        # )
+        # print(self.friction)
+        # self.friction = 0
 
-        self.tuple = self, self.player_box
+        # Create bounding box (circle)
+        self.bounding_box = pymunk.Circle(self, 25)
 
-    def process_move_direction(self, dir):
+        self.tuple = self, self.bounding_box  # , self.ball_collision_box, self.hitbox
+
+    def process_move_keys(self, keys: dict):
         """`dir` is a type of MovePlayer"""
-        if dir == MovePlayer.UP:
-            self.velocity = (self.velocity[0], self.velocity[1] + 5.0)
+        print("here")
+        xv = 0
+        yv = 0
+        if keys[MovePlayer.UP]:
+            yv -= 50
+        if keys[MovePlayer.DOWN]:
+            yv += 50
+        if keys[MovePlayer.LEFT]:
+            xv -= 50
+        if keys[MovePlayer.RIGHT]:
+            xv += 50
+        self.velocity = (xv, yv)
 
     def process_bar_direction(self, dir):
         """`dir` is a type of MoveBar"""
@@ -55,3 +71,6 @@ class Player(Entity, pymunk.Body):
         if not self.horizontal:
             self.bar_loc = 0
             self.horizontal = True
+
+    def tick(self, callback):
+        """Callback"""
