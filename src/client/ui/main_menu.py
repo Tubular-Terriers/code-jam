@@ -36,7 +36,7 @@ class Main_menu(UI):
         curses.init_pair(2, 215, curses.COLOR_BLACK)
         self.window.attron(curses.color_pair(2))
         self.window.addstr(
-            int((height / 2) - 5),
+            int((height / 2) - 7),
             int(width / 2) - 17,
             f"{self.message_text1}",
             curses.color_pair(2),
@@ -69,7 +69,7 @@ class Main_menu(UI):
             (height // 2) + 3,
             (width // 2) - 15,
             key=keyboard.Key.space,
-            go_to=AppState.GAME_OVER,
+            go_to=AppState.GAME,
         )
         self.window.addstr(
             (height // 2) + 4, (width // 2) - 12, "Press Space to join a Game"
