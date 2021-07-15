@@ -108,7 +108,7 @@ class App:
                 await self.set_ui(ss_error)
                 try:
                     curses.resize_term(self.target_height, self.target_width)
-                except Exception:
+                except Exception:  # noqa: S110
                     pass
             elif self.state == AppState.MENU:
                 self.state = await self.set_ui(self.ui.menu)
