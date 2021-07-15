@@ -17,9 +17,6 @@ class Player(Entity, pymunk.Body):
         # ---|||||--------- height
         # width
 
-        width = 40
-        height = 8
-
         self.bar_loc = 0
         # Value between 1 to -1. 1
         # 1 represents right/top
@@ -46,7 +43,31 @@ class Player(Entity, pymunk.Body):
             categories=category.BOUNDING_BOX, mask=category.MASK.BOUNDING_BOX
         )
 
-        self.tuple = self, self.bounding_box  # , self.ball_collision_box, self.hitbox
+        bcb_width = 20
+        bcb_height = 50
+        self.ball_collision_box = pymunk.Poly(
+            self,
+            [
+                (-bcb_width / 2, -bcb_height / 2),
+                (bcb_width / 2, -bcb_height / 2),
+                (bcb_width / 2, bcb_height / 2),
+                (-bcb_width / 2, bcb_height / 2),
+            ],
+        )
+
+        self.hitbox_width = 50
+
+        self.hitbox = pymunk.Segment(self, (300, 300), (0, 0), 0.5)
+        self.hitbox.filter = pymunk.ShapeFilter(
+            categories=category.HITBOX, mask=category.MASK.HITBOX
+        )
+        # self.gen_hitbox
+
+        self.tuple = self, self.bounding_box, self.ball_collision_box, self.hitbox
+
+    def add_space(self, space):
+        space.add(pymunk.constraints.RotaryLimitJoint(space.static_body, self, 0, 0))
+        space.add(*self.tuple)
 
     def process_move_keys(self, keys: dict):
         """`dir` is a type of MovePlayer"""

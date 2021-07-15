@@ -19,3 +19,6 @@ class Ball(Entity, pymunk.Body):
         self.circle.friction = 0
 
         self.tuple = self, self.circle
+
+    def add_space(self, space):
+        space.add(*self.tuple)

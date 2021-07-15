@@ -54,7 +54,7 @@ class Engine:
         p = Player()
         self.player = p
         p.position = (100, 200)
-        self.space.add(*p.tuple)
+        p.add_space(self.space)
 
         self.balls = []
         try:
@@ -63,7 +63,7 @@ class Engine:
                 ball.position = (10 * i, 300)
                 ball.velocity = (0, 100)
                 ball.angular_velocity = random.random() * 1000
-                self.space.add(*ball.tuple)
+                ball.add_space(self.space)
                 self.balls.append(ball)
         except Exception as e:
             print(e)
