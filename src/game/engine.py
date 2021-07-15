@@ -103,7 +103,12 @@ class Engine:
                     keys[MovePlayer.DOWN] = p[pygame.K_s]
                     keys[MovePlayer.LEFT] = p[pygame.K_a]
                     keys[MovePlayer.RIGHT] = p[pygame.K_d]
+                    keys[MoveBar.UP] = p[pygame.K_UP]
+                    keys[MoveBar.DOWN] = p[pygame.K_DOWN]
+                    keys[MoveBar.LEFT] = p[pygame.K_LEFT]
+                    keys[MoveBar.RIGHT] = p[pygame.K_RIGHT]
                     self._emit(MovePlayer.ID, keys)
+                    self._emit(MoveBar.ID, keys)
                 except Exception as e:
                     print(e)
                     self._emit(Error.ID, e.message)
@@ -114,7 +119,7 @@ class Engine:
         def on_hitbox_ball_hit(arbiter, space, data):
             """`arbiter.shapes[0]` is hitbox, `arbiter.shapes[1]` is ball"""
             self.space.remove(arbiter.shapes[1])
-            return True
+            return False
 
         # ch = self.space.add_collision_handler(collision_type.BALL, collision_type.WALL)
         ch = self.space.add_collision_handler(
@@ -167,6 +172,10 @@ class Engine:
             self.ttc_tick = 0
         self.space.step(1 / self.tps)
 
+        # For all players, update their bounding box
+        # FIXME For now, only update self player
+        self.player._update_bar()
+
         # Do balls
         # for b in self.balls:
         #     b.angular_velocity += 1 / self.tps
@@ -198,8 +207,8 @@ class Engine:
         """`keys` dict where [MovePlayer.KEY] is True or False"""
         self.player.process_move_keys(keys)
 
-    def _move_bar_keys(self, dir) -> None:
-        pass
+    def _move_bar_keys(self, keys) -> None:
+        self.player.process_bar_keys(keys)
 
     #########################################
     # Event emitter

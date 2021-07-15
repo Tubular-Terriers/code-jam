@@ -1,4 +1,6 @@
 import json
+import math
+from math import copysign
 
 import pymunk
 
@@ -17,6 +19,7 @@ class Player(Entity, pymunk.Body):
         # ---|||||--------- height
         # width
 
+        self.bar_speed = 0.1
         self.bar_loc = 0
         # Value between 1 to -1. 1
         # 1 represents right/top
@@ -44,10 +47,28 @@ class Player(Entity, pymunk.Body):
         )
         self.bounding_box.collision_type = collision_type.BOUNDING_BOX
 
-        bcb_width = 20
-        bcb_height = 50
+        self.hitbox_width = 50
+
+        def hb_fact(w, h):
+            b = pymunk.Segment(self, (-w / 2, -h / 2), (w / 2, h / 2), 0.5)
+            b.collision_type = collision_type.HITBOX
+            b.filter = pymunk.ShapeFilter(
+                categories=category.HITBOX, mask=category.MASK.HITBOX
+            )
+            return b
+
+        self.hitbox_vert = hb_fact(self.hitbox_width, 0)
+        self.hitbox_hori = hb_fact(0, self.hitbox_width)
+
+        ##################################################
+        # This is a whole different body on top of player
+        self.bcb_body = pymunk.Body(1, 1, pymunk.Body.KINEMATIC)  # FIXME:
+        self.bcb_body.position = (300, 300)
+        bcb_width = 5
+        bcb_height = 2
+        self.bcb_range = (self.hitbox_width - bcb_width) / 2
         self.ball_collision_box = pymunk.Poly(
-            self,
+            self.bcb_body,
             [
                 (-bcb_width / 2, -bcb_height / 2),
                 (bcb_width / 2, -bcb_height / 2),
@@ -55,22 +76,24 @@ class Player(Entity, pymunk.Body):
                 (-bcb_width / 2, bcb_height / 2),
             ],
         )
+
         self.ball_collision_box.collision_type = collision_type.BALL_COLLISION_BOX
-
-        self.hitbox_width = 50
-
-        self.hitbox = pymunk.Segment(self, (300, 100), (0, 0), 0.5)
-        self.hitbox.filter = pymunk.ShapeFilter(
-            categories=category.HITBOX, mask=category.MASK.HITBOX
+        self.ball_collision_box.filter = pymunk.ShapeFilter(
+            categories=category.BALL_COLLISION_BOX,
+            mask=category.MASK.BALL_COLLISION_BOX,
         )
-        self.hitbox.collision_type = collision_type.HITBOX
-        # self.gen_hitbox
+        self.ball_collision_box.elasticity = 1
 
-        self.tuple = self, self.bounding_box, self.ball_collision_box, self.hitbox
+        self.bb = self, self.bounding_box, self.hitbox_vert, self.hitbox_hori
+        self.bcb = (
+            self.ball_collision_box,
+            self.bcb_body,
+        )
 
     def add_space(self, space):
         space.add(pymunk.constraints.RotaryLimitJoint(space.static_body, self, 0, 0))
-        space.add(*self.tuple)
+        space.add(*self.bb)
+        space.add(*self.bcb)
 
     def process_move_keys(self, keys: dict):
         """`dir` is a type of MovePlayer"""
@@ -86,8 +109,52 @@ class Player(Entity, pymunk.Body):
             xv += 50
         self.velocity = (xv, yv)
 
-    def process_bar_direction(self, dir):
+    def process_bar_keys(self, keys: dict):
         """`dir` is a type of MoveBar"""
+
+        bar_vert = 0
+        bar_hori = 0
+        if keys[MoveBar.UP]:
+            bar_vert -= 1
+        if keys[MoveBar.DOWN]:
+            bar_vert += 1
+        if keys[MoveBar.LEFT]:
+            bar_hori -= 1
+        if keys[MoveBar.RIGHT]:
+            bar_hori += 1
+        # Prioritize left right
+        # The code below adds a game mechanic called
+        # "Rotation" which basically makes
+        # Orientation changing intuitive
+        if bar_vert != 0:
+            # Move the bar vertically
+            if self.horizontal:
+                # Align the bar first
+                self.bar_loc = copysign(self.bar_loc, bar_vert)
+            # Apply the position change
+            self.bar_loc += copysign(self.bar_speed, bar_vert)
+            self.horizontal = False
+        elif bar_hori != 0:
+            # Move the bar horizontally
+            if not self.horizontal:
+                # Align the bar first
+                self.bar_loc = copysign(self.bar_loc, bar_hori)
+            # Apply the position change
+            self.bar_loc += copysign(self.bar_speed, bar_hori)
+            self.horizontal = True
+        # Bound the bar to -1~1
+        self.bar_loc = max(-1, min(self.bar_loc, 1))
+
+    def _update_bar(self) -> None:
+        """Updates the position of bar based on `horizontal` and `bar_loc`"""
+        if self.horizontal:
+            self.bcb_body.angle = 0
+            dx = self.bar_loc * self.bcb_range
+            self.bcb_body.position = (self.position[0] + dx, self.position[1])
+        else:
+            self.bcb_body.angle = math.pi * 0.5
+            dy = self.bar_loc * self.bcb_range
+            self.bcb_body.position = (self.position[0], self.position[1] + dy)
 
     def _set_vertical(self) -> None:
         if self.horizontal:
