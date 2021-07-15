@@ -100,8 +100,9 @@ class Engine:
     async def run_loop(self):
         try:
             while self.running:
+                t = time.time()
                 self.tick()
-                await asyncio.sleep(1 / self.tps)
+                await asyncio.sleep((time.time() - t + 1) / self.tps)
         except asyncio.CancelledError:
             print("run loop is terminated")
 
