@@ -75,3 +75,10 @@ class Player(Entity, pymunk.Body):
 
     def tick(self, callback):
         """Callback"""
+
+    def load_data(self, data):
+        super().load_data(data)
+
+    def dump_data(self):
+        data = {**super().dump_data()}
+        return data
