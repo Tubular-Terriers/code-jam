@@ -78,7 +78,6 @@ class Engine:
                     self._emit(MovePlayer.ID, keys)
                 except Exception as e:
                     print(e)
-                    print("hereerror")
                     self._emit(Error.ID, e.message)
 
             self.control = routine

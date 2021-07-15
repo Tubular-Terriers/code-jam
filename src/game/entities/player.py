@@ -46,7 +46,6 @@ class Player(Entity, pymunk.Body):
 
     def process_move_keys(self, keys: dict):
         """`dir` is a type of MovePlayer"""
-        print("here")
         xv = 0
         yv = 0
         if keys[MovePlayer.UP]:
