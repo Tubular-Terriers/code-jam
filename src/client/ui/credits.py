@@ -17,11 +17,13 @@ class Credits(UI):
     def __init__(self):
         super().__init__("main_menu_scr")
 
-        self.message_text1 = "                          _  _    _          "
-        self.message_text2 = "  ____  _____   ____   __| ||_| _| |_   ___ "
-        self.message_text3 = " /  __||_  __\_/ __ \ / _  || ||_   _|/  __/"
-        self.message_text4 = " | |__ |  | \/\  ___// |_| || |  | |  \___ \ "
-        self.message_text5 = " \____||__|    \____||_____||_|  |_|  /____/"
+        # fmt: off
+        self.message_text1 = "                          _  _    _          "  # noqa: W605
+        self.message_text2 = "  ____  _____   ____   __| ||_| _| |_   ___ "  # noqa: W605
+        self.message_text3 = " /  __||_  __\_/ __ \ / _  || ||_   _|/  __/"  # noqa: W605
+        self.message_text4 = " | |__ |  | \/\  ___// |_| || |  | |  \___ \ "  # noqa: W605
+        self.message_text5 = " \____||__|    \____||_____||_|  |_|  /____/"  # noqa: W605
+        # fmt: on
         self.message_text6 = ""  # nopeless
         self.message_text7 = ""  # karthikmurakonda
         self.message_text8 = ""  # MePhew
