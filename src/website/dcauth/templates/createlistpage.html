@@ -1,0 +1,16 @@
+{% extends "basepage.html" %}
+
+{% block todoCreate %}
+
+<h3> Fill the Details </h3>
+
+<div class="container">
+    <form class ="myform" enctype="multipart/form-data" action="" method="post">
+        {% csrf_token %}
+        {{form}}
+        
+        <input class="buttonsub" type="submit" value="Add Task">
+</div>
+    </form>
+
+{% endblock %}

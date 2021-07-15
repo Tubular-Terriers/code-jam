@@ -1,8 +1,4 @@
-import asyncio
-
-import pygame
-import pymunk
-
+import pymunk.pygame_util
 
 class RenderEngine:
     """
@@ -22,13 +18,14 @@ class RenderEngine:
         # self.loop = asyncio.get_event_loop()
         if not quiet:
             self.init_pygame()
-
+    """
     async def update_loop(self):
         while True:
             self.update()
             # TODO  find a way to sync this with game tick rate
             await asyncio.sleep(1 / 10)
 
+    """
     def init_pygame(self):
         pygame.init()
         self.screen = pygame.display.set_mode((self.w, self.h))
@@ -54,8 +51,9 @@ class RenderEngine:
                     self.running = False
 
             # TODO someone make this rgb
-            self.screen.fill(pygame.Color("white"))
+            self.screen.fill(pygame.Color("black"))
 
+    """
     def update(self):
         for event in pygame.event.get():
             if (
@@ -70,10 +68,7 @@ class RenderEngine:
         self.space.step(0.01)
         return True
 
-
-""""
+    """
 space = pymunk.Space()
-render = RenderEngine(space)
+render = RenderEngine(space,600,600)
 render.run()
-render.update()
-"""

@@ -1,0 +1,101 @@
+body{
+background-color:black;
+margin:0px;
+padding:0px;
+}
+#heading{
+color:lightgray;
+background-color:black;
+margin:0px;
+padding:20px;
+text-decoration:underline;
+text-align:center;
+}
+#heading a{
+    color:white;
+}
+#heading a:hover{
+    color:green;
+}
+#heading a:active{
+    color:green;
+}
+#heading a:visited{
+    color:lightgray;
+}
+.editp{
+color:black;
+margin-top:30px;
+margin-bottom:10px;
+margin-left:30px;
+padding-left:20px;
+}
+.container{
+padding-left:20px;
+margin-left:30px;
+margin-top:10px;
+}
+.myform{
+padding-bottom:20px;
+float:left;
+width:70%;
+}
+.myform label{
+//    display:block;
+}
+.myform textarea{
+width:85%;
+}
+.buttonsub{
+margin:10px 0px 10px 40px;
+background-color:black;
+width:20%;
+padding:8px;
+color:lightgray;
+}
+.buttonsub:hover{
+background-color:red;
+color:yellow;
+}
+
+.tablehead{
+font-weight:bold;
+}
+.styletable{
+float:left;
+margin-left:50px;
+margin-right:50px;
+box-sizing:border-box;
+width:20%;
+
+}
+.styletable table,td,th{
+font: normal 20px Arial;
+padding:5px;
+border: 2px solid black;
+border-collapse:collapse;
+text-align:center;
+
+}
+.styletable a{
+color:#102020;
+}
+.styletable a:hover{
+color:blue;
+}
+.styletable a:active{
+black;
+}
+.styletable a:visited{
+coral;
+}
+.clr{
+clear:both;
+}
+
+#footstyle{
+text-align:center;
+margin:30px 30px;
+}
+
+
