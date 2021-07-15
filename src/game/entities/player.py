@@ -6,8 +6,8 @@ from .entity_type import EntityType
 
 
 class Player(Entity, pymunk.Body):
-    def __init__(self):
-        Entity.__init__(self, EntityType.PLAYER)
+    def __init__(self, uuid=None):
+        Entity.__init__(self, EntityType.PLAYER, uuid)
         pymunk.Body.__init__(self, mass=1, moment=1, body_type=pymunk.Body.DYNAMIC)
         self.name = "test player"
         self.uuid = None
