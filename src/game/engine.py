@@ -42,6 +42,9 @@ class Engine:
             categories=category.WALL, mask=category.MASK.WALL
         )
 
+        self.space.static_body.elasticity = 1.0
+        self.space.static_body.friction = 0
+
         # b = pymunk.Body(1, 1)
         # self.space.add(b)
         # c = pymunk.Circle(b, 10)
@@ -54,6 +57,14 @@ class Engine:
         self.player = p
         p.position = (100, 200)
         self.space.add(*p.tuple)
+
+        try:
+            ball = Ball()
+            ball.position = (300, 300)
+            ball.velocity = (100, 100)
+            self.space.add(*ball.tuple)
+        except Exception as e:
+            print(e)
 
         # Test bounding box
         bb = pymunk.BB(50, 300, 150, 150)
