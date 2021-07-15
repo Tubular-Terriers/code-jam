@@ -29,6 +29,12 @@ class App:
         if not stdscr:
 
             stdscr = curses.initscr()
+            curses.start_color()
+
+        # Register colors
+        curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)
+        curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
+
         self.stdscr = stdscr
         self.screen = stdscr
         self.screen_height, self.screen_width = stdscr.getmaxyx()
@@ -91,12 +97,10 @@ class App:
         return await ui.view(self)
 
     async def run(self):
-        while True:
-            if self.screen_height < 35 or self.screen_width < 150:  # To-do check this.
+        while True:  # To-do check this.
+            if self.screen_height < 35 or self.screen_width < 150:
                 await self.set_ui(ss_error)
-                await asyncio.sleep(3)
-                break
-            if self.state == AppState.MENU:
+            elif self.state == AppState.MENU:
                 self.state = await self.set_ui(self.ui.menu)
             elif self.state == AppState.MAIN_MENU:
                 self.state = await self.set_ui(self.ui.main_menu)
