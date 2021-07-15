@@ -1,4 +1,4 @@
-# Write static prestes for rich presence here
+# Write static presets for rich presence here
 
 from enum import Enum
 
