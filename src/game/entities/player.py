@@ -1,3 +1,5 @@
+import json
+
 import pymunk
 
 from .. import category
@@ -77,8 +79,9 @@ class Player(Entity, pymunk.Body):
         """Callback"""
 
     def load_data(self, data):
+        data = json.loads(data)
         super().load_data(data)
 
     def dump_data(self):
         data = {**super().dump_data()}
-        return data
+        return json.dumps(data)

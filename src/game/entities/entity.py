@@ -10,6 +10,7 @@ class Entity:
 
     # Partial
     def load_data(self, data):
+        """Remember to do `data = json.loads(data)`"""
         self.position = data["position"]
         self.velocity = data["velocity"]
         self.angular_velocity = data["angular_velocity"]
@@ -17,6 +18,7 @@ class Entity:
 
     # Partial
     def dump_data(self):
+        """Remember to return a `json.dumps()`"""
         return {
             "position": self.position,
             "velocity": self.velocity,
