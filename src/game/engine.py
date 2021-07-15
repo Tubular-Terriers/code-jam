@@ -1,4 +1,5 @@
 import asyncio
+import random
 import time
 import traceback
 
@@ -55,11 +56,15 @@ class Engine:
         p.position = (100, 200)
         self.space.add(*p.tuple)
 
+        self.balls = []
         try:
-            ball = Ball()
-            ball.position = (300, 300)
-            ball.velocity = (100, 100)
-            self.space.add(*ball.tuple)
+            for i in range(20):
+                ball = Ball()
+                ball.position = (10 * i, 300)
+                ball.velocity = (0, 100)
+                ball.angular_velocity = random.random() * 1000
+                self.space.add(*ball.tuple)
+                self.balls.append(ball)
         except Exception as e:
             print(e)
 
@@ -117,7 +122,7 @@ class Engine:
 
             # Make these bouncy
             obj.elasticity = 1
-            obj.friction = 1
+            obj.friction = 0
             self.space.add(obj)
 
     async def run(self):
@@ -143,6 +148,10 @@ class Engine:
             self.control()
             self.ttc_tick = 0
         self.space.step(1 / self.tps)
+
+        # Do balls
+        # for b in self.balls:
+        #     b.angular_velocity += 1 / self.tps
 
     def destroy(self):
         if self.debug_render:
