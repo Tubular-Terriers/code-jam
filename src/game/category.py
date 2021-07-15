@@ -11,7 +11,7 @@ MASK = SimpleNamespace()
 
 MASK.WALL               = BOUNDING_BOX | BALL  # noqa: E221
 MASK.BOUNDING_BOX       = WALL  # noqa: E221
-MASK.BALL               = WALL | BALL_COLLISION_BOX | HITBOX  # noqa: E221
+MASK.BALL               = WALL | BALL_COLLISION_BOX | HITBOX | BALL  # noqa: E221
 MASK.BALL_COLLISION_BOX = BALL  # noqa: E221
 MASK.HITBOX             = BALL  # noqa: E221
 # fmt: on
