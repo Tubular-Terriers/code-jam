@@ -7,3 +7,4 @@ class AppState(Enum):
     MAIN_MENU = 2
     GAME = 3
     GAME_OVER = 4
+    CREDITS_SCR = 5

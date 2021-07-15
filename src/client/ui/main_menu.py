@@ -81,9 +81,18 @@ class Main_menu(UI):
             go_to=AppState.EXIT,
         )
         self.window.addstr((height // 2) + 7, (width // 2) - 12, "Press Escape to Exit")
-
+        
+        credit_button = Button(
+            (height // 2) + 9,
+            (width // 2) - 15,
+            key='c',
+            go_to=AppState.CREDITS_SCR,
+        )
+        self.window.addstr(
+            (height // 2) + 10, (width // 2) - 12, "Press C to see credits"
+        )
         self.input_manager = app.input_manager
-        self.widgets = [game_button, exit_button]
+        self.widgets = [game_button, exit_button, credit_button]
         self.register_input_managers(*self.widgets)
         self.refresh()
         res = None
