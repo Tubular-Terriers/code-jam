@@ -100,7 +100,7 @@ class Engine:
                     self._emit(Error.ID, e.message)
 
             self.control = routine
-            self.debug_render = DebugRender(self.space, self.destroy)
+            self.debug_render = DebugRender(self.space, self.destroy, process_key)
 
         def on_collision(arbiter, space, data):
             for c in arbiter.contact_point_set.points:
@@ -253,7 +253,7 @@ class DebugRender:
             ):
                 pygame.quit()
                 return False
-            # self.keycb(event.key)
+            self.keycb(event.key)
         self.screen.fill("WHITE")
         self.space.debug_draw(self.draw_options)
         pygame.display.update()
