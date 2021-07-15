@@ -10,10 +10,10 @@ class Entity:
 
     # Partial
     def load_data(self, data):
-        self.position = data.position
-        self.velocity = data.velocity
-        self.angular_velocity = data.angular_velocity
-        self.angle = data.angle
+        self.position = data["position"]
+        self.velocity = data["velocity"]
+        self.angular_velocity = data["angular_velocity"]
+        self.angle = data["angle"]
 
     # Partial
     def dump_data(self):
