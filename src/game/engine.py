@@ -43,7 +43,7 @@ class Engine:
             categories=category.WALL, mask=category.MASK.WALL
         )
 
-        self.space.static_body.collision_type = collision_type.WALL
+        self.space.static_body
 
         # b = pymunk.Body(1, 1)
         # self.space.add(b)
@@ -62,7 +62,7 @@ class Engine:
         try:
             for i in range(20):
                 ball = Ball()
-                ball.position = (10 * i, 300)
+                ball.position = (10 * i + 10, 300)
                 ball.velocity = (0, 100)
                 ball.angular_velocity = random.random() * 1000
                 ball.add_space(self.space)
@@ -111,14 +111,15 @@ class Engine:
             self.control = routine
             self.debug_render = DebugRender(self.space, self.destroy, process_key)
 
-        def on_collision(arbiter, space, data):
-            for c in arbiter.contact_point_set.points:
-                # check stuff
-                print("contact")
-            return True
+        def on_hitbox_ball_hit(arbiter, space, data):
+            """`arbiter.shapes[0]` is hitbox, `arbiter.shapes[1]` is ball"""
+            self.space.remove(arbiter.shapes[1])
 
-        ch = self.space.add_collision_handler(0, 0)
-        ch.pre_solve = on_collision
+        # ch = self.space.add_collision_handler(collision_type.BALL, collision_type.WALL)
+        ch = self.space.add_collision_handler(
+            collision_type.HITBOX, collision_type.BALL
+        )
+        ch.post_solve = on_hitbox_ball_hit
 
     def load_mapdata(self):
         """
@@ -136,6 +137,9 @@ class Engine:
             # Make these bouncy
             obj.elasticity = 1
             obj.friction = 0
+
+            obj.collision_type = collision_type.WALL
+
             self.space.add(obj)
 
     async def run(self):
