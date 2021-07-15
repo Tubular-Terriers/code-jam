@@ -37,7 +37,6 @@ class App:
 
         self.stdscr = stdscr
         self.screen = stdscr
-        self.screen_height, self.screen_width = stdscr.getmaxyx()
         # FIXME remove this in self.destroy
         curses.noecho()
         curses.nocbreak()
@@ -99,9 +98,10 @@ class App:
     async def run(self):
         while True:  # To-do check this.
             if (
-                self.screen_height < 20 or self.screen_width < 130
-            ):  # if doesnt work in your terminal, change these numbers
+                self.stdscr.getmaxyx()[0] < 20 or self.stdscr.getmaxyx()[1] < 130
+            ):  # Allow smaller screen temporarily
                 await self.set_ui(ss_error)
+                self.stdscr = curses.initscr()
             elif self.state == AppState.MENU:
                 self.state = await self.set_ui(self.ui.menu)
             elif self.state == AppState.MAIN_MENU:
