@@ -1,9 +1,12 @@
 # Exports default map
-from ._objects import wall
+from ._objects import border, wall
 
 data = [
-    wall(0, 0, 0, 600),
-    wall(0, 0, 600, 0),
-    wall(600, 0, 600, 600),
-    wall(0, 600, 600, 600),
+    # Borders (arena border)
+    border(0, 0, 0, 600),
+    border(0, 0, 600, 0),
+    border(600, 0, 600, 600),
+    border(0, 600, 600, 600),
+    # Inner walls
+    wall(50, 50, 50, 100),
 ]
