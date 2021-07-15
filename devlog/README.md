@@ -213,10 +213,12 @@ Implemented new game engine with event hooks
 
 The new game works good
 
-We managed to extend `pymunk`'s native rigit body classes to `Entities`, making it easier for the `curses` rendering widget to process the game and show it on a text pad
+We managed to extend `pymunk`'s native rigid body classes to `Entities`, making it easier for the `curses` rendering widget to process the game and show it on a text pad
 
 This is the debug screen provided by `pygame`
 
 ![image](https://cdn.discordapp.com/attachments/862242420863139855/864963358146166815/PylwRFlBGr.gif)
 
-Although this is no where near from the end product, it has all the necessary components to be
+Although this is nowhere near to end product, it has all the necessary components to be
+
+Added basic user settings structure, providing additional abstraction layer for easy management of user config 

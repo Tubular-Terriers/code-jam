@@ -1,16 +1,15 @@
 import time
-from enum import Enum
+from enum import Enum, auto
 from os import environ, getpid
 
+from __static__ import RichPresenceDetails
 from dotenv import load_dotenv
 from pypresence import Client
 
-from .__static__ import RichPresenceDetails
-
 
 class RichPresenceState(Enum):
-    DISCONNECTED = "disconnected"
-    CONNECTED = "connected"
+    DISCONNECTED = auto()
+    CONNECTED = auto()
 
 
 class RichPresence:
@@ -78,9 +77,10 @@ if __name__ == "__main__":
     r.start_connection()
     r.update_activity(
         details="Playing online multiplayer",
-        state="2/4 players alive",
+        state="Competitive",
         start=int(time.time()),
         end=int(time.time() + 120),
+        party_size=[2, 4],
     )
 
     while True:
