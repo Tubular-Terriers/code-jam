@@ -4,12 +4,14 @@
 # broadcast states to all clients
 
 import argparse
-import threading
+import asyncio
+
+import websockets
 
 import game
 
 parser = argparse.ArgumentParser(description="Server for Pong Console")
-parser.add_argument("address", help="Server port [port]")
+# parser.add_argument("address", help="Server port [port]")
 # Add these options later
 # parser.add_argument("-p", "--players", default=10, type=int, help="Max player count")
 # parser.add_argument(
@@ -34,4 +36,13 @@ parser.add_argument("address", help="Server port [port]")
 #     help="Wait for amount time before starting the game",
 # )
 
-# threading.Thread(target=server.listen_clients, daemon=True).start()
+
+async def hello(websocket, path):
+    async for pack in websocket.recv():
+        print(pack)
+
+
+running_server = websockets.serve(hello, "localhost", 3001)
+
+asyncio.get_event_loop().run_until_complete(running_server)
+asyncio.get_event_loop().run_forever()
