@@ -34,7 +34,3 @@ def get_window_pid(system):
 
 
 init_pid = pid_on_start()
-
-for i in range(5):
-    print(is_focused())
-    time.sleep(1)
