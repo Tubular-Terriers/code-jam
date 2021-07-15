@@ -38,4 +38,4 @@ class Small_screen_error(UI):
         self.refresh()
 
 
-ss_error= Small_screen_error()
+ss_error = Small_screen_error()
