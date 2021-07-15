@@ -25,3 +25,6 @@ class Entity:
             "angular_velocity": self.angular_velocity,
             "angle": self.angle,
         }
+
+    def add_space(self, space):
+        raise NotImplementedError
