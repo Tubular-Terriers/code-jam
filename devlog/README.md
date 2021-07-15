@@ -221,4 +221,10 @@ This is the debug screen provided by `pygame`
 
 Although this is nowhere near to end product, it has all the necessary components to be
 
-Added basic user settings structure, providing additional abstraction layer for easy management of user config 
+Added basic user settings structure, providing additional abstraction layer for easy management of user config
+
+# July 15th
+
+Created diagram for advanced hitbox filtering for pymunk
+
+![image](https://cdn.discordapp.com/attachments/862242420863139855/865167559099023360/unknown.png)
