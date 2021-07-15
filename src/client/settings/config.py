@@ -15,7 +15,7 @@ class Config:
 
     def get(self, setting: Settings, fallback_value=None):
         return self._configparser_["USER"].get(setting.value, fallback_value)
-    
+
     def restore_default_config(self):
         self._configparser_["USER"].clear()
         with open(self._config_file_path_, "w") as config_file:
@@ -24,17 +24,17 @@ class Config:
 
 if __name__ == "__main__":
     config = Config()
-    
+
     print(config.get(Settings.MUSIC_VOLUME))
-    
+
     config.update(Settings.MUSIC_VOLUME, "20")
-    
+
     print(config.get(Settings.MUSIC_VOLUME))
-    
+
     config.restore_default_config()
 
     print(config.get(Settings.MUSIC_VOLUME))
-    
+
     config.update(Settings.MUTE_GAME_ON_FOCUS_LOSS, True)
     config.update(Settings.MUSIC_VOLUME, 50)
     config.update(Settings.SFX_VOLUME, 20)
