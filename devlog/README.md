@@ -228,3 +228,9 @@ Added basic user settings structure, providing additional abstraction layer for 
 Created diagram for advanced hitbox filtering for pymunk
 
 ![image](https://cdn.discordapp.com/attachments/862242420863139855/865167559099023360/unknown.png)
+
+Based on the original pong game, the dimensions for the player has been mathematically calculated (our game is merely a 2 dimensional extension from the 1 dimensional pong game)
+
+In an arena 600x600 with an virtual screen of 300x200, the player should be around 50 in length and the collision box should be 5 in length
+
+![image](https://cdn.discordapp.com/attachments/864018053640486932/865175800609505280/unknown.png)
