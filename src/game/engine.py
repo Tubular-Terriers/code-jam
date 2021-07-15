@@ -77,13 +77,20 @@ class Engine:
         # Add custom tick method so debug has an option to use it
         self.control = lambda _=0: 0
 
+        # FIXME remove this as this is only used for checking stuff
+        self.temp = None
+
         if debug:
 
             # Process callbacks
             def process_key(key):
                 """Process key events passed from pygame window"""
-                if key == pygame.SPACE:
+                if key == pygame.K_SPACE:
                     print("space pressed")
+                    self.temp = self.player.dump_data()
+                elif key == pygame.K_l:
+                    print("loading data")
+                    self.player.load_data(self.temp)
 
             # Process routines
             def routine():
@@ -253,7 +260,12 @@ class DebugRender:
             ):
                 pygame.quit()
                 return False
-            self.keycb(event.key)
+            try:
+                self.keycb(event.key)
+            except AttributeError:
+                pass
+            except Exception as e:
+                print(e)
         self.screen.fill("WHITE")
         self.space.debug_draw(self.draw_options)
         pygame.display.update()
