@@ -94,7 +94,7 @@ class App:
         while True:
             if self.screen_height < 35 or self.screen_width < 150:  # To-do check this.
                 await self.set_ui(ss_error)
-                time.sleep(3)
+                await asyncio.sleep(3)
                 break
             if self.state == AppState.MENU:
                 self.state = await self.set_ui(self.ui.menu)
