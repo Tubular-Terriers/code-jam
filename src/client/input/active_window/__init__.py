@@ -1,5 +1,5 @@
 # determines whether to import linux or windows
-import ctypes
+from ctypes import windll, wintypes, byref
 import os
 import platform
 import time
@@ -15,18 +15,28 @@ def pid_on_start():
 
 def get_window_pid(system):
     if system == "Linux":
-        return int(
-            os.popen(
-                "xprop -id `xdotool getwindowfocus` | grep '_NET_WM_PID' | grep -oE '[[:digit:]]*$'"
-            ).read()
-        )
+        try:
+            return int(
+                os.popen(
+                    "xprop -id `xdotool getwindowfocus` | grep '_NET_WM_PID' | grep -oE '[[:digit:]]*$'"
+                ).read()
+            )
+        except Exception:
+            return None
 
     elif system == "Windows":
-        pid = ctypes.wintypes.DWORD()
-        active = ctypes.windll.user32.GetForegroundWindow()
-        return int(
-            ctypes.windll.user32.GetWindowThreadProcessId(active, ctypes.byref(pid))
-        )
+        try:
+            pid = wintypes.DWORD()
+            active = windll.user32.GetForegroundWindow()
+            return int(
+                windll.user32.GetWindowThreadProcessId(active, byref(pid))
+            )
+        except Exception:
+            return None
 
 
 init_pid = pid_on_start()
+
+for i in range(5):
+    print(is_focused())
+    time.sleep(1)
