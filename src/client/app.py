@@ -43,6 +43,10 @@ class App:
         curses.curs_set(0)
         curses.raw()
 
+        # FIXME Change this later
+        self.target_height = 30
+        self.target_width = 130
+
         # Register UIs
         self.ui = SimpleNamespace()
         self.ui.menu = menu
@@ -98,10 +102,14 @@ class App:
     async def run(self):
         while True:  # To-do check this.
             if (
-                self.stdscr.getmaxyx()[0] < 20 or self.stdscr.getmaxyx()[1] < 130
+                self.stdscr.getmaxyx()[0] < self.target_height
+                or self.stdscr.getmaxyx()[1] < self.target_width
             ):  # Allow smaller screen temporarily
                 await self.set_ui(ss_error)
-                self.stdscr = curses.initscr()
+                try:
+                    curses.resize_term(self.target_height, self.target_width)
+                except Exception:
+                    pass
             elif self.state == AppState.MENU:
                 self.state = await self.set_ui(self.ui.menu)
             elif self.state == AppState.MAIN_MENU:
