@@ -42,6 +42,7 @@ class Player(Entity, pymunk.Body):
         self.bounding_box.filter = pymunk.ShapeFilter(
             categories=category.BOUNDING_BOX, mask=category.MASK.BOUNDING_BOX
         )
+        self.bounding_box.collision_type = collision_type.BOUNDING_BOX
 
         bcb_width = 20
         bcb_height = 50
@@ -54,13 +55,15 @@ class Player(Entity, pymunk.Body):
                 (-bcb_width / 2, bcb_height / 2),
             ],
         )
+        self.ball_collision_box.collision_type = collision_type.BALL_COLLISION_BOX
 
         self.hitbox_width = 50
 
-        self.hitbox = pymunk.Segment(self, (300, 300), (0, 0), 0.5)
+        self.hitbox = pymunk.Segment(self, (300, 100), (0, 0), 0.5)
         self.hitbox.filter = pymunk.ShapeFilter(
             categories=category.HITBOX, mask=category.MASK.HITBOX
         )
+        self.hitbox.collision_type = collision_type.HITBOX
         # self.gen_hitbox
 
         self.tuple = self, self.bounding_box, self.ball_collision_box, self.hitbox
