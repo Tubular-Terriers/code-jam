@@ -58,10 +58,14 @@ class ProgressBar(Widget):
 
         if self.message is not None:
             display = self.message + display
-        self.window.addstr(0, 1, f"{display}")
+        try:
+            self.window.addstr(0, 1, f"{display}")
+        except Exception:
+            self.window.addstr(0, 1, f"{display[:self.width]}")
         self.window.noutrefresh()
 
     def set_progress(self, progress: float):
+        """0 to 100"""
         self.progress = progress / 100
 
     def _create_message_(self) -> str:
@@ -86,10 +90,10 @@ class ProgressBar(Widget):
 if __name__ == "__main__":
     curses.initscr()
     a = ProgressBar(
-        height=10,
-        width=50,
-        y=10,
-        x=40,
+        height=1,
+        width=5,
+        y=0,
+        x=0,
         message_text="Hello world!",
         message_alignment=MessageAlignment.CENTER,
     )
@@ -99,6 +103,7 @@ if __name__ == "__main__":
         time.sleep(0.1)
         a.set_progress(loading)
         a.refresh()
+        curses.doupdate()
 
         if keyboard.is_pressed("ctrl") and keyboard.is_pressed("c"):
             raise KeyboardInterrupt
