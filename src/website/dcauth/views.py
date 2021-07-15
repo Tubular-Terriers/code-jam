@@ -10,7 +10,7 @@ from django.views.generic.edit import FormView
 gameserver_url = "https://pongconsole.xyz/"
 
 client_id = "864835657091252234"
-redirect_uri = parse(f"{gameserver_url}login-success")
+redirect_uri = parse.quote(f"{gameserver_url}login-success", safe="")
 
 discord_auth_url = (
     "https://discord.com/api/oauth2/authorize?"

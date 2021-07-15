@@ -42,7 +42,11 @@ class Engine:
         self.load_mapdata()
 
         if debug:
-            self.debug_render = DebugRender(self.space, self.destroy)
+
+            def process_key(key):
+                """Process key events passed from pygame window"""
+
+            self.debug_render = DebugRender(self.space, self.destroy, process_key)
 
         def on_collision(arbiter, space, data):
             for c in arbiter.contact_point_set.points:
@@ -137,7 +141,7 @@ class Engine:
 class DebugRender:
     """Sync instance with Engine"""
 
-    def __init__(self, space, quitcb=lambda _: None):
+    def __init__(self, space, quitcb=lambda _: None, keycb=lambda _: None):
         self.space = space
 
         # We are going to use a square arena anyway
@@ -145,7 +149,9 @@ class DebugRender:
 
         self.draw_options = pymunk.pygame_util.DrawOptions(self.screen)
 
+        # Register callbacks
         self.quitcb = quitcb
+        self.keycb = keycb
 
         self.render_task = self.start_render()
 
@@ -172,6 +178,7 @@ class DebugRender:
             ):
                 pygame.quit()
                 return False
+            self.keycb(event.key)
         self.screen.fill("WHITE")
         self.space.debug_draw(self.draw_options)
         pygame.display.update()
