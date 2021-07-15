@@ -25,6 +25,6 @@ class Button(Widget):
                 return self.go_to
 
     def press_on(self, key):
-        if key == self.key:
+        if key == self.key or key.char == self.key:
             self.toggle_count += 1
             self.toggled = not self.toggled
