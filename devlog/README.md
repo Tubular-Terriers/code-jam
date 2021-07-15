@@ -242,3 +242,7 @@ Created a dump and load method for entities
 Now arbitrary physical data can be stored in `dict` form and loaded by the game engine
 
 ![image](https://cdn.discordapp.com/attachments/862242420863139855/865255252890746890/xxGX4nDDoR.gif)
+
+Automatically attempt to reinitialize the curses window
+
+![image](https://cdn.discordapp.com/attachments/862242420863139855/865265533237461022/0xMzpMQc66.gif)
