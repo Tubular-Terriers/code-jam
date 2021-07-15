@@ -1,8 +1,11 @@
 import asyncio
 import sys
+import time
+from time import sleep
 from types import SimpleNamespace
 
 from client.input.input_manager import input_manager
+from client.ui.error_sc import ss_error
 from client.ui.game_over import game_over
 from client.ui.main_menu import main_menu
 from client.ui.menu import menu
@@ -21,14 +24,14 @@ class App:
     """
 
     def __init__(self, stdscr=None):
-        self.state = AppState.MENU
+        self.state = AppState.MAIN_MENU  # temp
 
         if not stdscr:
 
             stdscr = curses.initscr()
         self.stdscr = stdscr
         self.screen = stdscr
-
+        self.screen_height, self.screen_width = stdscr.getmaxyx()
         # FIXME remove this in self.destroy
         curses.noecho()
         curses.nocbreak()
@@ -40,6 +43,7 @@ class App:
         self.ui.menu = menu
         self.ui.main_menu = main_menu
         self.ui.game_over = game_over
+        self.ui.ss_error = ss_error
 
         # Register input_manager
         self.input_manager = input_manager
@@ -80,7 +84,7 @@ class App:
         # No longer a function
         # self.input_manager.unhook(self.hook)
 
-        curses.endwin()  # ending curses window(big problem in linux)
+        curses.endwin()  # ending curses window(terminal problem in linux)
 
     async def set_ui(self, ui):
         self.selected_ui = ui
@@ -88,6 +92,10 @@ class App:
 
     async def run(self):
         while True:
+            if self.screen_height < 35 or self.screen_width < 150:  # To-do check this.
+                await self.set_ui(ss_error)
+                time.sleep(3)
+                break
             if self.state == AppState.MENU:
                 self.state = await self.set_ui(self.ui.menu)
             elif self.state == AppState.MAIN_MENU:
