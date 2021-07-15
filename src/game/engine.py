@@ -6,6 +6,8 @@ import pygame
 import pymunk
 import pymunk.pygame_util
 
+from . import category
+from .entities.ball import Ball
 from .entities.player import Player
 from .events import Error, MoveBar, MovePlayer
 
@@ -35,6 +37,10 @@ class Engine:
 
         self.space = pymunk.Space()
         self.space.gravity = 0, 0
+
+        self.space.static_body.filter = pymunk.ShapeFilter(
+            categories=category.WALL, mask=category.MASK.WALL
+        )
 
         # b = pymunk.Body(1, 1)
         # self.space.add(b)

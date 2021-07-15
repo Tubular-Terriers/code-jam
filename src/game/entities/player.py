@@ -11,7 +11,6 @@ class Player(Entity, pymunk.Body):
         Entity.__init__(self, EntityType.PLAYER, uuid)
         pymunk.Body.__init__(self, mass=1, moment=1, body_type=pymunk.Body.DYNAMIC)
         self.name = "test player"
-        self.uuid = None
 
         # ---|||||--------- height
         # width
@@ -41,6 +40,9 @@ class Player(Entity, pymunk.Body):
 
         # Create bounding box (circle)
         self.bounding_box = pymunk.Circle(self, 22)
+        self.bounding_box.filter = pymunk.ShapeFilter(
+            categories=category.BOUNDING_BOX, mask=category.MASK.BOUNDING_BOX
+        )
 
         self.tuple = self, self.bounding_box  # , self.ball_collision_box, self.hitbox
 
