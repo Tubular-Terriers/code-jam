@@ -81,11 +81,11 @@ class Main_menu(UI):
             go_to=AppState.EXIT,
         )
         self.window.addstr((height // 2) + 7, (width // 2) - 12, "Press Escape to Exit")
-        
+
         credit_button = Button(
             (height // 2) + 9,
             (width // 2) - 15,
-            key='c',
+            key="c",
             go_to=AppState.CREDITS_SCR,
         )
         self.window.addstr(

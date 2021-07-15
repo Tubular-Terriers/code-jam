@@ -21,14 +21,14 @@ class Credits(UI):
         self.message_text2 = "  ____  _____   ____   __| ||_| _| |_   ___ "
         self.message_text3 = " /  __||_  __\_/ __ \ / _  || ||_   _|/  __/"
         self.message_text4 = " | |__ |  | \/\  ___// |_| || |  | |  \___ \ "
-        self.message_text5 = " \____||__|    \____||_____||_|  |_|  /____/" 
-        self.message_text6 = "" #nopeless
-        self.message_text7 = "" #karthikmurakonda
-        self.message_text8 = ""#MePhew
-        self.message_text9 = ""#pritansh sahsani
-        self.message_text10 = ""#nobalpha
-        self.message_text11 = ""#Nickhil1737
-        
+        self.message_text5 = " \____||__|    \____||_____||_|  |_|  /____/"
+        self.message_text6 = ""  # nopeless
+        self.message_text7 = ""  # karthikmurakonda
+        self.message_text8 = ""  # MePhew
+        self.message_text9 = ""  # pritansh sahsani
+        self.message_text10 = ""  # nobalpha
+        self.message_text11 = ""  # Nickhil1737
+
         # print(self.message)
 
     async def view(self, app):
@@ -99,5 +99,6 @@ class Credits(UI):
             curses.doupdate()
             await asyncio.sleep(0.1)
         return res
+
 
 credits = Credits()
