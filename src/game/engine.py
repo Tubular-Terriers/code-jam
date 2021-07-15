@@ -42,9 +42,6 @@ class Engine:
             categories=category.WALL, mask=category.MASK.WALL
         )
 
-        self.space.static_body.elasticity = 1.0
-        self.space.static_body.friction = 0
-
         # b = pymunk.Body(1, 1)
         # self.space.add(b)
         # c = pymunk.Circle(b, 10)
@@ -117,6 +114,10 @@ class Engine:
             # Load the objects into space
             # These are all static objects
             obj.body = self.space.static_body
+
+            # Make these bouncy
+            obj.elasticity = 1
+            obj.friction = 1
             self.space.add(obj)
 
     async def run(self):

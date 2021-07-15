@@ -16,6 +16,6 @@ class Ball(Entity, pymunk.Body):
         )
 
         self.circle.elasticity = 1.0
-        self.circle.friction = 0
+        self.circle.friction = 1
 
         self.tuple = self, self.circle
