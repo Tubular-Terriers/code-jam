@@ -25,9 +25,16 @@ class Credits(UI):
             "  ____  _____   ____   __| ||_| _| |_   ___ ",
             " /  __||_  __\_/ __ \ / _  || ||_   _|/  __/",
             " | |__ |  | \/\  ___// |_| || |  | |  \___ \ ",
-            " \____||__|    \____||_____||_|  |_|  /____/"
+            " \____||__|    \____||_____||_|  |_|  /____/",
         ]
-        self.devs = ["nopeless", "karthikmurakonda", "pritansh sahsani", "MePhew", "nobalpha", "Nickhil1737"]
+        self.devs = [
+            "nopeless",
+            "karthikmurakonda",
+            "pritansh sahsani",
+            "MePhew",
+            "nobalpha",
+            "Nickhil1737",
+        ]
 
     async def view(self, app):
         # Required
@@ -46,20 +53,20 @@ class Credits(UI):
         for text in self._credits_:
             self.window.addstr(height // 3 + y, width // 2 - len(text) // 2, text)
             y += 1
- 
+
         self.window.attron(curses.A_ITALIC)
-      
+
         color_id = 1
         for nick in self.devs:
-            
+
             if color_id % 2 == 0:
                 self.window.attron(curses.color_pair(3))
             else:
                 self.window.attron(curses.color_pair(4))
-            
-            self.window.addstr(height // 3 + y + self.spacing - 1,
-                               width // 2 - len(nick) // 2,
-                               nick)
+
+            self.window.addstr(
+                height // 3 + y + self.spacing - 1, width // 2 - len(nick) // 2, nick
+            )
             y += 2
             color_id += 1
 
@@ -76,13 +83,15 @@ class Credits(UI):
         self.window.addstr(
             height // 3 + y + self.spacing,
             (width // 2) - len(self.button_text) // 2,
-            self.button_text
+            self.button_text,
         )
-        
+
         for _ in range(250):
-            self.window.addstr(random.randint(0, height - 1),
-                               random.randint(0, width - 1),
-                               random.choice(self.stars))
+            self.window.addstr(
+                random.randint(0, height - 1),
+                random.randint(0, width - 1),
+                random.choice(self.stars),
+            )
 
         self.input_manager = app.input_manager
         self.widgets = [menu_button]
