@@ -7,7 +7,7 @@ from .entity_type import EntityType
 
 class Ball(Entity, pymunk.Body):
     def __init__(self, uuid=None):
-        Entity.__init__(self, EntityType.PLAYER, uuid)
+        Entity.__init__(self, EntityType.BALL, uuid)
         pymunk.Body.__init__(self, mass=1, moment=1, body_type=pymunk.Body.DYNAMIC)
 
         self.circle = pymunk.Circle(self, 1)
