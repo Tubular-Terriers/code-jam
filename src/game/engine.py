@@ -10,7 +10,7 @@ import pymunk.pygame_util
 from . import category, collision_type
 from .entities.ball import Ball
 from .entities.player import Player
-from .events import Error, MoveBar, MovePlayer
+from .events import Error, MoveBar, MovePlayer, Sound
 
 
 class Engine:
@@ -117,6 +117,7 @@ class Engine:
         def on_hitbox_ball_hit(arbiter, space, data):
             """`arbiter.shapes[0]` is hitbox, `arbiter.shapes[1]` is ball"""
             self.space.remove(arbiter.shapes[1])
+            self._emit(Sound.ID, Sound.PLAYER_DAMAGE)
             return False
 
         # ch = self.space.add_collision_handler(collision_type.BALL, collision_type.WALL)
