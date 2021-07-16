@@ -134,7 +134,7 @@ class Engine:
 
         def on_collision_ball_hit(arbiter, space, data):
             # TODO: implement ball curving
-            self._emit(Sound.ID, Sound.HIT)
+            self._emit(Sound.ID, Sound.PADDLE_BOUNCE)
 
         ch_collision_box = self.space.add_collision_handler(
             collision_type.BALL_COLLISION_BOX, collision_type.BALL
@@ -242,10 +242,10 @@ class Engine:
 
         `callback(event_name, event_value)`
         """
-        self._hook[callback] = callback
+        self._hooks[callback] = callback
 
     def unhook(self, callback):
-        del self._hook[callback]
+        del self._hooks[callback]
 
 
 class DebugRender:
