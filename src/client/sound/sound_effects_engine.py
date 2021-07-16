@@ -13,6 +13,12 @@ class SoundEffectsEngine:
         self.mixer_channels = mixer_channels
         self._volume_ = default_volume / 100
 
+        self.sounds_dict = {
+            0: SoundEffects.WALL_BOUNCE,
+            1: SoundEffects.PADDLE_BOUNCE,
+            2: SoundEffects.SCORE,
+        }
+
         self._sounds_ = {}
 
         for sound_effect in SoundEffects:
@@ -30,4 +36,4 @@ class SoundEffectsEngine:
 
     def process(self, event_name, event_value):
         if event_name == Sound.ID:
-            self.play_sound(event_value)
+            self.play_sound(self.sounds_dict[event_value])

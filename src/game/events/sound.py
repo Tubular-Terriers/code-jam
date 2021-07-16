@@ -1,12 +1,12 @@
-from client.sound.sounds import SoundEffects
+from enum import auto
 
 from ._event import Event
 
 
 class Sound(Event):
-    WALL_BOUNCE = SoundEffects.WALL_BOUNCE
-    PADDLE_BOUNCE = SoundEffects.PADDLE_BOUNCE
-    PLAYER_DAMAGE = SoundEffects.SCORE
+    WALL_BOUNCE = 0
+    PADDLE_BOUNCE = 1
+    PLAYER_DAMAGE = 2
     ID = "SOUND"
 
     def __init__(self, value):
