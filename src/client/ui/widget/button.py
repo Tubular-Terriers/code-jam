@@ -71,7 +71,16 @@ class Button(Widget):
         if self.toggle_count >= 1 and self.selected is True:
             if self.go_to is not None:
                 return self.go_to
-
+            
+    def select(self):
+        self.selected = True
+        self.refresh()
+            
+    def toggle(self):
+        self.toggle_count += 1
+        self.toggled = not self.toggled
+        self.refresh()
+        
     def press_on(self, key):
         if key == self.key or key.char == self.key:
             self.toggle_count += 1
