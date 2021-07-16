@@ -256,7 +256,7 @@ class Main_menu(UI):
                 self.selected_widget += 1
             else:
                 self.selected_widget = 0
-                
+
             self.widgets[self.selected_widget].selected = True
 
         elif key == keyboard.Key.enter:
