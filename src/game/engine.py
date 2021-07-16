@@ -75,6 +75,7 @@ class Engine:
             self.ball.velocity = (0, 100)
             self.ball.angular_velocity = random.random() * 1000
             self.ball.add_space(self.space)
+            self.register_entity(self.ball)
         except Exception as e:
             print(e)
 
