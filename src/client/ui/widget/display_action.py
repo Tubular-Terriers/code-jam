@@ -12,18 +12,15 @@ import time
 import keyboard
 
 
-
-
 class Display_action(Widget):
-    def __init__(self, message = ""):
+    def __init__(self, message=""):
         super().__init__("action display")
         self.message = message
-        self.height= 4
+        self.height = 4
         self.width = 30
         self.y = 1
         self.x = curses.COLS - 31
         self.win = curses.newwin(self.height, self.width, self.y, self.x)
-        
 
     def view(self):
         self.win.erase()
@@ -34,14 +31,11 @@ class Display_action(Widget):
         curses.init_pair(4, curses.COLOR_MAGENTA, curses.COLOR_BLACK)
         self.win.attron(curses.A_ITALIC)
         self.win.attron(curses.color_pair(2))
-        self.message = "--<"+self.message+">--"
-        self.win.addstr(1,0, f"{self.message}")
+        self.message = "--<" + self.message + ">--"
+        self.win.addstr(1, 0, f"{self.message}")
         self.win.refresh()
         self.win.attroff(curses.A_ITALIC)
         self.win.attroff(curses.color_pair(2))
-
-
-
 
 
 if __name__ == "__main__":
@@ -49,4 +43,3 @@ if __name__ == "__main__":
     a = Display_action("you killed josh")
     a.view()
     time.sleep(2)
-    
