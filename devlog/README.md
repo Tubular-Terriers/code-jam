@@ -258,3 +258,9 @@ Finally, the first gameplay
 Added a new credits screen and a error page for when the screen size is way too small.
 
 Made the flow of the game and editing the appstates.
+
+# July 16th
+
+Add various sounds to the system
+
+![image](https://cdn.discordapp.com/attachments/862242420863139855/865511733547892736/hD2nNa4max.gif)
