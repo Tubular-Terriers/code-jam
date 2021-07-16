@@ -1,7 +1,7 @@
 import asyncio
+import math
 import random
 import time
-import math
 import traceback
 
 import pygame
@@ -24,6 +24,8 @@ class Engine:
 
         self._hooks = {}
         self._hooks[self.process_event] = self.process_event
+
+        self.entities = {}
 
         # def c(n, v):
         #     if n == Sound.ID:
@@ -64,6 +66,8 @@ class Engine:
         self.player = p
         p.position = (100, 200)
         p.add_space(self.space)
+
+        self.register_entity(p)
 
         try:
             self.ball = Ball()
@@ -139,7 +143,7 @@ class Engine:
             self.ball.ownerUUID = self.player.uuid
 
             def _map(p, x1, x2, dx1, dx2):  # A simple range mapper
-                return ((dx2 - dx1) * ((p-x1) / (x2-x1))) + dx1
+                return ((dx2 - dx1) * ((p - x1) / (x2 - x1))) + dx1
 
             poly = arbiter.shapes[0]
             collided = arbiter.shapes[1]
@@ -171,9 +175,9 @@ class Engine:
             print("Width & Height: ", w, h)
 
             # Biased coordinates
-            tx1, tx2 = lx1 - w//2, lx2 - w//2
-            ty1, ty2 = ly1 - h//2, ly2 - h//2
-            tcx, tcy = lcx - w//2, lcy - h//2
+            tx1, tx2 = lx1 - w // 2, lx2 - w // 2
+            ty1, ty2 = ly1 - h // 2, ly2 - h // 2
+            tcx, tcy = lcx - w // 2, lcy - h // 2
 
             print("Biased Range (x1, x2): ", tx1, tx2)
             print("Biased Range (y1, y2): ", ty1, ty2)
@@ -202,7 +206,10 @@ class Engine:
             print("Directed: ", mx, my)
 
             magnitude = 70  # In order to get real velocity data
-            nx, ny = math.sin(math.radians(mx)) * magnitude, math.sin(math.radians(my)) * magnitude
+            nx, ny = (
+                math.sin(math.radians(mx)) * magnitude,
+                math.sin(math.radians(my)) * magnitude,
+            )
 
             print("Velocity: ", nx, ny)
 
@@ -231,8 +238,17 @@ class Engine:
             obj.friction = 0
 
             obj.collision_type = collision_type.WALL
+            obj.filter = pymunk.ShapeFilter(
+                categories=category.WALL, mask=category.MASK.WALL
+            )
 
             self.space.add(obj)
+
+    def register_entity(self, entity):
+        self.entities[entity.uuid] = entity
+
+    def remove_entity(self, entity):
+        del self.entities[entity.uuid]
 
     async def run(self):
         # TODO: this method should be synchronous
