@@ -13,7 +13,11 @@ import keyboard
 
 
 class Display_action(Widget):
-    """a widget for adding a message to the top right to say what happened in the game, for eg: you killed joe or joe dies of red zone"""
+    """
+    A widget for adding a message to the top right to say what happened in the game
+
+    Eg: you killed joe or joe dies of red zone
+    """
 
     def __init__(self, message=""):
         super().__init__("action display")
