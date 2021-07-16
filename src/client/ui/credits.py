@@ -15,7 +15,7 @@ from .widget.stars import Stars
 
 class Credits(UI):
     def __init__(self):
-        super().__init__("main_menu_scr")        
+        super().__init__("main_menu_scr")
         self.spacing = 3
         self.button_text = "Press Space to go to back to game menu"
         self._credits_ = [
@@ -80,7 +80,9 @@ class Credits(UI):
                     self.window.attron(curses.color_pair(4))
 
                 self.window.addstr(
-                    height // 3 + y + self.spacing - 1, width // 2 - len(nick) // 2, nick
+                    height // 3 + y + self.spacing - 1,
+                    width // 2 - len(nick) // 2,
+                    nick,
                 )
                 y += 2
                 color_id += 1
