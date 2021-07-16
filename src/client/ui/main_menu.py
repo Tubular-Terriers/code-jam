@@ -24,7 +24,7 @@ class Main_menu(UI):
             r"| |_| | | |  __/ | |_) | (_) | | | | | (_| |",
             r" \__|_| |_|\___| |  __/ \___/|_|_| |_|\__, |",
             r"                 | |                   __/ |",
-            r"                 |_|                  |___/ "
+            r"                 |_|                  |___/ ",
         ]
 
     async def view(self, app):
@@ -35,13 +35,15 @@ class Main_menu(UI):
         curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)
         curses.init_pair(2, 215, curses.COLOR_BLACK)
         self.window.attron(curses.color_pair(2))
-        
+
         y = 0
         for text in self.message:
-            self.window.addstr(height // 2 - len(self.message) + y,
-                               width // 2 - len(text) // 2,
-                               text,
-                               curses.color_pair(2))
+            self.window.addstr(
+                height // 2 - len(self.message) + y,
+                width // 2 - len(text) // 2,
+                text,
+                curses.color_pair(2),
+            )
             y += 1
 
         self.window.attroff(curses.color_pair(2))
