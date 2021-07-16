@@ -13,7 +13,7 @@ data = [
     border(0, 0, 600, 0),
     border(600, 0, 600, 600),
     border(0, 600, 600, 600),
-    # Inner 
+    # Inner
     wall(cor1x[0], cor1y[0], cor2x[0], cor2y[0]),
     wall(cor1x[1], cor1y[1], cor2x[1], cor2y[1]),
     wall(cor1x[2], cor1y[2], cor2x[2], cor2y[2]),
