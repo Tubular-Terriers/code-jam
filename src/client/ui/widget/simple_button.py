@@ -8,7 +8,12 @@ from ._widget import Widget
 
 
 class Button(Widget):
-    """a simple widget to get a input button. For eg, if the key esc is asigned to it and a appstate, it will change the appstate to it when the esc key is pessed"""
+    """
+    A simple widget to get a input button.
+
+    For eg, if the key esc is asigned to it and a appstate,
+    it will change the appstate to it when the esc key is pressed
+    """
 
     def __init__(self, y, x, toggled=False, key=keyboard.Key.space, go_to=None):
         super().__init__("button")
