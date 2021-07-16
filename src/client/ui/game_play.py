@@ -59,8 +59,13 @@ class GamePlay(UI):
         pad = curses.newpad(_150, _300)
         pad.border(0)
 
-        x = 0
-        y = 0
+        render_x = 0
+        render_y = 0
+
+        camera_x = 100
+        camera_y = 100
+
+        focused = False
 
         def t(tup):
             """Returns a scaled down version. x,y (600, 600) -> (300, 150)"""
@@ -94,10 +99,12 @@ class GamePlay(UI):
          │ ─ ┌ ┬ ┐ ├ ┼ ┤ └ ┴ ┘
         ■■
         """
+
         while True:
             # Redraw the pad
             pad.clear()
             pad.border(0)
+            w = curses.newwin(1, 100, 0, 0)
             for entity in game_engine.entities.values():
                 if entity.type == EntityType.PLAYER:
                     # Render the player
@@ -114,57 +121,88 @@ class GamePlay(UI):
 
                         # bcb
                         bcb_y = int(p[1])
-                        bcb_left = int(scx(p[0] + 21 / 2 * entity.bar_loc - 2))
-                        bcb_right = int(scx(p[0] + 21 / 2 * entity.bar_loc + 2))
+                        d = 21 / 2 * entity.bar_loc
+                        bcb_left = int(scx(p[0] + d - 2))
+                        bcb_right = int(scx(p[0] + d + 2))
                         for i in range(bcb_left, bcb_right):
                             pad.addch(bcb_y, i, "■")
                     else:
                         # Hitbox
                         arm_x = int(p[0])
-                        arm_top = int(scy(p[1] - 25 / 4))
-                        arm_bottom = int(scy(p[1] + 25 / 4))
+                        arm_top = int(scy(p[1] - int(25 / 4)))
+                        arm_bottom = int(scy(p[1] + int(25 / 4)))
                         a = 1
                         for i in range(arm_top, arm_bottom):
                             pad.addch(i, arm_x, "│")
 
                         # bcb
                         bcb_x = int(p[0])
-                        bcb_top = int(scy(p[1] + 21 / 4 * entity.bar_loc - 1))
-                        bcb_bottom = int(scy(p[1] + 21 / 4 * entity.bar_loc + 1))
+                        d = 21 / 4 * entity.bar_loc
+                        bcb_top = int(scy(p[1] + d - 1))
+                        bcb_bottom = int(scy(p[1] + d + 1))
                         for i in range(bcb_top, bcb_bottom):
                             pad.addch(i, bcb_x, "█")
+
+                    # Need a general implementation later
+                    camera_x = int(p[0] + 0)
+                    camera_y = int(p[1] + 0)
+                    asdf = 1
 
                 elif entity.type == EntityType.BALL:
                     # Render the player
                     p = st(entity.position)
                     pad.addstr(int(scy(p[1])), int(scx(p[0])), "⊙")
                     # print(p)
-            pad.refresh(
-                y,
-                x,
+
+            render_y = clamp(0, camera_y - 25, pad.getmaxyx()[0] - 51)
+            render_x = clamp(0, camera_x - 75, pad.getmaxyx()[1] - 151)
+            focused = not (render_y != camera_y - 25 or render_x != camera_x - 75)
+
+            w.erase()
+            pad.noutrefresh(
+                render_y,
+                render_x,
                 0,
                 0,
                 self.disp_h,
                 self.disp_w,
             )
+            w.attron(curses.color_pair(2))
+            w.addstr(
+                0,
+                0,
+                f"x: {camera_x:<3} y: {camera_y:<3} - {'focused    ' if focused else 'not focused'}"
+                + f" rx: {render_x:<3} ry: {render_y:<3}",
+            )
+            w.attron(curses.color_pair(2))
+            w.noutrefresh()
 
-            if app.input_manager.is_pressed("w"):
-                y -= 1
-            if app.input_manager.is_pressed("s"):
-                y += 1
-            if app.input_manager.is_pressed("a"):
-                x -= 1
-            if app.input_manager.is_pressed("d"):
-                x += 1
+            # if app.input_manager.is_pressed("w"):
+            #     camera_y -= 1
+            # if app.input_manager.is_pressed("s"):
+            #     camera_y += 1
+            # if app.input_manager.is_pressed("a"):
+            #     camera_x -= 1
+            # if app.input_manager.is_pressed("d"):
+            #     camera_x += 1
 
-            y = clamp(0, y, pad.getmaxyx()[0] - 51)
-            x = clamp(0, x, pad.getmaxyx()[1] - 151)
+            # if app.input_manager.is_pressed("w"):
+            #     render_y -= 1
+            # if app.input_manager.is_pressed("s"):
+            #     render_y += 1
+            # if app.input_manager.is_pressed("a"):
+            #     render_x -= 1
+            # if app.input_manager.is_pressed("d"):
+            #     render_x += 1
+
+            # render_y = clamp(0, render_y, pad.getmaxyx()[0] - 51)
+            # render_x = clamp(0, render_x, pad.getmaxyx()[1] - 151)
 
             # self.window.addstr(0, 0, f"x:{x} y:{y}")
 
+            app.screen.refresh()
             await asyncio.sleep(0.05)
             # app.screen.clear()
-            app.screen.refresh()
 
         await asyncio.sleep(1000)
 
