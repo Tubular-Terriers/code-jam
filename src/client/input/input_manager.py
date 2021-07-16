@@ -29,7 +29,7 @@ class InputManager:
     Forwards the api
     """
 
-    def __init__(self, allow_text_mode=True):
+    def __init__(self, allow_text_mode=True, mock=False):
         """
         Creates an InputManager that emits events
 
@@ -115,7 +115,8 @@ class InputManager:
             self.pressed_keys.remove(k)
             self.callback.on_release(k)
 
-        keyboard.Listener(on_press=on_press, on_release=on_release).start()
+        if not mock:
+            keyboard.Listener(on_press=on_press, on_release=on_release).start()
 
     #############################################
     # Call back methods
