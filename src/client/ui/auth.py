@@ -90,7 +90,7 @@ class Auth(UI):
             text_color_pair_id=6,
             frame_color_pair_id=5,
             key=keyboard.Key.enter,
-            go_to=AppState.EXIT
+            go_to=AppState.EXIT,
         )
 
         self.input_manager = app.input_manager
