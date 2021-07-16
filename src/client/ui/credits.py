@@ -29,8 +29,8 @@ class Credits(UI):
         ]
         self.devs = [
             "nopeless",
-            "karthikmurakonda",
             "pritansh sahsani",
+            "karthikmurakonda",
             "MePhew",
             "nobalpha",
             "Nickhil1737",
@@ -46,9 +46,14 @@ class Credits(UI):
         curses.init_pair(2, curses.COLOR_BLUE, curses.COLOR_BLACK)
         curses.init_pair(3, curses.COLOR_CYAN, curses.COLOR_BLACK)
         curses.init_pair(4, curses.COLOR_MAGENTA, curses.COLOR_BLACK)
+        for _ in range(250):
+            self.window.addstr(
+                random.randint(0, height - 1),
+                random.randint(0, width - 1),
+                random.choice(self.stars),
+            )
         self.window.attron(curses.color_pair(2))
         self.window.attron(curses.A_BOLD)
-
         y = 0
         for text in self._credits_:
             self.window.addstr(height // 3 + y, width // 2 - len(text) // 2, text)
@@ -85,13 +90,6 @@ class Credits(UI):
             (width // 2) - len(self.button_text) // 2,
             self.button_text,
         )
-
-        for _ in range(250):
-            self.window.addstr(
-                random.randint(0, height - 1),
-                random.randint(0, width - 1),
-                random.choice(self.stars),
-            )
 
         self.input_manager = app.input_manager
         self.widgets = [menu_button]
