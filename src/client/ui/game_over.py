@@ -14,6 +14,7 @@ from .widget.simple_textbox import Box
 
 
 class Game_over(UI):
+    '''defines the game over screen'''
     def __init__(self):
         super().__init__("game_over_scr")
         self.message_text1 = "███▀▀▀██ ███▀▀▀███ ███▀█▄█▀███ ██▀▀▀"

@@ -13,6 +13,7 @@ from .widget.simple_textbox import Box
 
 
 class Credits(UI):
+    '''the page for the credits ui'''
     def __init__(self):
         super().__init__("main_menu_scr")
         self.spacing = 3
