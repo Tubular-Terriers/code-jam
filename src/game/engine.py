@@ -1,4 +1,5 @@
 import asyncio
+import math
 import random
 import time
 import traceback
@@ -141,6 +142,82 @@ class Engine:
         def on_collision_ball_hit(arbiter, space, data):
             # TODO: implement ball curving
             self._emit(Sound.ID, Sound.HIT)
+            print("collision")
+            print(f"arbiter: {arbiter}")
+            print(f"space: {space}")
+            print(f"data: {data}")
+
+            def _map(p, x1, x2, dx1, dx2):  # A simple range mapper
+                return ((dx2 - dx1) * ((p - x1) / (x2 - x1))) + dx1
+
+            poly = arbiter.shapes[0]
+            collided = arbiter.shapes[1]
+            print("colided: ", collided)
+            space_vertices = []
+            for v in poly.get_vertices():
+                x, y = v.rotated(poly.body.angle) + poly.body.position
+                space_vertices.append((x, y))
+
+            cx, cy = arbiter.contact_point_set.points[0].point_a  # Contact points
+            print("Contact Points: (x, y): ", cx, cy)
+            # Actual shape corners
+            x1, y1 = space_vertices[0]
+            x2, y2 = space_vertices[2]
+            print("World Corners (x1, x2): ", x1, x2)
+            print("World Corners (y1, y2): ", y1, y2)
+
+            # Local shpe corners
+            lx1, ly1 = x1 - x1, y1 - y1
+            lx2, ly2 = x2 - x1, y2 - y1
+            lcx, lcy = cx - x1, cy - y1
+            print("Local Corners (x1, x2): ", lx1, lx2)
+            print("Local Corners (y1, y2): ", ly1, ly2)
+            print("Local Contact (x, y): ", lcx, lcy)
+
+            w = abs(lx2 - lx1)  # Width
+            h = abs(ly2 - ly1)  # Height
+            print("Width & Height: ", w, h)
+
+            # Biased coordinates
+            tx1, tx2 = lx1 - w // 2, lx2 - w // 2
+            ty1, ty2 = ly1 - h // 2, ly2 - h // 2
+            tcx, tcy = lcx - w // 2, lcy - h // 2
+
+            print("Biased Range (x1, x2): ", tx1, tx2)
+            print("Biased Range (y1, y2): ", ty1, ty2)
+            print("Biased Contact (x, y): ", tcx, tcy)
+
+            # Angular range
+            a1, a2 = -90, 90
+            print("Angular range: ", a1, a2)
+
+            # Interpolated coordinates
+            mx, my = _map(tcx, tx1, tx2, a1, a2), _map(tcy, ty1, ty2, a1, a2)
+            print("Mapped: ", mx, my)
+
+            # Setting vector directions manually
+            dirx = 1 if mx > 0 else -1
+            if x2 - cx == 0:  # Right collision
+                mx *= dirx  # Make mx > 0
+            elif x2 - cx < 0:  # Left collision
+                mx *= -dirx  # Make mx < 0
+
+            diry = 1 if my > 0 else -1
+            if y2 - cy == 0:  # Lower collision
+                my *= diry  # Make my > 0
+            elif y2 - cy < 0:  # Upper collision
+                my *= -diry  # Make my < 0
+            print("Directed: ", mx, my)
+
+            magnitude = 70  # In order to get real velocity data
+            nx, ny = (
+                math.sin(math.radians(mx)) * magnitude,
+                math.sin(math.radians(my)) * magnitude,
+            )
+
+            print("Velocity: ", nx, ny)
+
+            collided.body.velocity = nx, ny
 
         ch_collision_box = self.space.add_collision_handler(
             collision_type.BALL_COLLISION_BOX, collision_type.BALL
@@ -258,10 +335,10 @@ class Engine:
 
         `callback(event_name, event_value)`
         """
-        self._hook[callback] = callback
+        self._hooks[callback] = callback
 
     def unhook(self, callback):
-        del self._hook[callback]
+        del self._hooks[callback]
 
 
 class DebugRender:

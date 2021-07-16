@@ -1,5 +1,8 @@
 from pygame import mixer
-from sounds import SoundEffects
+
+from game.events.sound import Sound
+
+from .sounds import SoundEffects
 
 
 class SoundEffectsEngine:
@@ -24,3 +27,7 @@ class SoundEffectsEngine:
         self._volume_ = volume / 100
         for sound in self._sounds_.values():
             sound.set_volume(self._volume_)
+
+    def process(self, event_name, event_value):
+        if event_name == Sound.ID:
+            self.play_sound(event_value)

@@ -148,7 +148,7 @@ class Main_menu(UI):
         y = 0
         for text in self.message:
             self.window.addstr(
-                height // 6 - len(self.message) + y,
+                height // 2 - len(self.message) + y,
                 width // 2 - len(text) // 2,
                 text,
                 curses.color_pair(2),
