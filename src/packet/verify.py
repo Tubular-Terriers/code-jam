@@ -4,12 +4,15 @@ from ._packet import Packet
 
 
 class Verify(Packet):
+    ACTION = "verify"
+
     def __init__(self, token):
+        super().__init__(self.ACTION)
         self.token = token
 
     def dump(self):
-        return json.dumps({"TOKEN": self.token})
+        return {"TOKEN": self.token}
 
     @staticmethod
-    def load(data) -> object:
-        return Verify.__init__(data["TOKEN"])
+    def load(payload) -> object:
+        return Verify(payload["TOKEN"])

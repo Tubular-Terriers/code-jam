@@ -1,14 +1,26 @@
-class Packet:
-    """Interface class"""
+import json
 
-    def __init__(self):
-        pass
+
+class Packet:
+    """Interface class. Only send() creates a packet with action name"""
+
+    def __init__(self, action_name: str):
+        self.action_name = action_name
 
     def dump(self):
-        """Dumps the data to payload json form"""
+        """Dumps the data to `dict`"""
         raise NotImplementedError
 
     @staticmethod
-    def load(data):
-        """Loads the data from payload json"""
+    def load(payload) -> object:
+        """Loads the data from dict(payload)"""
         raise NotImplementedError
+
+    def send(self) -> str:
+        """Returns a json packet to send"""
+        return json.dumps(
+            {
+                "action": self.action_name,
+                "payload": self.dump(),
+            }  # self.dump() must be implemented
+        )

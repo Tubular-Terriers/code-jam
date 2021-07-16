@@ -11,6 +11,7 @@ import logging
 import websockets
 
 import game
+import packet
 
 # flake8: noqa
 
@@ -39,65 +40,91 @@ parser = argparse.ArgumentParser(description="Server for Pong Console")
 #     type=int,
 #     help="Wait for amount time before starting the game",
 # )
-logging.basicConfig()
+# logging.basicConfig()
 
-STATE = {"value": 0}
+# STATE = {"value": 0}
 
-USERS = set()
-
-
-def state_event():
-    return json.dumps({"type": "state", **STATE})
+# USERS = set()
 
 
-def users_event():
-    return json.dumps({"type": "users", "count": len(USERS)})
+# def state_event():
+#     return json.dumps({"type": "state", **STATE})
 
 
-async def notify_state():
-    if USERS:  # asyncio.wait doesn't accept an empty list
-        message = state_event()
-        await asyncio.wait([user.send(message) for user in USERS])
+# def users_event():
+#     return json.dumps({"type": "users", "count": len(USERS)})
 
 
-async def notify_users():
-    if USERS:  # asyncio.wait doesn't accept an empty list
-        message = users_event()
-        for user in USERS:
-            asyncio.create_task(user.send(message))
+# async def notify_state():
+#     if USERS:  # asyncio.wait doesn't accept an empty list
+#         message = state_event()
+#         await asyncio.wait([user.send(message) for user in USERS])
 
 
-async def register(websocket):
-    USERS.add(websocket)
-    await notify_users()
+# async def notify_users():
+#     if USERS:  # asyncio.wait doesn't accept an empty list
+#         message = users_event()
+#         for user in USERS:
+#             asyncio.create_task(user.send(message))
 
 
-async def unregister(websocket):
-    USERS.remove(websocket)
-    await notify_users()
+# async def register(websocket):
+#     USERS.add(websocket)
+#     await notify_users()
+
+
+# async def unregister(websocket):
+#     USERS.remove(websocket)
+#     await notify_users()
 
 
 async def counter(websocket, path):
     # register(websocket) sends user_event() to websocket
-    await register(websocket)
+    # await register(websocket)
     try:
-        await websocket.send(state_event())
-        # Eternal loop
         async for message in websocket:
-            try:
-                data = json.loads(message)
-                if data["action"] == "minus":
-                    STATE["value"] -= 1
-                    await notify_state()
-                elif data["action"] == "plus":
-                    STATE["value"] += 1
-                    await notify_state()
+            print(message)
+            data = json.loads(message)
+            action_type = data.get("action", "INVALID")
+            if action_type == "INVALID":
+                continue
+            print("processing")
+            pl = data["payload"]
+            print(f"action {action_type} recieved")
+            if action_type == packet.Verify.ACTION:
+                p = packet.Verify.load(pl)
+                print(f"token is {p.token}")
+                if p.token[-1] == "n":
+                    asyncio.create_task(
+                        websocket.send(packet.VerifyResponse(True).send())
+                    )
+                    print("valid token")
                 else:
-                    logging.error("unsupported event: %s", data)
-            except:
-                logging.error("client sent an invalid packet and crashed the code")
-    finally:
-        await unregister(websocket)
+                    asyncio.create_task(
+                        websocket.send(
+                            packet.VerifyResponse(False, "Invalid token").send()
+                        )
+                    )
+    except websockets.exceptions.ConnectionClosed as e:
+        print("client abruptly closed connection")
+    # try:
+    #     await websocket.send(state_event())
+    #     # Eternal loop
+    #     async for message in websocket:
+    #         try:
+    #             data = json.loads(message)
+    #             if data["action"] == "minus":
+    #                 STATE["value"] -= 1
+    #                 await notify_state()
+    #             elif data["action"] == "plus":
+    #                 STATE["value"] += 1
+    #                 await notify_state()
+    #             else:
+    #                 logging.error("unsupported event: %s", data)
+    #         except:
+    #             logging.error("client sent an invalid packet and crashed the code")
+    # finally:
+    #     await unregister(websocket)
 
 
 start_server = websockets.serve(counter, "localhost", 3001)
