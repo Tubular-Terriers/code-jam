@@ -1,6 +1,7 @@
 # Exports default map
-from ._objects import border, wall
 import random
+
+from ._objects import border, wall
 
 cor1x = []
 cor1y = []
