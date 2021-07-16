@@ -163,6 +163,7 @@ class Engine:
             self.space.add(obj)
 
     async def run(self):
+        # TODO: this method should be synchronous
         self.run_task = asyncio.get_event_loop().create_task(self.run_loop())
 
     async def run_loop(self):
