@@ -223,7 +223,7 @@ Although this is nowhere near to end product, it has all the necessary component
 
 Added basic user settings structure, providing additional abstraction layer for easy management of user config
 
-Added a new main menu and game over screen. 
+Added a new main menu and game over screen.
 
 # July 15th
 
@@ -264,3 +264,7 @@ Made the flow of the game and editing the appstates.
 Add various sounds to the system
 
 ![image](https://cdn.discordapp.com/attachments/862242420863139855/865511733547892736/hD2nNa4max.gif)
+
+Created the framework for rendering pymunk to console
+
+![image](https://cdn.discordapp.com/attachments/862242420863139855/865528892604416030/STfCyoigh3.gif)
