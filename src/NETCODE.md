@@ -4,7 +4,7 @@
 
 ```json
 {
-    "action": "verify|verify_response|game",
+    "action": "verify|verify_response|game_init|game",
     "payload": {
         // the actual payload here
     }
@@ -14,7 +14,9 @@ action name      |client                 |server
 -                |-                      |-
 verify           | sends token           |
 verify_response  |                       | response to `verify`
+game_init        |                       | sends player's `uuid` and game data to client
 game (symmetric) | send game data        | send game data
+
 ## Verification
 
 ```json
@@ -49,7 +51,19 @@ when the verification fails, the server returns
 }
 ```
 
-## Game data
+## Game init
+
+```json
+{
+    "action": "game_init",
+    "payload": {
+        "uuid":"Player's uuid here",
+        "map_data": "FIXME might not be utilized"
+    }
+}
+```
+
+## Game data (lifecycle)
 
 Throughout the game play lifecycle, these are constantly sent
 
