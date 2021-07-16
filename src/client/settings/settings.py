@@ -1,9 +1,9 @@
-from enum import Enum, auto
+from enum import Enum
 
 
 class Settings(Enum):
-    MUSIC_VOLUME = auto()
-    SFX_VOLUME = auto()
-    DECREASE_VOLUME_DURING_GAME_PAUSE = auto()
-    GAME_PAUSE_NORMAL_VOLUME_PERCENTAGE = auto()
-    MUTE_GAME_ON_FOCUS_LOSS = auto()
+    MUSIC_VOLUME = "music_volume"
+    SFX_VOLUME = "sfx_volume"
+    DECREASE_VOLUME_DURING_GAME_PAUSE = "decrease_volume_during_game_pause"
+    GAME_PAUSE_NORMAL_VOLUME_PERCENTAGE = "game_pause_normal_volume_percentage"
+    MUTE_GAME_ON_FOCUS_LOSS = "mute_game_on_focus_loss"
