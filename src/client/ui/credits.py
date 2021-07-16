@@ -1,8 +1,6 @@
 import asyncio
 import curses
 import random
-import time
-from time import sleep
 
 from pynput import keyboard
 
@@ -21,11 +19,11 @@ class Credits(UI):
         self.spacing = 3
         self.button_text = "Press Space to go to back to game menu"
         self._credits_ = [
-            "                          _  _    _          ",
-            "  ____  _____   ____   __| ||_| _| |_   ___ ",
-            " /  __||_  __\_/ __ \ / _  || ||_   _|/  __/",
-            " | |__ |  | \/\  ___// |_| || |  | |  \___ \ ",
-            " \____||__|    \____||_____||_|  |_|  /____/",
+            r"                          _  _    _          ",
+            r"  ____  _____   ____   __| ||_| _| |_   ___ ",
+            r" /  __||_  __\_/ __ \ / _  || ||_   _|/  __/",
+            r" | |__ |  | \/\  ___// |_| || |  | |  \___ \ ",
+            r" \____||__|    \____||_____||_|  |_|  /____/",
         ]
         self.devs = [
             "nopeless",
@@ -104,4 +102,4 @@ class Credits(UI):
         return res
 
 
-credits = Credits()
+credits_scr = Credits()

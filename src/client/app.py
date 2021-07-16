@@ -6,7 +6,7 @@ from time import sleep
 from types import SimpleNamespace
 
 from client.input.input_manager import input_manager
-from client.ui.credits import credits
+from client.ui.credits import credits_scr
 from client.ui.error_sc import ss_error
 from client.ui.game_over import game_over
 from client.ui.main_menu import main_menu
@@ -67,7 +67,7 @@ class App:
         self.ui.main_menu = main_menu
         self.ui.game_over = game_over
         self.ui.ss_error = ss_error
-        self.ui.credit = credits
+        self.ui.credit = credits_scr
         # Register input_manager
         self.input_manager = input_manager
 
