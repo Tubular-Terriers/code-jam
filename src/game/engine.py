@@ -141,7 +141,7 @@ class Engine:
 
         def on_collision_ball_hit(arbiter, space, data):
             # TODO: implement ball curving
-            self._emit(Sound.ID, Sound.HIT)
+            self._emit(Sound.ID, Sound.PADDLE_BOUNCE)
             print("collision")
             print(f"arbiter: {arbiter}")
             print(f"space: {space}")
