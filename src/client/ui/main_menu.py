@@ -79,9 +79,12 @@ class Main_menu(UI):
             self.ball_pos_y = self.board_start_y + 1
             self.ball_speed_y = -self.ball_speed_y
             self.window.addstr(self.board_start_y, self.ball_pos_x, " ")
-            self.window.addstr(
-                self.board_start_y, self.ball_pos_x, self.horizontal_border
-            )
+            if self.ball_pos_y != self.board_start_y and self.ball_pos_y != self.board_end_y:
+                self.window.addstr(self.board_start_y, self.ball_pos_x, self.horizontal_border)
+            elif self.ball_pos_x == self.board_start_x :
+                self.window.addstr(self.board_start_y, self.ball_pos_x, self.upper_left_corner)
+            elif self.ball_pos_x == self.board_end_x :
+                self.window.addstr(self.board_start_y, self.ball_pos_x, self.upper_right_corner)
 
             available_colors = [
                 color_id
