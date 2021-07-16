@@ -1,7 +1,7 @@
 import asyncio
+import math
 import random
 import time
-import math
 import traceback
 
 import pygame
