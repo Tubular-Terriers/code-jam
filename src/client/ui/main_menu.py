@@ -61,7 +61,8 @@ class Main_menu(UI):
                 )
             else:
                 self.window.addstr(
-                    self.board_end_y, self.ball_pos_x, self.horizontal_border)
+                    self.board_end_y, self.ball_pos_x, self.horizontal_border
+                )
 
             available_colors = [
                 color_id
