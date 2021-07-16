@@ -25,6 +25,8 @@ class Engine:
         self._hooks = {}
         self._hooks[self.process_event] = self.process_event
 
+        self.entities = {}
+
         # def c(n, v):
         #     if n == Sound.ID:
         #         print(v)
@@ -65,13 +67,14 @@ class Engine:
         p.position = (100, 200)
         p.add_space(self.space)
 
+        self.register_entity(p)
+
         try:
-            for i in range(20):
-                ball = Ball()
-                ball.position = (10 * i + 10, 300)
-                ball.velocity = (0, 100)
-                ball.angular_velocity = random.random() * 1000
-                ball.add_space(self.space)
+            self.ball = Ball()
+            self.ball.position = (10 * 2 + 10, 300)
+            self.ball.velocity = (0, 100)
+            self.ball.angular_velocity = random.random() * 1000
+            self.ball.add_space(self.space)
         except Exception as e:
             print(e)
 
@@ -135,17 +138,20 @@ class Engine:
 
         def on_collision_ball_hit(arbiter, space, data):
             # TODO: implement ball curving
-            self._emit(Sound.ID, Sound.HIT)
+            self._emit(Sound.ID, Sound.PADDLE_BOUNCE)
             print("collision")
             print(f"arbiter: {arbiter}")
             print(f"space: {space}")
             print(f"data: {data}")
+
+            self.ball.ownerUUID = self.player.uuid
 
             def _map(p, x1, x2, dx1, dx2):  # A simple range mapper
                 return ((dx2 - dx1) * ((p - x1) / (x2 - x1))) + dx1
 
             poly = arbiter.shapes[0]
             collided = arbiter.shapes[1]
+
             print("colided: ", collided)
             space_vertices = []
             for v in poly.get_vertices():
@@ -236,8 +242,17 @@ class Engine:
             obj.friction = 0
 
             obj.collision_type = collision_type.WALL
+            obj.filter = pymunk.ShapeFilter(
+                categories=category.WALL, mask=category.MASK.WALL
+            )
 
             self.space.add(obj)
+
+    def register_entity(self, entity):
+        self.entities[entity.uuid] = entity
+
+    def remove_entity(self, entity):
+        del self.entities[entity.uuid]
 
     async def run(self):
         # TODO: this method should be synchronous
