@@ -1,10 +1,12 @@
 import configparser
+from .settings import Settings
+from os import path
 
-from settings import Settings
+filepath = path.dirname(__file__)
 
 
 class Config:
-    def __init__(self, config_file_path: str = "config.ini"):
+    def __init__(self, config_file_path: str = path.join(filepath, "config.ini")):
         self._config_file_path_ = config_file_path
         self._configparser_ = configparser.ConfigParser()
         self._config_files_ = self._configparser_.read(self._config_file_path_)
