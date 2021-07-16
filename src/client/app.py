@@ -125,8 +125,8 @@ class App:
             # Run a custom curses error screen maybe
         while True:  # To-do check this.
             if (
-                    self.stdscr.getmaxyx()[0] < self.target_height
-                    or self.stdscr.getmaxyx()[1] < self.target_width
+                self.stdscr.getmaxyx()[0] < self.target_height
+                or self.stdscr.getmaxyx()[1] < self.target_width
             ):  # Allow smaller screen temporarily
                 await self.set_ui(ss_error)
                 try:

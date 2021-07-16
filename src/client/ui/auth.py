@@ -84,7 +84,7 @@ class Auth(UI):
             (width - 150) // 2,
             width=150,
             text="Wait! If you have a TOKEN, just copy it and my guy will know that; if not GET THE HE... No, "
-                 "you're welcome. Just press enter to register...",
+            "you're welcome. Just press enter to register...",
             text_color_pair_id=7,
             frame_color_pair_id=5,
             key=keyboard.Key.enter,

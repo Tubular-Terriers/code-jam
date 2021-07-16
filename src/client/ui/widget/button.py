@@ -21,7 +21,7 @@ class Button(Widget):
         toggled=False,
         require_active=True,
         go_to=None,
-        callback=None
+        callback=None,
     ):
         super().__init__("button")
         self.require_selected = require_active
@@ -73,7 +73,9 @@ class Button(Widget):
                 self.window.attroff(curses.color_pair(self.text_color_pair_id))
 
         self.window.noutrefresh()
-        if self.toggle_count >= 1 and (self.selected is True or self.require_selected is False):
+        if self.toggle_count >= 1 and (
+            self.selected is True or self.require_selected is False
+        ):
             if self.go_to is not None:
                 return self.go_to
 

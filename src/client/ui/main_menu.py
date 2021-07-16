@@ -51,11 +51,13 @@ class Main_menu(UI):
         self.selected_color = 1
         self.selected_widget = 0
         self.config = Config()
-        self.sound_engine = SoundEffectsEngine(int(self.config.get(Settings.SFX_VOLUME)))
+        self.sound_engine = SoundEffectsEngine(
+            int(self.config.get(Settings.SFX_VOLUME))
+        )
 
     async def move_ball(self):
         # TODO: Fix corners
-        
+
         self.window.addstr(self.ball_pos_y, self.ball_pos_x, " ")
 
         self.ball_pos_y += self.ball_speed_y
@@ -64,10 +66,10 @@ class Main_menu(UI):
         if self.ball_pos_y >= self.board_end_y:
             self.ball_pos_y = self.board_end_y - 1
             self.ball_speed_y = -self.ball_speed_y
-            
+
             if is_focused():
                 self.sound_engine.play_sound(SoundEffects.WALL_BOUNCE)
-            
+
             self.window.addstr(self.board_end_y, self.ball_pos_x, " ")
             if (
                 self.ball_pos_y == self.board_end_y - 1
@@ -217,7 +219,7 @@ class Main_menu(UI):
             frame_color_pair_id=5,
             key=keyboard.Key.enter,
             go_to=AppState.EXIT,
-            selected=self.selected_widget == 3
+            selected=self.selected_widget == 3,
         )
 
         self.button_spacing = (exit_button.x - play_button.x) // 3
@@ -231,7 +233,7 @@ class Main_menu(UI):
             frame_color_pair_id=5,
             key=keyboard.Key.enter,
             go_to=AppState.SETTINGS_SCR,
-            selected=self.selected_widget == 1
+            selected=self.selected_widget == 1,
         )
 
         credits_button = Button(
@@ -242,7 +244,7 @@ class Main_menu(UI):
             frame_color_pair_id=5,
             key=keyboard.Key.enter,
             go_to=AppState.CREDITS_SCR,
-            selected=self.selected_widget == 2
+            selected=self.selected_widget == 2,
         )
 
         self.widgets = [play_button, settings_button, credits_button, exit_button]
