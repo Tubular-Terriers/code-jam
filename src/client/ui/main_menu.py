@@ -70,15 +70,17 @@ class Main_menu(UI):
             self.switch_ball_color()
 
         if self.ball_pos_y <= self.board_start_y:
-            
+
             self.ball_pos_y = self.board_start_y + 1
             self.ball_speed_y = -self.ball_speed_y
-            
+
             self.window.addstr(self.board_start_y, self.ball_pos_x, " ")
-            self.window.addstr(self.board_end_y, self.ball_pos_x, self.horizontal_border)
+            self.window.addstr(
+                self.board_end_y, self.ball_pos_x, self.horizontal_border
+            )
 
             self.switch_ball_color()
-            
+
         if self.ball_pos_x >= self.board_end_x:
             self.ball_pos_x = self.board_end_x - 1
             self.ball_speed_x = -self.ball_speed_x
@@ -94,12 +96,12 @@ class Main_menu(UI):
             self.window.addstr(
                 self.ball_pos_y, self.board_start_x, self.vertical_border
             )
-            
+
             self.switch_ball_color()
 
         self.window.attron(curses.A_BOLD)
         self.window.addstr(self.ball_pos_y, self.ball_pos_x, self.ball)
-        
+
     def switch_ball_color(self):
         available_colors = [
             color_id

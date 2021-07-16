@@ -12,10 +12,12 @@ class SoundEffectsEngine:
         mixer.set_num_channels(mixer_channels)
         self.mixer_channels = mixer_channels
         self._volume_ = default_volume / 100
-        
-        self.sounds_dict = {0: SoundEffects.WALL_BOUNCE,
-                            1: SoundEffects.PADDLE_BOUNCE,
-                            2: SoundEffects.SCORE}
+
+        self.sounds_dict = {
+            0: SoundEffects.WALL_BOUNCE,
+            1: SoundEffects.PADDLE_BOUNCE,
+            2: SoundEffects.SCORE,
+        }
 
         self._sounds_ = {}
 
