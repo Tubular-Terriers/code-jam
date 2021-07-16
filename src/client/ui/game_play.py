@@ -12,6 +12,8 @@ from .widget.simple_textbox import Box
 
 
 class GamePlay(UI):
+    """the main game"""
+
     def __init__(self):
         super().__init__("menu screen")
         self.time = 0

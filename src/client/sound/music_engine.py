@@ -2,9 +2,10 @@ import random
 
 import pygame
 from pygame import mixer
-from sounds import Music
 
 from src.game.archive.game_state import GameState
+
+from .sounds import Music
 
 
 class MusicEngine:

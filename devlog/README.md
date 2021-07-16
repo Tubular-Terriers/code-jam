@@ -268,3 +268,9 @@ Add various sounds to the system
 Created the framework for rendering pymunk to console
 
 ![image](https://cdn.discordapp.com/attachments/862242420863139855/865528892604416030/STfCyoigh3.gif)
+
+First testable websocket communication demo was made
+
+The ping was made to wss://pongconsole.xyz
+
+![image](https://cdn.discordapp.com/attachments/862242420863139855/865596266838360094/2RSthdLtU2.gif)

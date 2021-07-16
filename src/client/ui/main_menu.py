@@ -11,6 +11,8 @@ from .widget.button import Button
 
 
 class Main_menu(UI):
+    """makes main screen ui"""
+
     def __init__(self):
         super().__init__("main_menu_scr")
         self.message = [
@@ -43,6 +45,7 @@ class Main_menu(UI):
         self.selected_color = 1
 
     async def move_ball(self):
+        # moves the ball across the screen
         self.window.addstr(self.ball_pos_y, self.ball_pos_x, " ")
 
         self.ball_pos_y += self.ball_speed_y
@@ -126,6 +129,7 @@ class Main_menu(UI):
         pass
 
     async def view(self, app):
+        # prints the text of the screen
         # Required
         super().view(app)
         height, width = self.window.getmaxyx()
@@ -144,7 +148,7 @@ class Main_menu(UI):
         y = 0
         for text in self.message:
             self.window.addstr(
-                height // 6 - len(self.message) + y,
+                height // 2 - len(self.message) + y,
                 width // 2 - len(text) // 2,
                 text,
                 curses.color_pair(2),

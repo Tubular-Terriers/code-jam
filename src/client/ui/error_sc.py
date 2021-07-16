@@ -14,6 +14,8 @@ from .widget.simple_textbox import Box
 
 
 class Small_screen_error(UI):
+    """defines the ui error screen when the screen is way too small"""
+
     def __init__(self):
         super().__init__("small_scr")
         self.message_text1 = "Sorry, your screen is too small."
