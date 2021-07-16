@@ -142,7 +142,6 @@ class App:
                 break
             else:
                 break
-            await asyncio.sleep(1)
         self.destroy()
 
     def refresh(self):
