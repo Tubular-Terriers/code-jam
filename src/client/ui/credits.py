@@ -36,7 +36,6 @@ class Credits(UI):
         self.locations_y = []
         self.stars = ["✶", "*"]
         self.refreshtime = 0
-        
 
     async def view(self, app):
         # Required
@@ -72,7 +71,9 @@ class Credits(UI):
                     if i % 10 == 0:
                         chose = random.randint(0, 2)
                         if chose == 0:
-                            self.add_white_star(self.locations_y[i], self.locations_x[i])
+                            self.add_white_star(
+                                self.locations_y[i], self.locations_x[i]
+                            )
                         elif chose == 1:
                             self.add_blue_star(self.locations_y[i], self.locations_x[i])
                         elif chose == 2:
@@ -114,11 +115,12 @@ class Credits(UI):
                 self.button_text,
             )
             self.window.refresh()
-            
+
             if res := self.refresh():
                 break
             await asyncio.sleep(0.1)
         return res
+
     def add_blue_star(self, y, x):
         self.window.attron(curses.color_pair(1))
         self.window.addstr(y, x, self.stars[random.randint(0, 1)])
