@@ -58,7 +58,6 @@ class Engine:
         p.position = (100, 200)
         p.add_space(self.space)
 
-        self.balls = []
         try:
             for i in range(20):
                 ball = Ball()
@@ -66,7 +65,6 @@ class Engine:
                 ball.velocity = (0, 100)
                 ball.angular_velocity = random.random() * 1000
                 ball.add_space(self.space)
-                self.balls.append(ball)
         except Exception as e:
             print(e)
 
@@ -175,10 +173,6 @@ class Engine:
         # For all players, update their bounding box
         # FIXME For now, only update self player
         self.player._update_bar()
-
-        # Do balls
-        # for b in self.balls:
-        #     b.angular_velocity += 1 / self.tps
 
     def destroy(self):
         if self.debug_render:
