@@ -147,7 +147,7 @@ class Engine:
 
             self.ball.ownerUUID = self.player.uuid
 
-            def _map(p, x1, x2, dx1, dx2):  # A simple range mapper
+            def _map(p, x1, x2, dx1, dx2) -> float:  # A simple range mapper
                 return ((dx2 - dx1) * ((p - x1) / (x2 - x1))) + dx1
 
             poly = arbiter.shapes[0]
