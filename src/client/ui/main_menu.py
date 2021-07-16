@@ -18,12 +18,12 @@ class Main_menu(UI):
             r"| |_| | | |  __/ | |_) | (_) | | | | | (_| |",
             r" \__|_| |_|\___| |  __/ \___/|_|_| |_|\__, |",
             r"                 | |                   __/ |",
-            r"                 |_|                  |___/ "
+            r"                 |_|                  |___/ ",
         ]
         self.horizontal_border = "─"
         self.vertical_border = "│"
         self.upper_right_corner = "┐"
-        self.upper_left_corner = '┌'
+        self.upper_left_corner = "┌"
         self.bottom_left_corner = "└"
         self.bottom_right_corner = "┘"
         self.ball = "●"
@@ -41,80 +41,85 @@ class Main_menu(UI):
         self.broken = []
 
     async def move_ball(self):
-        self.window.addstr(self.ball_pos_y,
-                           self.ball_pos_x,
-                           " ")
+        self.window.addstr(self.ball_pos_y, self.ball_pos_x, " ")
 
         self.ball_pos_y += self.ball_speed_y
         self.ball_pos_x += self.ball_speed_x
 
         if self.ball_pos_y >= self.board_end_y:
             self.ball_pos_y = self.board_end_y - 1
-            self.ball_speed_y = - self.ball_speed_y
-            self.window.addstr(self.board_end_y,
-                               self.ball_pos_x,
-                               " ")
-            if self.ball_pos_y == self.board_end_y and self.ball_pos_x == self.board_end_x:
-                self.window.addstr(self.board_end_y,
-                                   self.ball_pos_x,
-                                   self.bottom_right_corner)
+            self.ball_speed_y = -self.ball_speed_y
+            self.window.addstr(self.board_end_y, self.ball_pos_x, " ")
+            if (
+                self.ball_pos_y == self.board_end_y
+                and self.ball_pos_x == self.board_end_x
+            ):
+                self.window.addstr(
+                    self.board_end_y, self.ball_pos_x, self.bottom_right_corner
+                )
             else:
-                self.window.addstr(self.board_end_y + 1,
-                                   self.ball_pos_x,
-                                   self.horizontal_border)
+                self.window.addstr(
+                    self.board_end_y + 1, self.ball_pos_x, self.horizontal_border
+                )
 
-            available_colors = [color_id for color_id in self.colors_range if color_id != self.selected_color]
+            available_colors = [
+                color_id
+                for color_id in self.colors_range
+                if color_id != self.selected_color
+            ]
             self.selected_color = random.choice(available_colors)
             self.window.attron(curses.color_pair(self.selected_color))
-            
+
         if self.ball_pos_y <= self.board_start_y:
             self.ball_pos_y = self.board_start_y + 1
-            self.ball_speed_y = - self.ball_speed_y
-            self.window.addstr(self.board_start_y,
-                               self.ball_pos_x,
-                               " ")
-            self.window.addstr(self.board_start_y,
-                               self.ball_pos_x,
-                               self.horizontal_border)
-            
-            available_colors = [color_id for color_id in self.colors_range if color_id != self.selected_color]
+            self.ball_speed_y = -self.ball_speed_y
+            self.window.addstr(self.board_start_y, self.ball_pos_x, " ")
+            self.window.addstr(
+                self.board_start_y, self.ball_pos_x, self.horizontal_border
+            )
+
+            available_colors = [
+                color_id
+                for color_id in self.colors_range
+                if color_id != self.selected_color
+            ]
             self.selected_color = random.choice(available_colors)
             self.window.attron(curses.color_pair(self.selected_color))
 
         if self.ball_pos_x >= self.board_end_x:
             self.ball_pos_x = self.board_end_x - 1
-            self.ball_speed_x = - self.ball_speed_x
-            self.window.addstr(self.ball_pos_y,
-                               self.board_end_x,
-                               " ")
-            self.window.addstr(self.ball_pos_y,
-                               self.board_end_x,
-                               self.vertical_border)
-            
-            available_colors = [color_id for color_id in self.colors_range if color_id != self.selected_color]
+            self.ball_speed_x = -self.ball_speed_x
+            self.window.addstr(self.ball_pos_y, self.board_end_x, " ")
+            self.window.addstr(self.ball_pos_y, self.board_end_x, self.vertical_border)
+
+            available_colors = [
+                color_id
+                for color_id in self.colors_range
+                if color_id != self.selected_color
+            ]
             self.selected_color = random.choice(available_colors)
             self.window.attron(curses.color_pair(self.selected_color))
 
         if self.ball_pos_x <= self.board_start_x:
             self.ball_pos_x = self.board_start_x + 1
-            self.ball_speed_x = - self.ball_speed_x
-            self.window.addstr(self.ball_pos_y,
-                               self.board_start_x,
-                               " ")
-            self.window.addstr(self.ball_pos_y,
-                               self.board_start_x,
-                               self.vertical_border)
+            self.ball_speed_x = -self.ball_speed_x
+            self.window.addstr(self.ball_pos_y, self.board_start_x, " ")
+            self.window.addstr(
+                self.ball_pos_y, self.board_start_x, self.vertical_border
+            )
 
-            available_colors = [color_id for color_id in self.colors_range if color_id != self.selected_color]
+            available_colors = [
+                color_id
+                for color_id in self.colors_range
+                if color_id != self.selected_color
+            ]
             self.selected_color = random.choice(available_colors)
             self.window.attron(curses.color_pair(self.selected_color))
 
         self.window.attron(curses.A_BOLD)
 
-        self.window.addstr(self.ball_pos_y,
-                           self.ball_pos_x,
-                           self.ball)
-        
+        self.window.addstr(self.ball_pos_y, self.ball_pos_x, self.ball)
+
     def select_widget(self, widget_id):
         pass
 
@@ -136,10 +141,12 @@ class Main_menu(UI):
 
         y = 0
         for text in self.message:
-            self.window.addstr(height // 6 - len(self.message) + y,
-                               width // 2 - len(text) // 2,
-                               text,
-                               curses.color_pair(2))
+            self.window.addstr(
+                height // 6 - len(self.message) + y,
+                width // 2 - len(text) // 2,
+                text,
+                curses.color_pair(2),
+            )
             y += 1
 
         self.window.attroff(curses.color_pair(2))
@@ -157,27 +164,35 @@ class Main_menu(UI):
         for y in range(self.board_start_y + 1, self.board_end_y):
             self.window.addstr(y, self.board_start_x, self.vertical_border)
 
-        self.window.addstr(self.board_start_y, self.board_start_x, self.upper_left_corner)
-        self.window.addstr(self.board_start_y, self.board_end_x, self.upper_right_corner)
+        self.window.addstr(
+            self.board_start_y, self.board_start_x, self.upper_left_corner
+        )
+        self.window.addstr(
+            self.board_start_y, self.board_end_x, self.upper_right_corner
+        )
 
         for y in range(self.board_start_y + 1, self.board_end_y):
             self.window.addstr(y, self.board_end_x, self.vertical_border)
 
-        self.window.addstr(self.board_end_y, self.board_start_x, self.bottom_left_corner)
+        self.window.addstr(
+            self.board_end_y, self.board_start_x, self.bottom_left_corner
+        )
         self.window.addstr(self.board_end_y, self.board_end_x, self.bottom_right_corner)
 
         for x in range(self.board_start_x + 1, self.board_end_x):
             self.window.addstr(self.board_end_y, x, self.horizontal_border)
 
-        self.ball_pos_y = (self.board_end_y - self.board_start_y) // 2 + self.board_start_y
-        self.ball_pos_x = (self.board_end_x - self.board_start_x) // 2 + self.board_start_x
+        self.ball_pos_y = (
+            self.board_end_y - self.board_start_y
+        ) // 2 + self.board_start_y
+        self.ball_pos_x = (
+            self.board_end_x - self.board_start_x
+        ) // 2 + self.board_start_x
 
         self.window.attron(curses.A_BOLD)
         self.window.attron(curses.color_pair(3))
 
-        self.window.addstr(self.ball_pos_y,
-                           self.ball_pos_x,
-                           self.ball)
+        self.window.addstr(self.ball_pos_y, self.ball_pos_x, self.ball)
 
         self.window.attroff(curses.color_pair(3))
         self.window.attroff(curses.A_BOLD)
@@ -190,7 +205,7 @@ class Main_menu(UI):
             frame_color_pair_id=5,
             key=keyboard.Key.enter,
             go_to=AppState.GAME,
-            selected=True
+            selected=True,
         )
 
         exit_button = Button(
@@ -237,7 +252,7 @@ class Main_menu(UI):
                 break
             await self.move_ball()
             curses.doupdate()
-            await asyncio.sleep(.08)
+            await asyncio.sleep(0.08)
         return res
 
 

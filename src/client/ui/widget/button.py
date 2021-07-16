@@ -4,9 +4,20 @@ from ._widget import Widget
 
 
 class Button(Widget):
-    def __init__(self, y, x, key, height=4, width=11, text=None, frame_color_pair_id: int = None,
-                 text_color_pair_id: int = None, selected=False,
-                 toggled=False, go_to=None):
+    def __init__(
+        self,
+        y,
+        x,
+        key,
+        height=4,
+        width=11,
+        text=None,
+        frame_color_pair_id: int = None,
+        text_color_pair_id: int = None,
+        selected=False,
+        toggled=False,
+        go_to=None,
+    ):
         super().__init__("button")
         self.x = x
         self.y = y
@@ -23,7 +34,7 @@ class Button(Widget):
         self.go_to = go_to
         self.horizontal_border = "─"
         self.vertical_border = "│"
-        self.upper_left_corner = '┌'
+        self.upper_left_corner = "┌"
         self.upper_right_corner = "┐"
         self.bottom_left_corner = "└"
         self.bottom_right_corner = "┘"
@@ -40,13 +51,17 @@ class Button(Widget):
         self.window.addstr(self.height - 2, 0, self.bottom_left_corner)
         for y in range(1, self.height - 2):
             self.window.addstr(y, self.width - 1, self.vertical_border)
-        self.window.addstr(self.height - 2, 1, self.horizontal_border * (self.width - 2))
+        self.window.addstr(
+            self.height - 2, 1, self.horizontal_border * (self.width - 2)
+        )
         self.window.addstr(self.height - 2, self.width - 1, self.bottom_right_corner)
 
         if self.text is not None:
             if self.text_color_pair_id is not None and self.selected:
                 self.window.attron(curses.color_pair(self.text_color_pair_id))
-            self.window.addstr((self.height - 1) // 2, (self.width - len(self.text)) // 2, self.text)
+            self.window.addstr(
+                (self.height - 1) // 2, (self.width - len(self.text)) // 2, self.text
+            )
             if self.text_color_pair_id is not None:
                 self.window.attroff(curses.color_pair(self.text_color_pair_id))
 
