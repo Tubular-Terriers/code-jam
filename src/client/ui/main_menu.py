@@ -43,9 +43,9 @@ class Main_menu(UI):
         self.button_spacing = None
         self.colors_range = range(1, 9)
         self.selected_color = 1
+        self.selected_widget = 0
 
     async def move_ball(self):
-        # moves the ball across the screen
         self.window.addstr(self.ball_pos_y, self.ball_pos_x, " ")
 
         self.ball_pos_y += self.ball_speed_y
@@ -272,6 +272,22 @@ class Main_menu(UI):
             curses.doupdate()
             await asyncio.sleep(0.08)
         return res
+
+    def press_on(self, key):
+        if key == keyboard.Key.left:
+            self.widgets[self.selected_widget].selected = False
+            if not self.selected_widget == 0:
+                self.selected_widget -= 1
+            self.widgets[self.selected_widget].selected = True
+
+        elif key == keyboard.Key.right:
+            self.widgets[self.selected_widget].selected = False
+            if not self.selected_widget == len(self.widgets) - 1:
+                self.selected_widget += 1
+            self.widgets[self.selected_widget].selected = True
+
+        elif key == keyboard.Key.enter:
+            self.widgets[self.selected_widget].toggle()
 
 
 main_menu = Main_menu()
