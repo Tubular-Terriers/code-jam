@@ -1,17 +1,17 @@
-import requests
-from dotenv import load_dotenv
 import hashlib
 import os
-from .auth_manager import AuthManager
-
 from urllib import parse
 
+import requests
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views import View
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
+from dotenv import load_dotenv
+
+from .auth_manager import AuthManager
 
 load_dotenv()
 
