@@ -1,0 +1,8 @@
+# Requirements for the project, organized by subprojects
+# For example, the client run code does not require server modules
+
+# Client
+
+# Server
+
+# Web
