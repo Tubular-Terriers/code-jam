@@ -7,6 +7,7 @@ class BrowserManager:
 
     def open_browser(self, url):
         webbrowser.open_new_tab(url)
+        return True
 
 
 # Usage example

@@ -11,3 +11,4 @@ class AppState(Enum):
     GAME_OVER = auto()
     SETTINGS_SCR = auto()
     CREDITS_SCR = auto()
+    AUTH_SCR = auto()

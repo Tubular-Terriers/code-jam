@@ -76,7 +76,7 @@ class Auth(UI):
             (width - 150) // 2,
             width=150,
             text="Wait! If you have a TOKEN, just copy it and my guy will know that; if not GET THE HE... No, you're welcome. Just press enter to register...",
-            text_color_pair_id=5,
+            text_color_pair_id=7,
             frame_color_pair_id=5,
             key=keyboard.Key.enter,
             callback=self.open_auth_page,
@@ -87,7 +87,7 @@ class Auth(UI):
             (width - 25) // 2,
             width=25,
             text="end before it began...",
-            text_color_pair_id=5,
+            text_color_pair_id=6,
             frame_color_pair_id=5,
             key=keyboard.Key.enter,
             go_to=AppState.EXIT
@@ -105,11 +105,32 @@ class Auth(UI):
             clip = self.clipboardManager.get_clipboard()
             if re.match(r"^[a-fA-F0-9]{64}$", clip):
                 app.TOKEN = clip
-                print(clip)
                 return AppState.MAIN_MENU
             curses.doupdate()
             await asyncio.sleep(0.08)
         return res
+
+    def press_on(self, key):
+        print(key)
+        if key == keyboard.Key.left:
+            self.widgets[self.selected_widget].selected = False
+            if not self.selected_widget == 0:
+                self.selected_widget -= 1
+            else:
+                self.selected_widget = len(self.widgets) - 1
+            self.widgets[self.selected_widget].selected = True
+
+        elif key == keyboard.Key.right:
+            self.widgets[self.selected_widget].selected = False
+            if not self.selected_widget == len(self.widgets) - 1:
+                self.selected_widget += 1
+            else:
+                self.selected_widget = 0
+
+            self.widgets[self.selected_widget].selected = True
+
+        elif key == keyboard.Key.enter:
+            self.widgets[self.selected_widget].toggle()
 
 
 auth = Auth()

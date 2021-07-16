@@ -10,6 +10,7 @@ from client.ui.credits import credits_scr
 from client.ui.error_sc import ss_error
 from client.ui.game_over import game_over
 from client.ui.main_menu import main_menu
+from client.ui.auth import auth
 from client.ui.menu import menu
 from client.ui.settingsui import settings
 
@@ -27,7 +28,7 @@ class App:
     """
 
     def __init__(self, stdscr=None):
-        self.state = AppState.MAIN_MENU  # temp
+        self.state = AppState.AUTH_SCR  # temp
 
         # FIXME Change this later
         self.target_height = 30
@@ -70,6 +71,7 @@ class App:
         self.ui.ss_error = ss_error
         self.ui.credit = credits_scr
         self.ui.settings = settings
+        self.ui.auth = auth
 
         # Register input_manager
         self.input_manager = input_manager
@@ -143,6 +145,8 @@ class App:
                 self.state = await self.set_ui(self.ui.credit)
             elif self.state == AppState.SETTINGS_SCR:
                 self.state == await self.set_ui(self.ui.settings)
+            elif self.state == AppState.AUTH_SCR:
+                self.state == await self.set_ui(self.ui.auth)
             elif self.state == AppState.EXIT:
                 break
             else:

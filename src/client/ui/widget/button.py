@@ -19,6 +19,7 @@ class Button(Widget):
         selected=False,
         toggled=False,
         go_to=None,
+        callback=None,
     ):
         super().__init__("button")
         self.x = x
@@ -30,6 +31,7 @@ class Button(Widget):
         self.width = width if width >= 10 else 10
         self.window = curses.newwin(self.height, self.width, y, x)
         self.toggled = toggled
+        self.callback = callback
         self.selected = selected
         self.toggle_count = 0
         self.key = key
@@ -85,5 +87,7 @@ class Button(Widget):
         if key == self.key or key.char == self.key:
             self.toggle_count += 1
             self.toggled = not self.toggled
+            if self.callback is not None:
+                self.callback()
         else:
             return key
