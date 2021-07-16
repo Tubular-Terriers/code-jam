@@ -6,8 +6,9 @@ import re
 from pynput import keyboard
 
 from client.appstate import AppState
-from client.tools.clipboard import ClipboardManager
 from client.tools.browser import BrowserManager
+from client.tools.clipboard import ClipboardManager
+
 from ._ui import UI
 from .widget.button import Button
 
