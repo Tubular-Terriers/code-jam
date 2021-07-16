@@ -48,6 +48,7 @@ class Auth(UI):
         self.bottom_right_corner = "┘"
         self.clipboardManager = ClipboardManager()
         self.browserManager = BrowserManager()
+        self.selected_widget = 0
 
     def select_widget(self, widget_id):
         pass
@@ -56,13 +57,19 @@ class Auth(UI):
         return self.browserManager.open_browser("https://pongconsole.xyz/dcauth/login")
 
     async def view(self, app):
-        # prints the text of the screen
-        # Required
         super().view(app)
         height, width = self.window.getmaxyx()
+        curses.start_color()
+        curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)
+        curses.init_pair(2, 215, curses.COLOR_BLACK)
+        curses.init_pair(3, curses.COLOR_BLUE, curses.COLOR_BLACK)
+        curses.init_pair(4, curses.COLOR_MAGENTA, curses.COLOR_BLACK)
+        curses.init_pair(5, curses.COLOR_CYAN, curses.COLOR_BLACK)
+        curses.init_pair(6, curses.COLOR_RED, curses.COLOR_BLACK)
+        curses.init_pair(7, curses.COLOR_GREEN, curses.COLOR_BLACK)
+        curses.init_pair(8, curses.COLOR_YELLOW, curses.COLOR_BLACK)
 
         y = 0
-
         for text in self.message:
             self.window.addstr(
                 y,
@@ -76,7 +83,8 @@ class Auth(UI):
             len(self.message) + 5,
             (width - 150) // 2,
             width=150,
-            text="Wait! If you have a TOKEN, just copy it and my guy will know that; if not GET THE HE... No, you're welcome. Just press enter to register...",
+            text="Wait! If you have a TOKEN, just copy it and my guy will know that; if not GET THE HE... No, "
+                 "you're welcome. Just press enter to register...",
             text_color_pair_id=7,
             frame_color_pair_id=5,
             key=keyboard.Key.enter,
@@ -112,17 +120,18 @@ class Auth(UI):
         return res
 
     def press_on(self, key):
-        print(key)
-        if key == keyboard.Key.left:
+        if key == keyboard.Key.up:
             self.widgets[self.selected_widget].selected = False
             if not self.selected_widget == 0:
                 self.selected_widget -= 1
             else:
                 self.selected_widget = len(self.widgets) - 1
+
             self.widgets[self.selected_widget].selected = True
 
-        elif key == keyboard.Key.right:
+        elif key == keyboard.Key.down:
             self.widgets[self.selected_widget].selected = False
+
             if not self.selected_widget == len(self.widgets) - 1:
                 self.selected_widget += 1
             else:
