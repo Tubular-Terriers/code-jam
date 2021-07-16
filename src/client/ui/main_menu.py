@@ -56,8 +56,8 @@ class Main_menu(UI):
             self.ball_speed_y = -self.ball_speed_y
             self.window.addstr(self.board_end_y, self.ball_pos_x, " ")
             if (
-                self.ball_pos_y == self.board_end_y
-                and self.ball_pos_x == self.board_end_x
+                self.ball_pos_y == self.board_end_y - 1
+                and self.ball_pos_x == self.board_end_x - 1
             ):
                 self.window.addstr(
                     self.board_end_y, self.ball_pos_x, self.bottom_right_corner
@@ -67,41 +67,19 @@ class Main_menu(UI):
                     self.board_end_y, self.ball_pos_x, self.horizontal_border
                 )
 
-            available_colors = [
-                color_id
-                for color_id in self.colors_range
-                if color_id != self.selected_color
-            ]
-            self.selected_color = random.choice(available_colors)
-            self.window.attron(curses.color_pair(self.selected_color))
+            self.switch_ball_color()
 
         if self.ball_pos_y <= self.board_start_y:
+
             self.ball_pos_y = self.board_start_y + 1
             self.ball_speed_y = -self.ball_speed_y
-            self.window.addstr(self.board_start_y, self.ball_pos_x, " ")
-            if (
-                self.ball_pos_y != self.board_start_y
-                and self.ball_pos_y != self.board_end_y
-            ):
-                self.window.addstr(
-                    self.board_start_y, self.ball_pos_x, self.horizontal_border
-                )
-            elif self.ball_pos_x == self.board_start_x:
-                self.window.addstr(
-                    self.board_start_y, self.ball_pos_x, self.upper_left_corner
-                )
-            elif self.ball_pos_x == self.board_end_x:
-                self.window.addstr(
-                    self.board_start_y, self.ball_pos_x, self.upper_right_corner
-                )
 
-            available_colors = [
-                color_id
-                for color_id in self.colors_range
-                if color_id != self.selected_color
-            ]
-            self.selected_color = random.choice(available_colors)
-            self.window.attron(curses.color_pair(self.selected_color))
+            self.window.addstr(self.board_start_y, self.ball_pos_x, " ")
+            self.window.addstr(
+                self.board_end_y, self.ball_pos_x, self.horizontal_border
+            )
+
+            self.switch_ball_color()
 
         if self.ball_pos_x >= self.board_end_x:
             self.ball_pos_x = self.board_end_x - 1
@@ -109,13 +87,7 @@ class Main_menu(UI):
             self.window.addstr(self.ball_pos_y, self.board_end_x, " ")
             self.window.addstr(self.ball_pos_y, self.board_end_x, self.vertical_border)
 
-            available_colors = [
-                color_id
-                for color_id in self.colors_range
-                if color_id != self.selected_color
-            ]
-            self.selected_color = random.choice(available_colors)
-            self.window.attron(curses.color_pair(self.selected_color))
+            self.switch_ball_color()
 
         if self.ball_pos_x <= self.board_start_x:
             self.ball_pos_x = self.board_start_x + 1
@@ -125,24 +97,21 @@ class Main_menu(UI):
                 self.ball_pos_y, self.board_start_x, self.vertical_border
             )
 
-            available_colors = [
-                color_id
-                for color_id in self.colors_range
-                if color_id != self.selected_color
-            ]
-            self.selected_color = random.choice(available_colors)
-            self.window.attron(curses.color_pair(self.selected_color))
+            self.switch_ball_color()
 
         self.window.attron(curses.A_BOLD)
-
         self.window.addstr(self.ball_pos_y, self.ball_pos_x, self.ball)
 
-    def select_widget(self, widget_id):
-        pass
+    def switch_ball_color(self):
+        available_colors = [
+            color_id
+            for color_id in self.colors_range
+            if color_id != self.selected_color
+        ]
+        self.selected_color = random.choice(available_colors)
+        self.window.attron(curses.color_pair(self.selected_color))
 
     async def view(self, app):
-        # prints the text of the screen
-        # Required
         super().view(app)
         height, width = self.window.getmaxyx()
         curses.start_color()
@@ -173,7 +142,7 @@ class Main_menu(UI):
 
         self.board_end_x = width - self.board_start_x
 
-        self.board_start_y = height // 5
+        self.board_start_y = height // 10
         self.board_end_y = height - 15
 
         for x in range(self.board_start_x, self.board_end_x):
@@ -243,10 +212,10 @@ class Main_menu(UI):
             play_button.x + self.button_spacing,
             width=12,
             text="Settings",
-            text_color_pair_id=5,
+            text_color_pair_id=4,
             frame_color_pair_id=5,
             key=keyboard.Key.enter,
-            go_to=AppState.EXIT,
+            go_to=AppState.SETTINGS_SCR,
         )
 
         credits_button = Button(
@@ -264,7 +233,6 @@ class Main_menu(UI):
         self.register_input_managers(*self.widgets)
         self.refresh()
 
-        res = None
         while True:
             if res := self.refresh():
                 break
@@ -278,12 +246,17 @@ class Main_menu(UI):
             self.widgets[self.selected_widget].selected = False
             if not self.selected_widget == 0:
                 self.selected_widget -= 1
+            else:
+                self.selected_widget = len(self.widgets) - 1
             self.widgets[self.selected_widget].selected = True
 
         elif key == keyboard.Key.right:
             self.widgets[self.selected_widget].selected = False
             if not self.selected_widget == len(self.widgets) - 1:
                 self.selected_widget += 1
+            else:
+                self.selected_widget = 0
+
             self.widgets[self.selected_widget].selected = True
 
         elif key == keyboard.Key.enter:
