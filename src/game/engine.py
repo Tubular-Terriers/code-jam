@@ -24,6 +24,8 @@ class Engine:
         self._hooks = {}
         self._hooks[self.process_event] = self.process_event
 
+        self.entities = {}
+
         # def c(n, v):
         #     if n == Sound.ID:
         #         print(v)
@@ -64,6 +66,8 @@ class Engine:
         p.position = (100, 200)
         p.add_space(self.space)
 
+        self.register_entity(p)
+
         try:
             for i in range(20):
                 ball = Ball()
@@ -71,6 +75,8 @@ class Engine:
                 ball.velocity = (0, 100)
                 ball.angular_velocity = random.random() * 1000
                 ball.add_space(self.space)
+
+                self.register_entity(ball)
         except Exception as e:
             print(e)
 
@@ -159,8 +165,17 @@ class Engine:
             obj.friction = 0
 
             obj.collision_type = collision_type.WALL
+            obj.filter = pymunk.ShapeFilter(
+                categories=category.WALL, mask=category.MASK.WALL
+            )
 
             self.space.add(obj)
+
+    def register_entity(self, entity):
+        self.entities[entity.uuid] = entity
+
+    def remove_entity(self, entity):
+        del self.entities[entity.uuid]
 
     async def run(self):
         # TODO: this method should be synchronous
