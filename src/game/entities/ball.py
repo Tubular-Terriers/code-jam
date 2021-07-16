@@ -22,5 +22,7 @@ class Ball(Entity, pymunk.Body):
 
         self.tuple = self, self.circle
 
+        self.ownerUUID = None
+
     def add_space(self, space):
         space.add(*self.tuple)
