@@ -4,7 +4,7 @@
 
 ```json
 {
-    "action": "verify|game",
+    "action": "verify|verify_response|game",
     "payload": {
         // the actual payload here
     }
@@ -12,7 +12,8 @@
 ```
 action name      |client                 |server
 -                |-                      |-
-verify           | sends token           | verifies token
+verify           | sends token           |
+verify_response  |                       | response to `verify`
 game (symmetric) | send game data        | send game data
 ## Verification
 
@@ -29,7 +30,7 @@ when verification is success, the server returns
 
 ```json
 {
-    "action": "verify",
+    "action": "verify_response",
     "payload": {
         "status": "OK",
         "error": ""
@@ -40,7 +41,7 @@ when the verification fails, the server returns
 
 ```json
 {
-    "action": "verify",
+    "action": "verify_response",
     "payload": {
         "status": "ERROR",
         "error": "Invalid Token"
