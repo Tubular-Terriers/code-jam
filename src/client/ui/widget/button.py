@@ -1,4 +1,5 @@
 import curses
+import sys
 
 from pynput import keyboard
 
@@ -18,10 +19,12 @@ class Button(Widget):
         text_color_pair_id: int = None,
         selected=False,
         toggled=False,
+        require_active=True,
         go_to=None,
-        callback=None,
+        callback=None
     ):
         super().__init__("button")
+        self.require_selected = require_active
         self.x = x
         self.y = y
         self.text = text
@@ -70,7 +73,7 @@ class Button(Widget):
                 self.window.attroff(curses.color_pair(self.text_color_pair_id))
 
         self.window.noutrefresh()
-        if self.toggle_count >= 1 and self.selected is True:
+        if self.toggle_count >= 1 and (self.selected is True or self.require_selected is False):
             if self.go_to is not None:
                 return self.go_to
 
@@ -89,5 +92,6 @@ class Button(Widget):
             self.toggled = not self.toggled
             if self.callback is not None:
                 self.callback()
+            self.refresh()
         else:
             return key
