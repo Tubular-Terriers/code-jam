@@ -24,6 +24,12 @@ class Engine:
         self._hooks = {}
         self._hooks[self.process_event] = self.process_event
 
+        # def c(n, v):
+        #     if n == Sound.ID:
+        #         print(v)
+
+        # self._hooks[c] = c
+
         self.width = 600
         self.height = 600
 
@@ -125,6 +131,15 @@ class Engine:
             collision_type.HITBOX, collision_type.BALL
         )
         ch.pre_solve = on_hitbox_ball_hit
+
+        def on_collision_ball_hit(arbiter, space, data):
+            # TODO: implement ball curving
+            self._emit(Sound.ID, Sound.HIT)
+
+        ch_collision_box = self.space.add_collision_handler(
+            collision_type.BALL_COLLISION_BOX, collision_type.BALL
+        )
+        ch_collision_box.post_solve = on_collision_ball_hit
 
     def load_mapdata(self):
         """
