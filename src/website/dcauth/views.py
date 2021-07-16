@@ -51,29 +51,27 @@ def login_success(request):
 
 # Tools
 def get_access_token(code):
-    API_ENDPOINT = 'https://discord.com/api'
+    API_ENDPOINT = "https://discord.com/api"
     REDIRECT_URI = f"{GAMESERVER_URL}login-success"
     data = {
         "client_id": CLIENT_ID,
         "client_secret": CLIENT_SECRET,
         "grant_type": "authorization_code",
         "code": code,
-        "redirect_uri": REDIRECT_URI
+        "redirect_uri": REDIRECT_URI,
     }
-    headers = {
-        'Content-Type': 'application/x-www-form-urlencoded'
-    }
-    r = requests.post(f"{API_ENDPOINT}/oauth2/token", data=parse.urlencode(data), headers=headers)
+    headers = {"Content-Type": "application/x-www-form-urlencoded"}
+    r = requests.post(
+        f"{API_ENDPOINT}/oauth2/token", data=parse.urlencode(data), headers=headers
+    )
     r.raise_for_status()
     response = r.json()
     return response["access_token"]
 
 
 def get_user_id(access_token):
-    API_ENDPOINT = 'https://discord.com/api'
-    headers = {
-        "Authorization": f"Bearer {access_token}"
-    }
+    API_ENDPOINT = "https://discord.com/api"
+    headers = {"Authorization": f"Bearer {access_token}"}
     r = requests.get(f"{API_ENDPOINT}/users/@me", headers=headers)
     r.raise_for_status()
     res = r.json()
