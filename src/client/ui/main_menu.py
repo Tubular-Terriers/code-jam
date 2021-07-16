@@ -16,16 +16,16 @@ from .widget.simple_textbox import Box
 class Main_menu(UI):
     def __init__(self):
         super().__init__("main_menu_scr")
-
-        self.message_text1 = " _   _                        _             "
-        self.message_text2 = "| | | |                      (_)            "
-        self.message_text3 = "| |_| |__   ___   ____   ___  _ _ __   __ _ "
-        self.message_text4 = "| __|  _ \\ / _ \\ |  _ \\ / _ \\| |  _ \\ / _  |"
-        self.message_text5 = "| |_| | | |  __/ | |_) | (_) | | | | | (_| |"
-        self.message_text6 = " \\__|_| |_|\\___| |  __/ \\___/|_|_| |_|\\__, |"
-        self.message_text7 = "                 | |                   __/ |"
-        self.message_text8 = "                 |_|                  |___/ "
-        # print(self.message)
+        self.message = [
+            r" _   _                        _             ",
+            r"| | | |                      (_)            ",
+            r"| |_| |__   ___   ____   ___  _ _ __   __ _ ",
+            r"| __|  _ \ / _ \ |  _ \ / _ \| |  _ \ / _  |",
+            r"| |_| | | |  __/ | |_) | (_) | | | | | (_| |",
+            r" \__|_| |_|\___| |  __/ \___/|_|_| |_|\__, |",
+            r"                 | |                   __/ |",
+            r"                 |_|                  |___/ "
+        ]
 
     async def view(self, app):
         # Required
@@ -35,33 +35,15 @@ class Main_menu(UI):
         curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)
         curses.init_pair(2, 215, curses.COLOR_BLACK)
         self.window.attron(curses.color_pair(2))
-        self.window.addstr(
-            int((height / 2) - 7),
-            int(width / 2) - 17,
-            f"{self.message_text1}",
-            curses.color_pair(2),
-        )
-        self.window.addstr(
-            int((height / 2) - 6), int(width / 2) - 17, f"{self.message_text2}"
-        )
-        self.window.addstr(
-            int((height / 2) - 5), int(width / 2) - 17, f"{self.message_text3}"
-        )
-        self.window.addstr(
-            int((height / 2) - 4), int(width / 2) - 17, f"{self.message_text4}"
-        )
-        self.window.addstr(
-            int((height / 2) - 3), int(width / 2) - 17, f"{self.message_text5}"
-        )
-        self.window.addstr(
-            int((height / 2) - 2), int(width / 2) - 17, f"{self.message_text6}"
-        )
-        self.window.addstr(
-            int((height / 2) - 1), int(width / 2) - 17, f"{self.message_text7}"
-        )
-        self.window.addstr(
-            int((height / 2)), int(width / 2) - 17, f"{self.message_text8}"
-        )
+        
+        y = 0
+        for text in self.message:
+            self.window.addstr(height // 2 - len(self.message) + y,
+                               width // 2 - len(text) // 2,
+                               text,
+                               curses.color_pair(2))
+            y += 1
+
         self.window.attroff(curses.color_pair(2))
         self.window.attroff(curses.A_BOLD)
         self.refresh()
