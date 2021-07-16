@@ -2,7 +2,8 @@ from enum import Enum, auto
 
 
 class AppState(Enum):
-    '''defining appstates'''
+    """defining appstates"""
+
     EXIT = 0
     MENU = 1
     MAIN_MENU = 2
