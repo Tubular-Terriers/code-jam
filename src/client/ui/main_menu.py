@@ -246,7 +246,7 @@ class Main_menu(UI):
             text_color_pair_id=5,
             frame_color_pair_id=5,
             key=keyboard.Key.enter,
-            go_to=AppState.EXIT,
+            go_to=AppState.SETTINGS_SCR,
         )
 
         credits_button = Button(
