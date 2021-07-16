@@ -41,7 +41,6 @@ class Main_menu(UI):
         self.button_spacing = None
         self.colors_range = range(1, 9)
         self.selected_color = 1
-        self.broken = []
 
     async def move_ball(self):
         self.window.addstr(self.ball_pos_y, self.ball_pos_x, " ")
@@ -62,8 +61,7 @@ class Main_menu(UI):
                 )
             else:
                 self.window.addstr(
-                    self.board_end_y + 1, self.ball_pos_x, self.horizontal_border
-                )
+                    self.board_end_y, self.ball_pos_x, self.horizontal_border)
 
             available_colors = [
                 color_id
