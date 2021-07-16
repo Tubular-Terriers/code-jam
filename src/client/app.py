@@ -12,7 +12,7 @@ from client.ui.error_sc import ss_error
 from client.ui.game_over import game_over
 from client.ui.main_menu import main_menu
 from client.ui.menu import menu
-from client.ui.settingsui import settings
+from client.ui.settings import settings
 
 sys.path.append(".")
 import curses
@@ -29,6 +29,7 @@ class App:
 
     def __init__(self, stdscr=None):
         self.state = AppState.AUTH_SCR  # temp
+        # self.state = AppState.MAIN_MENU
 
         # FIXME Change this later
         self.target_height = 30
@@ -68,7 +69,7 @@ class App:
         self.ui.menu = menu
         self.ui.main_menu = main_menu
         self.ui.game_over = game_over
-        self.ui.ss_error = ss_error
+        self.ui.ss_error = ss_error  # TODO: Remove or use this
         self.ui.credit = credits_scr
         self.ui.settings = settings
         self.ui.auth = auth
@@ -124,8 +125,8 @@ class App:
             # Run a custom curses error screen maybe
         while True:  # To-do check this.
             if (
-                self.stdscr.getmaxyx()[0] < self.target_height
-                or self.stdscr.getmaxyx()[1] < self.target_width
+                    self.stdscr.getmaxyx()[0] < self.target_height
+                    or self.stdscr.getmaxyx()[1] < self.target_width
             ):  # Allow smaller screen temporarily
                 await self.set_ui(ss_error)
                 try:
