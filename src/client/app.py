@@ -11,6 +11,7 @@ from client.ui.error_sc import ss_error
 from client.ui.game_over import game_over
 from client.ui.main_menu import main_menu
 from client.ui.menu import menu
+from client.ui.settingsui import settings
 
 sys.path.append(".")
 import curses
@@ -68,6 +69,8 @@ class App:
         self.ui.game_over = game_over
         self.ui.ss_error = ss_error
         self.ui.credit = credits_scr
+        self.ui.settings = settings
+
         # Register input_manager
         self.input_manager = input_manager
 
@@ -138,6 +141,8 @@ class App:
                 self.state = await self.set_ui(self.ui.game_over)
             elif self.state == AppState.CREDITS_SCR:
                 self.state = await self.set_ui(self.ui.credit)
+            elif self.state == AppState.SETTINGS_SCR:
+                self.state == await self.set_ui(self.ui.settings)
             elif self.state == AppState.EXIT:
                 break
             else:
