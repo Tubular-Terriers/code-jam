@@ -4,9 +4,10 @@ from enum import Enum, auto
 class AppState(Enum):
     """defining appstates"""
 
-    EXIT = 0
-    MENU = 1
-    MAIN_MENU = 2
-    GAME = 3
-    GAME_OVER = 4
-    CREDITS_SCR = 5
+    EXIT = auto()
+    MENU = auto()
+    MAIN_MENU = auto()
+    GAME = auto()
+    GAME_OVER = auto()
+    SETTINGS_SCR = auto()
+    CREDITS_SCR = auto()
