@@ -12,8 +12,8 @@ class Packet:
         raise NotImplementedError
 
     @staticmethod
-    def load(data) -> object:
-        """Loads the data from payload json"""
+    def load(payload) -> object:
+        """Loads the data from dict(payload)"""
         raise NotImplementedError
 
     def send(self) -> str:
