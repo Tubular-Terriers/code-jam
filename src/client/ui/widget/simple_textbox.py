@@ -8,7 +8,8 @@ from ._widget import Widget
 
 
 class Box(Widget):
-    '''The widget for making a text box to get a value'''
+    """The widget for making a text box to get a value"""
+
     def __init__(self, h, w, y, x):
         super().__init__("text box")
         self.window = curses.newwin(h, w, y, x)

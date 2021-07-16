@@ -11,7 +11,8 @@ from .widget.button import Button
 
 
 class Main_menu(UI):
-    '''makes main screen ui'''
+    """makes main screen ui"""
+
     def __init__(self):
         super().__init__("main_menu_scr")
         self.message = [
@@ -128,7 +129,7 @@ class Main_menu(UI):
         pass
 
     async def view(self, app):
-        #prints the text of the screen
+        # prints the text of the screen
         # Required
         super().view(app)
         height, width = self.window.getmaxyx()

@@ -15,7 +15,8 @@ curses.initscr()
 
 
 class health_bar(Widget):
-    '''a widget to display the health bar when it is called and asigned a health value'''
+    """a widget to display the health bar when it is called and asigned a health value"""
+
     def __init__(self, health, message=None):
         super().__init__("health bar")
         self.height = 5

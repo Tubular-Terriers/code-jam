@@ -14,7 +14,8 @@ from .widget.simple_textbox import Box
 
 
 class Menu(UI):
-    '''use for testing'''
+    """use for testing"""
+
     def __init__(self):
         super().__init__("menu screen")
         self.time = 0
