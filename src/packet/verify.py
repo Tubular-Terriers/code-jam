@@ -11,8 +11,8 @@ class Verify(Packet):
         self.token = token
 
     def dump(self):
-        return json.dumps({"TOKEN": self.token})
+        return {"TOKEN": self.token}
 
     @staticmethod
     def load(payload) -> object:
-        return Verify.__init__(payload["TOKEN"])
+        return Verify(payload["TOKEN"])

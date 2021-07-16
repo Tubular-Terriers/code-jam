@@ -8,7 +8,7 @@ class Packet:
         self.action_name = action_name
 
     def dump(self):
-        """Dumps the data to payload json form"""
+        """Dumps the data to `dict`"""
         raise NotImplementedError
 
     @staticmethod
@@ -18,7 +18,7 @@ class Packet:
 
     def send(self) -> str:
         """Returns a json packet to send"""
-        json.dumps(
+        return json.dumps(
             {
                 "action": self.action_name,
                 "payload": self.dump(),

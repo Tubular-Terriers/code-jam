@@ -8,13 +8,20 @@ class VerifyResponse(Packet):
 
     def __init__(self, is_ok, error=None):
         super().__init__(self.ACTION)
-        self.payload = {"status": is_ok}
-        if not error:
-            self.payload["error"] = error
+        self.is_ok = is_ok
+        self.error = error
 
     def dump(self):
-        return json.dumps({"TOKEN": self.token})
+        payload = {"status": self.is_ok}
+        if not self.error:
+            payload["error"] = self.error
+        return payload
 
     @staticmethod
     def load(payload) -> object:
-        return VerifyResponse.__init__(payload["status"] == "OK", payload.get("error"))
+        return VerifyResponse(
+            "OK" if payload["status"] else "ERROR", payload.get("error")
+        )
+
+    def is_verified(self):
+        return self.is_ok

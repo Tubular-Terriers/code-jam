@@ -11,7 +11,7 @@ class GamePacket(Packet):
         self.events = events
 
     def dump(self):
-        return json.dumps({"events": self.events})
+        return {"events": self.events}
 
     @staticmethod
     def load(payload) -> object:
