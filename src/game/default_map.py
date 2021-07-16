@@ -3,10 +3,10 @@ import random
 
 from ._objects import border, wall
 
-cor1x = []
-cor1y = []
-cor2x = []
-cor2y = []
+cor1x = [102, 360, 58 , 412, 489, 231, 409, 535, 146]
+cor1y = [55, 177 , 186, 298, 0  , 186, 385, 406, 494]
+cor2x = [234, 489, 230, 546, 489, 231, 409, 535, 146]
+cor2y = [55, 177 , 186, 298, 180, 320, 561, 540, 600]
 
 data = [
     # Borders (arena border)
@@ -24,7 +24,4 @@ data = [
     wall(cor1x[6], cor1y[6], cor2x[6], cor2y[6]),
     wall(cor1x[7], cor1y[7], cor2x[7], cor2y[7]),
     wall(cor1x[8], cor1y[8], cor2x[8], cor2y[8]),
-    wall(cor1x[9], cor1y[9], cor2x[9], cor2y[9]),
-    wall(cor1x[10], cor1y[10], cor2x[10], cor2y[10]),
-    wall(cor1x[11], cor1y[11], cor2x[11], cor2y[11]),
 ]
