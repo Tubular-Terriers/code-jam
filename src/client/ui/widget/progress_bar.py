@@ -23,6 +23,7 @@ class MessageCreationFailed(Exception):
 
 
 class ProgressBar(Widget):
+    '''a simple widget for adding a progress bar'''
     def __init__(
         self,
         width: int,
