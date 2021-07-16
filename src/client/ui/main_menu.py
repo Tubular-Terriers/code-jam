@@ -6,11 +6,11 @@ import sys
 from pynput import keyboard
 
 from client.appstate import AppState
-from client.sound.sound_effects_engine import SoundEffectsEngine
-from client.sound.sounds import SoundEffects
 from client.input.active_window import is_focused
 from client.settings.config import Config
 from client.settings.settings import Settings
+from client.sound.sound_effects_engine import SoundEffectsEngine
+from client.sound.sounds import SoundEffects
 
 from ._ui import UI
 from .widget.button import Button
