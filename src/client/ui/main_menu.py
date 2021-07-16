@@ -1,10 +1,16 @@
 import asyncio
 import curses
 import random
+import sys
 
 from pynput import keyboard
 
 from client.appstate import AppState
+from client.sound.sound_effects_engine import SoundEffectsEngine
+from client.sound.sounds import SoundEffects
+from client.input.active_window import is_focused
+from client.settings.config import Config
+from client.settings.settings import Settings
 
 from ._ui import UI
 from .widget.button import Button
@@ -34,8 +40,8 @@ class Main_menu(UI):
         self.ball = "●"
         self.ball_pos_x = None
         self.ball_pos_y = None
-        self.ball_speed_y = random.randint(1, 3)
-        self.ball_speed_x = random.randint(1, 3)
+        self.ball_speed_y = random.choice([num for num in range(-2, 2) if num != 0])
+        self.ball_speed_x = random.choice([num for num in range(-2, 2) if num != 0])
         self.board_start_y = None
         self.board_end_y = None
         self.board_start_x = 10
@@ -44,8 +50,12 @@ class Main_menu(UI):
         self.colors_range = range(1, 9)
         self.selected_color = 1
         self.selected_widget = 0
+        self.config = Config()
+        self.sound_engine = SoundEffectsEngine(int(self.config.get(Settings.SFX_VOLUME)))
 
     async def move_ball(self):
+        # TODO: Fix corners
+        
         self.window.addstr(self.ball_pos_y, self.ball_pos_x, " ")
 
         self.ball_pos_y += self.ball_speed_y
@@ -54,13 +64,17 @@ class Main_menu(UI):
         if self.ball_pos_y >= self.board_end_y:
             self.ball_pos_y = self.board_end_y - 1
             self.ball_speed_y = -self.ball_speed_y
+            
+            if is_focused():
+                self.sound_engine.play_sound(SoundEffects.WALL_BOUNCE)
+            
             self.window.addstr(self.board_end_y, self.ball_pos_x, " ")
             if (
                 self.ball_pos_y == self.board_end_y - 1
                 and self.ball_pos_x == self.board_end_x - 1
             ):
                 self.window.addstr(
-                    self.board_end_y, self.ball_pos_x, self.bottom_right_corner
+                    self.board_end_y, self.board_end_x, self.bottom_right_corner
                 )
             else:
                 self.window.addstr(
@@ -192,7 +206,7 @@ class Main_menu(UI):
             frame_color_pair_id=5,
             key=keyboard.Key.enter,
             go_to=AppState.GAME,
-            selected=True,
+            selected=self.selected_widget == 0,
         )
 
         exit_button = Button(
@@ -203,6 +217,7 @@ class Main_menu(UI):
             frame_color_pair_id=5,
             key=keyboard.Key.enter,
             go_to=AppState.EXIT,
+            selected=self.selected_widget == 3
         )
 
         self.button_spacing = (exit_button.x - play_button.x) // 3
@@ -216,6 +231,7 @@ class Main_menu(UI):
             frame_color_pair_id=5,
             key=keyboard.Key.enter,
             go_to=AppState.SETTINGS_SCR,
+            selected=self.selected_widget == 1
         )
 
         credits_button = Button(
@@ -226,14 +242,14 @@ class Main_menu(UI):
             frame_color_pair_id=5,
             key=keyboard.Key.enter,
             go_to=AppState.CREDITS_SCR,
+            selected=self.selected_widget == 2
         )
 
-        self.input_manager = app.input_manager
         self.widgets = [play_button, settings_button, credits_button, exit_button]
-        self.register_input_managers(*self.widgets)
         self.refresh()
 
         while True:
+            self.window.addstr(0, 0, str(self.selected_widget))
             if res := self.refresh():
                 break
             await self.move_ball()
