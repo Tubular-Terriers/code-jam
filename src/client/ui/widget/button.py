@@ -1,5 +1,7 @@
 import curses
+
 from pynput import keyboard
+
 from ._widget import Widget
 
 
