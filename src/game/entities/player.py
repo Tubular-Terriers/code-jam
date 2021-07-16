@@ -41,13 +41,13 @@ class Player(Entity, pymunk.Body):
         # self.friction = 0
 
         # Create bounding box (circle)
-        self.bounding_box = pymunk.Circle(self, 10)
+        self.bounding_box = pymunk.Circle(self, 22)
         self.bounding_box.filter = pymunk.ShapeFilter(
             categories=category.BOUNDING_BOX, mask=category.MASK.BOUNDING_BOX
         )
         self.bounding_box.collision_type = collision_type.BOUNDING_BOX
 
-        self.hitbox_width = 100
+        self.hitbox_width = 50
 
         def hb_fact(w, h):
             b = pymunk.Segment(self, (-w / 2, -h / 2), (w / 2, h / 2), 0.5)
@@ -64,7 +64,7 @@ class Player(Entity, pymunk.Body):
         # This is a whole different body on top of player
         self.bcb_body = pymunk.Body(1, 1, pymunk.Body.KINEMATIC)  # FIXME:
         self.bcb_body.position = (300, 300)
-        bcb_width = 40
+        bcb_width = 8
         bcb_height = 5
         self.bcb_range = (self.hitbox_width - bcb_width) / 2
         self.ball_collision_box = pymunk.Poly(

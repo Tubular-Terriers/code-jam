@@ -30,8 +30,8 @@ class App:
         self.state = AppState.MAIN_MENU  # temp
 
         # FIXME Change this later
-        self.target_height = 30
-        self.target_width = 130
+        self.target_height = 50
+        self.target_width = 150
 
         self.valid = True
 
