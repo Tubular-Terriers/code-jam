@@ -279,13 +279,13 @@ class Main_menu(UI):
             if not self.selected_widget == 0:
                 self.selected_widget -= 1
             self.widgets[self.selected_widget].selected = True
-                
+
         elif key == keyboard.Key.right:
             self.widgets[self.selected_widget].selected = False
             if not self.selected_widget == len(self.widgets) - 1:
                 self.selected_widget += 1
             self.widgets[self.selected_widget].selected = True
-            
+
         elif key == keyboard.Key.enter:
             self.widgets[self.selected_widget].toggle()
 
