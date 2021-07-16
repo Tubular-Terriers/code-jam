@@ -47,6 +47,8 @@ class Engine:
 
         self.space = pymunk.Space()
         self.space.gravity = 0, 0
+        self.coroutine = None
+        self.ball_body = None
 
         self.space.static_body.filter = pymunk.ShapeFilter(
             categories=category.WALL, mask=category.MASK.WALL
