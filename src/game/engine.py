@@ -70,14 +70,11 @@ class Engine:
         self.register_entity(p)
 
         try:
-            for i in range(20):
-                ball = Ball()
-                ball.position = (10 * i + 10, 300)
-                ball.velocity = (0, 100)
-                ball.angular_velocity = random.random() * 1000
-                ball.add_space(self.space)
-
-                self.register_entity(ball)
+            self.ball = Ball()
+            self.ball.position = (10 * 2 + 10, 300)
+            self.ball.velocity = (0, 100)
+            self.ball.angular_velocity = random.random() * 1000
+            self.ball.add_space(self.space)
         except Exception as e:
             print(e)
 
@@ -147,11 +144,14 @@ class Engine:
             print(f"space: {space}")
             print(f"data: {data}")
 
+            self.ball.ownerUUID = self.player.uuid
+
             def _map(p, x1, x2, dx1, dx2):  # A simple range mapper
                 return ((dx2 - dx1) * ((p - x1) / (x2 - x1))) + dx1
 
             poly = arbiter.shapes[0]
             collided = arbiter.shapes[1]
+
             print("colided: ", collided)
             space_vertices = []
             for v in poly.get_vertices():
