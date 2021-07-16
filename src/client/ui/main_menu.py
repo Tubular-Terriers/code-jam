@@ -112,8 +112,6 @@ class Main_menu(UI):
         self.window.attron(curses.color_pair(self.selected_color))
 
     async def view(self, app):
-        # prints the text of the screen
-        # Required
         super().view(app)
         height, width = self.window.getmaxyx()
         curses.start_color()
@@ -144,7 +142,7 @@ class Main_menu(UI):
 
         self.board_end_x = width - self.board_start_x
 
-        self.board_start_y = height // 5
+        self.board_start_y = height // 10
         self.board_end_y = height - 15
 
         for x in range(self.board_start_x, self.board_end_x):
@@ -214,7 +212,7 @@ class Main_menu(UI):
             play_button.x + self.button_spacing,
             width=12,
             text="Settings",
-            text_color_pair_id=5,
+            text_color_pair_id=4,
             frame_color_pair_id=5,
             key=keyboard.Key.enter,
             go_to=AppState.SETTINGS_SCR,
@@ -248,12 +246,17 @@ class Main_menu(UI):
             self.widgets[self.selected_widget].selected = False
             if not self.selected_widget == 0:
                 self.selected_widget -= 1
+            else:
+                self.selected_widget = len(self.widgets) - 1
             self.widgets[self.selected_widget].selected = True
 
         elif key == keyboard.Key.right:
             self.widgets[self.selected_widget].selected = False
             if not self.selected_widget == len(self.widgets) - 1:
                 self.selected_widget += 1
+            else:
+                self.selected_widget = 0
+                
             self.widgets[self.selected_widget].selected = True
 
         elif key == keyboard.Key.enter:
