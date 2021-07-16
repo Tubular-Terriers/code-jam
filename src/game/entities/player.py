@@ -111,7 +111,6 @@ class Player(Entity, pymunk.Body):
 
     def process_bar_keys(self, keys: dict):
         """`dir` is a type of MoveBar"""
-
         bar_vert = 0
         bar_hori = 0
         if keys[MoveBar.UP]:
