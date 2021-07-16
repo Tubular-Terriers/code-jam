@@ -38,3 +38,9 @@ temp/
 # files starting with - will also be ignored
 ?.*
 -*.*
+
+# Environment variables
+src/website/.env
+
+# Users' creds file
+src/creds.json

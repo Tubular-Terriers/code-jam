@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    <html>
+        <head>
+            <meta charset="UTF-8" />
+            <meta
+                name="viewport"
+                content="width=device-width, initial-scale=1.0"
+            />
+            <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+            <title>A Very Secret Token...</title>
+            {% load static %}
+            <link href="{%static 'css/bootstrap.min.css' %}" rel="stylesheet" />
+            <!-- https://getbootstrap.com/ -->
+            <link href="{%static 'css/homestyles.css' %}" rel="stylesheet" />
+        </head>
+        <body>
+            <div
+                class="
+                    row
+                    card
+                    bg-dark
+                    text-light
+                    mx-auto
+                    w-50
+                    d-flex
+                    align-items-center
+                "
+            >
+                <div class="card-header">
+                    To
+                    <span class="ken" style="cursor: pointer"><b>Ken</b></span>
+                    or not To
+                    <span class="ken" style="cursor: pointer"><b>Ken</b></span
+                    >? Wait, wha...
+                </div>
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <p>
+                            “Silence is no certain
+                            <span id="copy" style="cursor: pointer"
+                                ><b>token</b></span
+                            >
+                            that no secret grief is there; Sorrow which is never
+                            spoken is the heaviest load to bear.”
+                        </p>
+                        <footer class="blockquote-footer">
+                            Frances Ridley Havergal
+                        </footer>
+                    </blockquote>
+                </div>
+            </div>
+        </body>
+    </html>
+
+    <script>
+        document
+            .getElementById("copy")
+            .addEventListener("click", copyToClipboard);
+        document
+            .getElementsByClassName("ken")[0]
+            .addEventListener("click", () => {
+                window.location.replace(
+                    "https://en.wikipedia.org/wiki/Ken_Thompson"
+                );
+            });
+        document
+            .getElementsByClassName("ken")[1]
+            .addEventListener("click", () => {
+                window.location.replace(
+                    "https://en.wikipedia.org/wiki/Ken_Thompson"
+                );
+            });
+        async function copyToClipboard() {
+            const token = "{{ uid }}";
+            navigator.clipboard
+                .writeText(token)
+                .then(() => {
+                    console.log("Copied to clipboard successfully");
+                    alert("You have the token... Now, just... RUN!!!");
+                })
+                .catch((err) => {
+                    console.error(`There was a problem: ${err}`);
+                });
+        }
+    </script>
+</html>
