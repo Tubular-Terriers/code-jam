@@ -223,6 +223,8 @@ Although this is nowhere near to end product, it has all the necessary component
 
 Added basic user settings structure, providing additional abstraction layer for easy management of user config
 
+Added a new main menu and game over screen. 
+
 # July 15th
 
 Created diagram for advanced hitbox filtering for pymunk
@@ -252,3 +254,7 @@ Automatically attempt to reinitialize the curses window
 Finally, the first gameplay
 
 ![image](https://cdn.discordapp.com/attachments/862242420863139855/865328632707809280/vFKYudiXuL.gif)
+
+Added a new credits screen and a error page for when the screen size is way too small.
+
+Made the flow of the game and editing the appstates.
