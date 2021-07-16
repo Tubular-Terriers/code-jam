@@ -10,7 +10,6 @@ from ._ui import UI
 from .widget.progress_bar import ProgressBar
 from .widget.simple_button import Button
 from .widget.simple_textbox import Box
-from .widget.stars import Stars
 
 
 class Credits(UI):
@@ -52,8 +51,6 @@ class Credits(UI):
         curses.init_pair(2, curses.COLOR_BLUE, curses.COLOR_BLACK)
         curses.init_pair(3, curses.COLOR_CYAN, curses.COLOR_BLACK)
         curses.init_pair(4, curses.COLOR_MAGENTA, curses.COLOR_BLACK)
-
-        star_background = Stars(height, width)
         y = 17
         menu_button = Button(
             height // 3 + y + self.spacing - 1,
