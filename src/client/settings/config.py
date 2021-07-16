@@ -1,6 +1,7 @@
 import configparser
-from .settings import Settings
 from os import path
+
+from .settings import Settings
 
 filepath = path.dirname(__file__)
 

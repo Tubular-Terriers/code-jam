@@ -1,5 +1,6 @@
-from ._event import Event
 from client.sound.sounds import SoundEffects
+
+from ._event import Event
 
 
 class Sound(Event):

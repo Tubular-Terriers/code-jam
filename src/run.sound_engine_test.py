@@ -1,9 +1,9 @@
-from game.engine import Engine
-from client.settings.config import Config
-from client.settings.settings import Settings
 import asyncio
 
+from client.settings.config import Config
+from client.settings.settings import Settings
 from client.sound.sound_effects_engine import SoundEffectsEngine  # whatever u did here
+from game.engine import Engine
 
 # from client.sound.music_engine import MusicEngine TODO: Add music engine
 

@@ -1,6 +1,8 @@
 from pygame import mixer
-from .sounds import SoundEffects
+
 from game.events.sound import Sound
+
+from .sounds import SoundEffects
 
 
 class SoundEffectsEngine:
