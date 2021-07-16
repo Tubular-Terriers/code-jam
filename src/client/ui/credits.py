@@ -33,11 +33,19 @@ class Credits(UI):
             "nobalpha",
             "Nickhil1737",
         ]
+        self.locations_x = []
+        self.locations_y = []
+        self.stars = ["✶", "*"]
+        self.refreshtime = 0
+        
 
     async def view(self, app):
         # Required
         super().view(app)
         height, width = self.window.getmaxyx()
+        for _ in range(250):
+            self.locations_x.append(random.randint(0, width - 1))
+            self.locations_y.append(random.randint(0, height - 1))
         print(height, width)
         curses.start_color()
         curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)
@@ -55,12 +63,25 @@ class Credits(UI):
         )
 
         self.input_manager = app.input_manager
-        self.widgets = [star_background, menu_button]
+        self.widgets = [menu_button]
         self.register_input_managers(*self.widgets)
         res = None
         while True:
-            if res := self.refresh():
-                break
+            if self.refreshtime % 10 == 0:
+                curses.init_pair(1, curses.COLOR_CYAN, curses.COLOR_BLACK)
+                curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_BLACK)
+                for i in range(len(self.locations_x)):
+                    self.add_white_star(self.locations_y[i], self.locations_x[i])
+                    if i % 10 == 0:
+                        chose = random.randint(0, 2)
+                        if chose == 0:
+                            self.add_white_star(self.locations_y[i], self.locations_x[i])
+                        elif chose == 1:
+                            self.add_blue_star(self.locations_y[i], self.locations_x[i])
+                        elif chose == 2:
+                            self.remove_star(self.locations_y[i], self.locations_x[i])
+                    self.window.noutrefresh()
+            self.refreshtime += 1
             curses.doupdate()
             self.window.attron(curses.color_pair(2))
             self.window.attron(curses.A_BOLD)
@@ -96,8 +117,23 @@ class Credits(UI):
                 self.button_text,
             )
             self.window.refresh()
+            
+            if res := self.refresh():
+                break
             await asyncio.sleep(0.1)
         return res
+    def add_blue_star(self, y, x):
+        self.window.attron(curses.color_pair(1))
+        self.window.addstr(y, x, self.stars[random.randint(0, 1)])
+        self.window.attroff(curses.color_pair(1))
+
+    def add_white_star(self, y, x):
+        self.window.attron(curses.color_pair(2))
+        self.window.addstr(y, x, self.stars[random.randint(0, 1)])
+        self.window.attron(curses.color_pair(2))
+
+    def remove_star(self, y, x):
+        self.window.addstr(y, x, " ")
 
 
 credits_scr = Credits()
