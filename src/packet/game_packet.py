@@ -1,7 +1,9 @@
 import json
 
+from ._packet import Packet
 
-class GamePacket:
+
+class GamePacket(Packet):
     def __init__(self, events):
         self.events = events
 

@@ -1,7 +1,9 @@
 import json
 
+from ._packet import Packet
 
-class Verify:
+
+class Verify(Packet):
     def __init__(self, token):
         self.token = token
 
