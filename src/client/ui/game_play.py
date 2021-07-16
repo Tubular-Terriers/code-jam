@@ -80,11 +80,11 @@ class GamePlay(UI):
 
         def scx(x):
             """Short for screen clamp x."""
-            return clamp(0, x, _300)
+            return clamp(0, x, _300 - 1)
 
-        def scy(x):
+        def scy(y):
             """Short for screen clamp y."""
-            return clamp(0, y, _150)
+            return clamp(0, y, _150 - 1)
 
         # def is_range_in_col_b(scale, a, p, b):
         #     """Private util function. `-1 <= scale <= 1`, `a <= p <= b`"""
@@ -105,20 +105,39 @@ class GamePlay(UI):
                     # print(p)
                     pad.addstr(int(p[1]), int(p[0]), "⌧")
                     if entity.horizontal:
+                        # Hitbox
                         arm_y = int(p[1])
-                        arm_left = int(scx(p[0] - 25))
-                        arm_right = int(scx(p[0] + 25))
+                        arm_left = int(scx(p[0] - 25 / 2))
+                        arm_right = int(scx(p[0] + 25 / 2))
                         for i in range(arm_left, arm_right + 1):
                             pad.addch(arm_y, i, "─")
+
+                        # bcb
+                        bcb_y = int(p[1])
+                        bcb_left = int(scx(p[0] + 21 / 2 * entity.bar_loc - 2))
+                        bcb_right = int(scx(p[0] + 21 / 2 * entity.bar_loc + 2))
+                        for i in range(bcb_left, bcb_right):
+                            pad.addch(bcb_y, i, "■")
                     else:
+                        # Hitbox
                         arm_x = int(p[0])
-                        arm_top = int(scy(p[1] - 12.5))
-                        arm_bottom = int(scy(p[1] + 12.5))
-                        for i in range(arm_top, arm_bottom + 1):
+                        arm_top = int(scy(p[1] - 25 / 4))
+                        arm_bottom = int(scy(p[1] + 25 / 4))
+                        a = 1
+                        for i in range(arm_top, arm_bottom):
                             pad.addch(i, arm_x, "│")
+
+                        # bcb
+                        bcb_x = int(p[0])
+                        bcb_top = int(scy(p[1] + 21 / 4 * entity.bar_loc - 1))
+                        bcb_bottom = int(scy(p[1] + 21 / 4 * entity.bar_loc + 1))
+                        for i in range(bcb_top, bcb_bottom):
+                            pad.addch(i, bcb_x, "█")
+
                 elif entity.type == EntityType.BALL:
                     # Render the player
                     p = st(entity.position)
+                    pad.addstr(int(scy(p[1])), int(scx(p[0])), "⊙")
                     # print(p)
             pad.refresh(
                 y,
