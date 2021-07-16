@@ -2,7 +2,13 @@
 # For example, the client run code does not require server modules
 
 # Client
+python-dotenv~=0.18.0
+pynput~=1.7.3
+pymunk~=6.0.0
+pypresence~=4.2.0
 
 # Server
+pynput~=1.7.3
+pymunk~=6.0.0
 
 # Web
