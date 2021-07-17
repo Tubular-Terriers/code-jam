@@ -130,4 +130,5 @@ async def counter(websocket, path):
 start_server = websockets.serve(counter, "localhost", 3001)
 
 asyncio.get_event_loop().run_until_complete(start_server)
-asyncio.get_event_loop().run_forever()
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_forever()

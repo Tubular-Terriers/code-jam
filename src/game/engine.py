@@ -64,6 +64,8 @@ class Engine:
 
         self.space.static_body
 
+        self.player = None
+
         # b = pymunk.Body(1, 1)
         # self.space.add(b)
         # c = pymunk.Circle(b, 10)
@@ -112,6 +114,9 @@ class Engine:
             # Process callbacks
             def process_key(key):
                 """Process key events passed from pygame window"""
+                if self.player is None:
+                    print("there is no player")
+                    return
                 if key == pygame.K_SPACE:
                     print("space pressed")
                     self.temp = self.player.dump_data()
@@ -357,7 +362,7 @@ class Engine:
         self.entities[entity.uuid] = entity
 
     def remove_entity(self, entity):
-        del self.entities[entity.uuid]
+        self.entities.pop(entity.uuid)
 
     async def run(self):
         # TODO: this method should be synchronous
@@ -379,10 +384,6 @@ class Engine:
         # Update global tick count
         self.tickcount += 1
 
-        # For all players, update their bounding box
-        # FIXME For now, only update self player
-        self.player._update_bar()
-
         # Do server side updates
         if self.is_server:
             for entity in list(self.entities.values()):
@@ -393,6 +394,9 @@ class Engine:
                         spawner.spawn_ball(
                             self.space, self.width, self.height, self.register_entity
                         )
+                elif entity.type == EntityType.PLAYER:
+                    player = entity
+                    player._update_bar()
 
         if self.is_client:
             # Do controller
@@ -457,7 +461,7 @@ class Engine:
         self._hooks[callback] = callback
 
     def unhook(self, callback):
-        del self._hooks[callback]
+        self._hooks.pop(callback)
 
 
 class DebugRender:
