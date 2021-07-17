@@ -292,10 +292,12 @@ class Engine:
 
     def load(self, data):
         # Loads all entities
+        processed_entities = set(self.entities)
         for uuid, entity in data.items():
-            print("+_+_+_+_+_+_+_+_+_" + repr(entity))
+            processed_entities.discard(uuid)
             if uuid in self.entities:
                 self.entities[uuid].load_data(entity)
+                continue
             # Create the entity
             if entity["type"] == EntityType.PLAYER:
                 self.add_player(uuid)
@@ -304,6 +306,17 @@ class Engine:
                 ball.load_data(entity)
                 ball.add_space(self.space)
                 self.register_entity(ball)
+        for d in processed_entities:
+            entity = self.entities[d]
+            try:
+                if entity.type == EntityType.PLAYER:
+                    self.space.remove(*entity.bb, *entity.bcb)
+                    self.remove_entity(entity)
+                elif entity.type == EntityType.BALL:
+                    self.space.remove(*ball.tuple)
+                    self.remove_entity(entity)
+            except Exception as e:
+                """Probably nothing happened"""
 
     def stop(self):
         for body in self.entities.values():
