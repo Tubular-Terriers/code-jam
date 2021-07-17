@@ -17,13 +17,14 @@ from .events import Error, MoveBar, MovePlayer, Sound
 
 
 class Engine:
-    def __init__(self, debug=False, is_server=True):
+    def __init__(self, debug=False, is_server=True, is_client=True):
         """Does not run until `#run` is called"""
         self.created_timestamp = time.time()
         self.running = True
         self.debug_render = None
 
         self.is_server = is_server
+        self.is_client = True
 
         self.tickcount = 0
 
@@ -159,7 +160,10 @@ class Engine:
             # TODO: implement ball curving
             self._emit(Sound.ID, Sound.PADDLE_BOUNCE)
 
-            self.ball.ownerUUID = self.player.uuid
+            ball = arbiter.shapes[1].body
+            player = arbiter.shapes[0].body
+
+            ball.ownerUUID = player.uuid
 
             def _map(p, x1, x2, dx1, dx2) -> float:  # A simple range mapper
                 return ((dx2 - dx1) * ((p - x1) / (x2 - x1))) + dx1
@@ -167,48 +171,48 @@ class Engine:
             poly = arbiter.shapes[0]
             collided = arbiter.shapes[1]
 
-            print("colided: ", collided)
+            # print("colided: ", collided)
             space_vertices = []
             for v in poly.get_vertices():
                 x, y = v.rotated(poly.body.angle) + poly.body.position
                 space_vertices.append((x, y))
 
             cx, cy = arbiter.contact_point_set.points[0].point_a  # Contact points
-            print("Contact Points: (x, y): ", cx, cy)
+            # print("Contact Points: (x, y): ", cx, cy)
             # Actual shape corners
             x1, y1 = space_vertices[0]
             x2, y2 = space_vertices[2]
-            print("World Corners (x1, x2): ", x1, x2)
-            print("World Corners (y1, y2): ", y1, y2)
+            # print("World Corners (x1, x2): ", x1, x2)
+            # print("World Corners (y1, y2): ", y1, y2)
 
             # Local shpe corners
             lx1, ly1 = x1 - x1, y1 - y1
             lx2, ly2 = x2 - x1, y2 - y1
             lcx, lcy = cx - x1, cy - y1
-            print("Local Corners (x1, x2): ", lx1, lx2)
-            print("Local Corners (y1, y2): ", ly1, ly2)
-            print("Local Contact (x, y): ", lcx, lcy)
+            # print("Local Corners (x1, x2): ", lx1, lx2)
+            # print("Local Corners (y1, y2): ", ly1, ly2)
+            # print("Local Contact (x, y): ", lcx, lcy)
 
             w = abs(lx2 - lx1)  # Width
             h = abs(ly2 - ly1)  # Height
-            print("Width & Height: ", w, h)
+            # print("Width & Height: ", w, h)
 
             # Biased coordinates
             tx1, tx2 = lx1 - w // 2, lx2 - w // 2
             ty1, ty2 = ly1 - h // 2, ly2 - h // 2
             tcx, tcy = lcx - w // 2, lcy - h // 2
 
-            print("Biased Range (x1, x2): ", tx1, tx2)
-            print("Biased Range (y1, y2): ", ty1, ty2)
-            print("Biased Contact (x, y): ", tcx, tcy)
+            # print("Biased Range (x1, x2): ", tx1, tx2)
+            # print("Biased Range (y1, y2): ", ty1, ty2)
+            # print("Biased Contact (x, y): ", tcx, tcy)
 
             # Angular range
             a1, a2 = -90, 90
-            print("Angular range: ", a1, a2)
+            # print("Angular range: ", a1, a2)
 
             # Interpolated coordinates
             mx, my = _map(tcx, tx1, tx2, a1, a2), _map(tcy, ty1, ty2, a1, a2)
-            print("Mapped: ", mx, my)
+            # print("Mapped: ", mx, my)
 
             # Setting vector directions manually
             dirx = 1 if mx > 0 else -1
@@ -222,7 +226,7 @@ class Engine:
                 my *= diry  # Make my > 0
             elif y2 - cy < 0:  # Upper collision
                 my *= -diry  # Make my < 0
-            print("Directed: ", mx, my)
+            # print("Directed: ", mx, my)
 
             magnitude = 70  # In order to get real velocity data
             nx, ny = (
@@ -230,7 +234,7 @@ class Engine:
                 math.sin(math.radians(my)) * magnitude,
             )
 
-            print("Velocity: ", nx, ny)
+            # print("Velocity: ", nx, ny)
 
             collided.body.velocity = nx, ny
 
@@ -342,13 +346,6 @@ class Engine:
         # Update global tick count
         self.tickcount += 1
 
-        # Do controller
-        self.ttc_tick += 1
-        if self.ttc_tick == self.ttc:
-            self.control()
-            self.ttc_tick = 0
-        self.space.step(1 / self.tps)
-
         # For all players, update their bounding box
         # FIXME For now, only update self player
         self.player._update_bar()
@@ -360,6 +357,14 @@ class Engine:
                 self.spawner.spawn_ball(
                     self.space, self.width, self.height, self.register_entity
                 )
+
+        if self.is_client:
+            # Do controller
+            self.ttc_tick += 1
+            if self.ttc_tick == self.ttc:
+                self.control()
+                self.ttc_tick = 0
+            self.space.step(1 / self.tps)
 
     def destroy(self):
         if self.debug_render:
