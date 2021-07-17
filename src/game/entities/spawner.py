@@ -27,7 +27,7 @@ class Spawner(Entity, pymunk.Body):
     ):  # with velocity between a given angle and direction
         # spawn it not only if cools down but if ball gets destroyed as well
         if self.is_cooled():
-            print("spawned a ball")
+            # print("spawned a ball")
 
             θ1, θ2 = 0, self.SPAWN_ANGLE
 
