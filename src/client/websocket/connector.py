@@ -24,8 +24,7 @@ class GameEventEmitter:
 
         self.messages = {}
         self.tasks = {}
-        self.disconnected = False
-
+        self.disconnected = True
         self.player_uuid = None
 
     async def initialize_server_connection(self, url):
@@ -36,6 +35,7 @@ class GameEventEmitter:
         async def hook():
             async with websocket as ws:
                 self.websocket = ws
+                self.disconnected = False
                 while True:
                     # try:
                     data = await self.websocket.recv()
@@ -62,7 +62,7 @@ class GameEventEmitter:
         self.u = asyncio.create_task(update_keymaps())
         # no time to implement
         await asyncio.sleep(1)
-        return True
+        return not self.disconnected
 
     def on_init(self, game):
         self.game = game

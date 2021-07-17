@@ -10,7 +10,7 @@ load_dotenv()
 class AuthManager:
     def __init__(self, salt=os.environ.get("SALT")):
         self.SALT = salt
-        self.db_path = "./creds.json"
+        self.db_path = os.path.join(os.path.dirname(__file__), "../../creds.json")
         self.db_file = open(self.db_path, "r+")
         self.db = json.load(self.db_file)
 
