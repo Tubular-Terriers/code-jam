@@ -19,4 +19,4 @@ class Status(Packet):
 
     @staticmethod
     def load(payload) -> object:
-        return Status.__init__((payload.status == "OK"), payload.get("error", None))
+        return Status((payload["status"] == "OK"), payload.get("error", None))

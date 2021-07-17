@@ -3,6 +3,7 @@
 import asyncio
 import json
 import traceback
+from uuid import uuid4
 
 import websockets
 
@@ -18,6 +19,7 @@ class GameEventEmitter:
         self.websocket = None
         self.initialized = False
         self.verified = False
+        self.client_id = uuid4()
 
         self.messages = {}
         self.tasks = {}
@@ -40,6 +42,7 @@ class GameEventEmitter:
         return True
 
     def on_recv(self, data):
+        print(f"recieved {data}")
         packet_data = None
         try:
             packet_data = json.loads(data)
@@ -48,11 +51,12 @@ class GameEventEmitter:
             print(f"Recieved {data}. Not a valid json")
             return
         print(data)
-        action_type = data["action"]
-        pl = data["payload"]
+        action_type = packet_data["action"]
+        pl = packet_data["payload"]
 
         # Callback packets
         if "packet_id" in packet_data:
+            print("has packet id")
             self.messages[packet_data["packet_id"]] = pl
             self.tasks[packet_data["packet_id"]].cancel()
             return
@@ -70,24 +74,26 @@ class GameEventEmitter:
         #         print("verified fail")
         #     self.verification.cancel()
 
-    async def send_packet_expect_response(self, packet):
+    async def send_packet_expect_response(self, packet_data: object, id):
         """Sends a packet and returns the response packet in dict. Returns None if there was no response"""
         id = None
+        print(packet_data)
         try:
-            id = packet.packet_id
+            id = packet_data.packet_id
         except Exception:
             raise Exception("packet does not have a packet id")
         try:
-            asyncio.create_task(self.websocket.send(packet.send()))
+            asyncio.create_task(self.send(self.websocket, packet_data))
             # timeout
-            task = asyncio.create_task(asyncio.sleep(1))
-            self.tasks[id] = task
+            task = asyncio.create_task(asyncio.sleep(10))
+            self.tasks[str(id)] = task
             await task
         except asyncio.CancelledError:
-            msg = self.messages.get(id, None)
-            self.messages.pop(id)
+            msg = self.messages.get(str(id), None)
+            self.messages.pop(str(id))
             return msg
-        self.messages.pop(id)
+        print("here")
+        self.messages.pop(str(id))
         return None
 
     def assert_init(self):
@@ -98,12 +104,24 @@ class GameEventEmitter:
         if not self.verified:
             raise Exception("client was not verified")
 
+    def send_sync(self, websocket, packet):
+        try:
+            asyncio.create_task(self.send(websocket, packet))
+        except Exception:
+            traceback.print_exc()
+
+    async def send(self, websocket, packet_data):
+        # Inject client id
+        packet_data.client_id = self.client_id
+        return await websocket.send(packet_data.send())
+
     async def verify(self):
         self.assert_init()
-        vp = packet.Verify(self.TOKEN)
-        res = await self.send_packet_expect_response(vp.send())
+        vp = packet.Verify(self.TOKEN, 0)
+        res = await self.send_packet_expect_response(vp, vp.packet_id)
         pl = packet.Status.load(res)
-        if pl.status == "OK":
+        print(pl)
+        if pl.status:
             return True
         return False
 

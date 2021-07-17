@@ -6,8 +6,8 @@ from ._packet import Packet
 class Verify(Packet):
     ACTION = "verify"
 
-    def __init__(self, token):
-        super().__init__(self.ACTION, uuid=0)
+    def __init__(self, token, uuid):
+        super().__init__(self.ACTION, uuid)
         self.token = token
 
     def dump(self):
