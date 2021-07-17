@@ -81,9 +81,7 @@ class Join_game_scr(UI):
         self.widgets = [textbox, play_button, exit_button]
         self.refresh()
         self.input_manager = app.input_manager
-        self.register_input_managers(
-            *self.widgets
-        )
+        self.register_input_managers(*self.widgets)
         while True:
             if res := self.refresh():
                 app.game_code = textbox.text
