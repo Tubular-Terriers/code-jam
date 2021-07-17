@@ -239,7 +239,9 @@ class Engine:
             self.ball.bounce_count += 1
             if self.ball.is_last_bounce():
                 self.space.remove(arbiter.shapes[1])
-                self.space.add_post_step_callback(self.space._remove_body, self.entities[self.ball.uuid])
+                self.space.add_post_step_callback(
+                    self.space._remove_body, self.entities[self.ball.uuid]
+                )
                 self.entities.pop(self.ball.uuid, None)
                 # remove the ball
 
@@ -289,7 +291,9 @@ class Engine:
                 self.spawner.cool()
                 print(self.spawner.cooldown)
                 if self.spawner.is_cooled():
-                    self.spawner.spawn_ball(self.space, self.width, self.height, self.register_entity)
+                    self.spawner.spawn_ball(
+                        self.space, self.width, self.height, self.register_entity
+                    )
                 t = time.time()
                 self.tick()
                 # Compensate for the calculation time in tick
