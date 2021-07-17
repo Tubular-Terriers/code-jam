@@ -167,7 +167,12 @@ class Engine:
             self.space.remove(arbiter.shapes[1])
             self.remove_entity(arbiter.shapes[1].body)
             self._emit(Sound.ID, Sound.PLAYER_DAMAGE)
-            self.space.remove(arbiter.shapes[0], *self.player.shapes, *self.player.bcb, *self.player.bb)
+            self.space.remove(
+                arbiter.shapes[0],
+                *self.player.shapes,
+                *self.player.bcb,
+                *self.player.bb,
+            )
             self.remove_entity(arbiter.shapes[0].body)
             if player := arbiter.shapes[0].body:
                 pass
@@ -379,12 +384,6 @@ class Engine:
         self.space.remove(self.entities[uuid])
         self.remove_entity(self.entities[uuid])
         return True
-
-    def update_entity_speed(self, uuid, *amount):
-        # HERE HERE
-        # FIXME THIS
-        # self.entities[uuid].velocity = amount
-        pass
 
     def is_player_bordered(self):
         pass
