@@ -62,8 +62,7 @@ class Player(Entity, pymunk.Body):
 
         ##################################################
         # This is a whole different body on top of player
-        self.bcb_body = pymunk.Body(1, 1, pymunk.Body.KINEMATIC)  # FIXME:
-        self.bcb_body.position = (300, 300)
+        self.bcb_body = pymunk.Body(1, 1, pymunk.Body.KINEMATIC)
         bcb_width = 8
         bcb_height = 5
         self.bcb_range = (self.hitbox_width - bcb_width) / 2
