@@ -2,7 +2,8 @@
 import os
 import platform
 import time
-from ctypes import byref, windll, wintypes
+# from ctypes import byref, windll, wintypes
+import ctypes
 
 
 def is_focused():
@@ -26,9 +27,9 @@ def get_window_pid(system):
 
     elif system == "Windows":
         try:
-            pid = wintypes.DWORD()
-            active = windll.user32.GetForegroundWindow()
-            return int(windll.user32.GetWindowThreadProcessId(active, byref(pid)))
+            pid = ctypes.wintypes.DWORD()
+            active = ctypes.windll.user32.GetForegroundWindow()
+            return int(ctypes.windll.user32.GetWindowThreadProcessId(active, ctypes.byref(pid)))
         except Exception:
             return None
 

@@ -6,10 +6,16 @@ class ClipboardManager:
         pass
 
     def get_clipboard(self):
-        return pyperclip.paste()
+        try:
+            return pyperclip.paste()
+        except Exception:
+            return ""
 
     def set_clipboard(self, text):
-        return pyperclip.copy(text)
+        try:
+            return pyperclip.copy(text)
+        except Exception:
+            return ""
 
 
 # Usage example
