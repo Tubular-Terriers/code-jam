@@ -16,6 +16,8 @@ class Player(Entity, pymunk.Body):
         pymunk.Body.__init__(self, mass=1, moment=1, body_type=pymunk.Body.DYNAMIC)
         self.name = "test player"
 
+        self.health = 10
+
         # ---|||||--------- height
         # width
 
@@ -98,6 +100,9 @@ class Player(Entity, pymunk.Body):
 
     def reset(self):
         pass
+
+    def bleed(self):
+        self.health -= 1
 
     def process_move_keys(self, keys: dict):
         """`dir` is a type of MovePlayer"""
