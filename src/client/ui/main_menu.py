@@ -67,7 +67,9 @@ class Main_menu(UI):
             self.ball_pos_y = self.board_end_y - 1
             self.ball_speed_y = -self.ball_speed_y
 
-            if is_focused() or not bool(self.config.get(Settings.MUTE_GAME_ON_FOCUS_LOSS)):
+            if is_focused() or not bool(
+                self.config.get(Settings.MUTE_GAME_ON_FOCUS_LOSS)
+            ):
                 self.sound_engine.play_sound(SoundEffects.WALL_BOUNCE)
 
             self.window.addstr(self.board_end_y, self.ball_pos_x, " ")
@@ -88,7 +90,9 @@ class Main_menu(UI):
             self.ball_pos_y = self.board_start_y + 1
             self.ball_speed_y = -self.ball_speed_y
 
-            if is_focused() or not bool(self.config.get(Settings.MUTE_GAME_ON_FOCUS_LOSS)):
+            if is_focused() or not bool(
+                self.config.get(Settings.MUTE_GAME_ON_FOCUS_LOSS)
+            ):
                 self.sound_engine.play_sound(SoundEffects.WALL_BOUNCE)
 
             self.window.addstr(self.board_start_y, self.ball_pos_x, " ")
@@ -103,7 +107,9 @@ class Main_menu(UI):
             self.ball_pos_x = self.board_end_x - 1
             self.ball_speed_x = -self.ball_speed_x
 
-            if is_focused() or not bool(self.config.get(Settings.MUTE_GAME_ON_FOCUS_LOSS)):
+            if is_focused() or not bool(
+                self.config.get(Settings.MUTE_GAME_ON_FOCUS_LOSS)
+            ):
                 self.sound_engine.play_sound(SoundEffects.WALL_BOUNCE)
 
             self.window.addstr(self.ball_pos_y, self.board_end_x, " ")
@@ -115,7 +121,9 @@ class Main_menu(UI):
             self.ball_pos_x = self.board_start_x + 1
             self.ball_speed_x = -self.ball_speed_x
 
-            if is_focused() or not bool(self.config.get(Settings.MUTE_GAME_ON_FOCUS_LOSS)):
+            if is_focused() or not bool(
+                self.config.get(Settings.MUTE_GAME_ON_FOCUS_LOSS)
+            ):
                 self.sound_engine.play_sound(SoundEffects.WALL_BOUNCE)
 
             self.window.addstr(self.ball_pos_y, self.board_start_x, " ")
@@ -198,11 +206,11 @@ class Main_menu(UI):
             self.window.addstr(self.board_end_y, x, self.horizontal_border)
 
         self.ball_pos_y = (
-                                  self.board_end_y - self.board_start_y
-                          ) // 2 + self.board_start_y
+            self.board_end_y - self.board_start_y
+        ) // 2 + self.board_start_y
         self.ball_pos_x = (
-                                  self.board_end_x - self.board_start_x
-                          ) // 2 + self.board_start_x
+            self.board_end_x - self.board_start_x
+        ) // 2 + self.board_start_x
 
         self.window.attron(curses.A_BOLD)
         self.window.attron(curses.color_pair(3))
