@@ -16,12 +16,12 @@ class Settings(UI):
     def __init__(self):
         super().__init__("settings_screen")
         self.title = [
-            "  ____        _    _    _                      ",
-            " / ___|  ___ | |_ | |_ (_) ____    ____   ___  ",
-            " \___ \ / _ \| __|| __|| || '_ \  / _  | / __| ",
-            "  ___) |  __/| |_ | |_ | || | | || (_| | \__ \ ",
-            " |____/ \___| \__| \__||_||_| |_| \__, | |___/ ",
-            "                                  |___/        ",
+            r"  ____       _   _   _                 ",
+            r" / ___|  ___| |_| |_(_)_ __   __ _ ___ ",
+            r" \___ \ / _ \ __| __| | '_ \ / _` / __|",
+            r"  ___) |  __/ |_| |_| | | | | (_| \__ \\",
+            r" |____/ \___|\__|\__|_|_| |_|\__, |___/",
+            r"                             |___/     ",
         ]
         self.height = 0
         self.width = 0
@@ -70,25 +70,25 @@ class Settings(UI):
             selected=self.selected_widget == 0,
         )
 
-        apply_button = Button(
+        save_button = Button(
             previous_menu_button.y - 4,
             self.width // 2 - (width // 2),
             text_color_pair_id=4,
             frame_color_pair_id=5,
             width=width,
-            text="Apply",
+            text="Save",
             key=keyboard.Key.enter,
             go_to=AppState.MAIN_MENU,
             selected=self.selected_widget == 1,
         )
 
-        save_button = Button(
-            apply_button.y - 4,
+        apply_button = Button(
+            save_button.y - 4,
             self.width // 2 - (width // 2),
             text_color_pair_id=4,
             frame_color_pair_id=5,
             width=width,
-            text="Save",
+            text="Apply",
             key=keyboard.Key.enter,
             go_to=AppState.MAIN_MENU,
             selected=self.selected_widget == 2,
@@ -125,8 +125,8 @@ class Settings(UI):
 
         self.widgets = [
             previous_menu_button,
-            apply_button,
             save_button,
+            apply_button,
             self.increment_slider,
             sfx_volume_slider,
         ]
