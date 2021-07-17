@@ -89,6 +89,7 @@ class Auth(UI):
             frame_color_pair_id=5,
             key=keyboard.Key.enter,
             callback=self.open_auth_page,
+            selected=True
         )
 
         exit_button = Button(
@@ -99,7 +100,7 @@ class Auth(UI):
             text_color_pair_id=6,
             frame_color_pair_id=5,
             key=keyboard.Key.enter,
-            go_to=AppState.EXIT,
+            go_to=AppState.MAIN_MENU,
         )
 
         self.input_manager = app.input_manager
