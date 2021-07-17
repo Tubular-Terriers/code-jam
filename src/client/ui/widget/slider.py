@@ -1,11 +1,11 @@
 import curses
 import sys
-
-from pynput import keyboard
+from enum import Enum, auto
 from types import SimpleNamespace
 
+from pynput import keyboard
+
 from ._widget import Widget
-from enum import Enum, auto
 
 
 class Orientation(Enum):
