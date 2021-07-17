@@ -187,4 +187,4 @@ class Player(Entity, pymunk.Body):
 
     def dump_data(self):
         data = {**super().dump_data(), "bar_loc": self.bar_loc}
-        return json.dumps(data)
+        return data
