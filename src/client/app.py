@@ -11,10 +11,10 @@ from client.ui.credits import credits_scr
 from client.ui.error_sc import ss_error
 from client.ui.game_over import game_over
 from client.ui.host_scr import host_game
+from client.ui.join_scr import join_game
 from client.ui.main_menu import main_menu
 from client.ui.menu import menu
 from client.ui.settings import settings
-from client.ui.join_scr import join_game
 
 sys.path.append(".")
 import curses
