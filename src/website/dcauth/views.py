@@ -9,8 +9,9 @@ from django.urls import reverse
 from django.views import View
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
-from dotenv import load_dotenv
 
+from .md_manager import MarkdownManager
+from dotenv import load_dotenv
 from .auth_manager import AuthManager
 
 load_dotenv()
@@ -22,6 +23,7 @@ CLIENT_ID = os.environ.get("CLIENT_ID")
 CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
 
 authmng = AuthManager()
+mdmng = MarkdownManager()
 
 
 class todoHome(TemplateView):
@@ -31,6 +33,7 @@ class todoHome(TemplateView):
 
 
 def login_via_discord(request):
+    return render(request, "devlog.html", {"pages": mdmng.parse()})
     REDIRECT_URI = f"{GAMESERVER_URL}login-success"
 
     discord_auth_url = (

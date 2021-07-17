@@ -1,0 +1,40 @@
+{% for page in data %} {{page.0 | safe}}
+<hr />
+{{page.1 | safe}} {% endfor %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/devlog.css' %}" />
+        <link
+            href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+            rel="stylesheet"
+        />
+        <!-- https://getbootstrap.com/ -->
+        <title>Devlog</title>
+
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script>
+            $(function () {
+                $("#tabs").tabs();
+            });
+        </script>
+    </head>
+    <body>
+        <div id="tabs">
+            <ul>
+                {% for header in pages.1%}
+                <li><a href="#{{forloop.counter}}"> {{header}} </a></li>
+                {% endfor %}
+            </ul>
+            {% for content in pages.0 %}
+            <div id="{{forloop.counter}}">{{content | safe}}</div>
+            {% endfor %}
+        </div>
+    </body>
+</html>
