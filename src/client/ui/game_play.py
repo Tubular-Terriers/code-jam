@@ -125,16 +125,15 @@ class GamePlay(UI):
 
                         # bcb
                         bcb_y = int(p[1])
-                        d = 21 / 2 * entity.bar_loc
-                        bcb_left = int(scx(p[0] + d - 2))
-                        bcb_right = int(scx(p[0] + d + 2))
-                        for i in range(bcb_left, bcb_right):
+                        d = 22 / 2 * entity.bar_loc
+                        bcb_left = int(scx(arm_right - 14 + d))
+                        for i in range(scx(bcb_left), scx(bcb_left + 5)):
                             pad.addch(bcb_y, i, "■")
-                    else:
+                    else:  # Vertical
                         # Hitbox
                         arm_x = int(p[0])
-                        arm_top = int(scy(p[1] - int(25 / 4)))
-                        arm_bottom = int(scy(p[1] + int(25 / 4)))
+                        arm_top = int(scy(p[1] - int(25 / 4 + 0.5)))
+                        arm_bottom = int(scy(p[1] + int(25 / 4 + 2.5)))
                         a = 1
                         for i in range(arm_top, arm_bottom):
                             pad.addch(i, arm_x, "│")
@@ -142,9 +141,8 @@ class GamePlay(UI):
                         # bcb
                         bcb_x = int(p[0])
                         d = 21 / 4 * entity.bar_loc
-                        bcb_top = int(scy(p[1] + d - 1))
-                        bcb_bottom = int(scy(p[1] + d + 1))
-                        for i in range(bcb_top, bcb_bottom):
+                        bcb_top = int(arm_top + 6 + d)
+                        for i in range(scy(bcb_top), scy(bcb_top + 3)):
                             pad.addch(i, bcb_x, "█")
 
                     if focused_uuid == entity.uuid:
@@ -159,7 +157,7 @@ class GamePlay(UI):
                         pad.addstr(
                             int(scy(p[1])),
                             int(scx(p[0])),
-                            "⊗" if ball_blink_cycle > 2 else "⃝",
+                            "⊗" if ball_blink_cycle > 2 else "◯",
                         )
                     else:
                         pad.addstr(int(scy(p[1])), int(scx(p[0])), "⊙")
