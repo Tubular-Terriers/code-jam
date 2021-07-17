@@ -31,7 +31,9 @@ class GamePlay(UI):
         # Required
         super().view(app)
 
-        gee = GameEventEmitter("token")
+        gee = GameEventEmitter(
+            "4b5b0f90d4210379a864834210cee954c224f0198e51572f5e92f1e41e383915"
+        )
 
         self.disp_h, self.disp_w = 50, 150
         self.c_y, self.c_x = self.window.getmaxyx()
@@ -291,6 +293,8 @@ class GamePlay(UI):
             await asyncio.sleep(0.05)
             if game_engine.is_dead():
                 break
+            if gee.disconnected:
+                return AppState.GAME
 
             # if app.input_manager.is_pressed("w"):
             #     camera_y -= 1
