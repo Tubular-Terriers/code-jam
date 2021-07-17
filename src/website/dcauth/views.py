@@ -9,10 +9,10 @@ from django.urls import reverse
 from django.views import View
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
-
-from .md_manager import MarkdownManager
 from dotenv import load_dotenv
+
 from .auth_manager import AuthManager
+from .md_manager import MarkdownManager
 
 load_dotenv()
 

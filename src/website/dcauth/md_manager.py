@@ -1,5 +1,6 @@
-import markdown as md
 import re
+
+import markdown as md
 
 
 class MarkdownManager:
