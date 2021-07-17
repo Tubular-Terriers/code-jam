@@ -39,15 +39,15 @@ class Credits(UI):
         self.refresh_time = 0
         self.height = 0
         self.width = 0
+        self.previous_menu_button = None
 
     async def view(self, app):
-        # Required
         super().view(app)
         self.height, self.width = self.window.getmaxyx()
         if len(self.locations_x) == 0:
             for _ in range(self.stars_count):
                 self.locations_x.append(random.randint(0, self.width - 1))
-                self.locations_y.append(random.randint(0, self.height - 1))
+                self.locations_y.append(random.randint(0, self.height - 2))
         curses.start_color()
         curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)
         curses.init_pair(2, 215, curses.COLOR_BLACK)
@@ -58,8 +58,8 @@ class Credits(UI):
         curses.init_pair(7, curses.COLOR_GREEN, curses.COLOR_BLACK)
         curses.init_pair(8, curses.COLOR_YELLOW, curses.COLOR_BLACK)
 
-        width = 12
-        self.menu_button = Button(
+        width = 25
+        self.previous_menu_button = Button(
             self.height - self.height // 5,
             self.width // 2 - (width // 2),
             text_color_pair_id=4,
@@ -71,16 +71,15 @@ class Credits(UI):
             selected=True,
         )
 
-        self.widgets = [self.menu_button]
+        self.widgets = [self.previous_menu_button]
         self.draw()
         self.refresh()
 
         while True:
-            if res := self.menu_button.refresh():
+            if res := self.previous_menu_button.refresh():
                 break
             self.draw()
             curses.doupdate()
-            await asyncio.sleep(0.1)
         return res
 
     def draw(self):
@@ -100,7 +99,7 @@ class Credits(UI):
                 self.window.noutrefresh()
         self.refresh_time += 1
         curses.doupdate()
-        self.window.attron(curses.color_pair(2))
+        self.window.attron(curses.color_pair(8))
         self.window.attron(curses.A_BOLD)
         y = 0
         for text in self._credits_:
@@ -147,7 +146,6 @@ class Credits(UI):
     def press_on(self, key):
         if key == keyboard.Key.enter:
             self.widgets[0].toggle()
-            self.window.addstr(0, 0, "DDIJSADJASDIASD")
 
 
 credits_scr = Credits()
