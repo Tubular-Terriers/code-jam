@@ -98,12 +98,10 @@ Throughout the game play lifecycle, these are constantly sent
 {
     "action": "game",
     "payload": {
-        "events":[
-            {
-                "name": "EVENT ID HERE",
-                "value": {} // value or object. Different for every event
-            }
-        ]
+        "events":{
+            // due to lack of time, this is just a key dictionary of player input
+            "KEY": true
+        }
     }
 }
 ```
