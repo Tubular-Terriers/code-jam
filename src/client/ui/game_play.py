@@ -50,8 +50,11 @@ class GamePlay(UI):
         #     curses.doupdate()
         #     await asyncio.sleep(0.2)
 
-        game_engine = Engine(debug=True)
+        game_engine = Engine(debug=True, is_server=False, is_client=True)
         focused_uuid = game_engine.add_player()
+
+        game_server = Engine(debug=True, is_server=True, is_client=False)
+        game_server.hook(game_engine)
         await game_engine.run()
 
         _150 = 150

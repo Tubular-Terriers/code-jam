@@ -115,7 +115,6 @@ class Engine:
             def process_key(key):
                 """Process key events passed from pygame window"""
                 if self.player is None:
-                    print("there is no player")
                     return
                 if key == pygame.K_SPACE:
                     print("space pressed")
@@ -141,7 +140,7 @@ class Engine:
                     self._emit(MoveBar.ID, keys)
                 except Exception as e:
                     print(e)
-                    self._emit(Error.ID, e.message)
+                    self._emit(Error.ID, f"{e}")
 
             self.control = routine
             self.debug_render = DebugRender(self.space, self.destroy, process_key)
@@ -284,6 +283,41 @@ class Engine:
             else:
                 self.space.remove(*body.tuple)
 
+    def dump(self):
+        # Dumps all entities
+        li = {}
+        for entity in list(self.entities.values()):
+            li[str(entity.uuid)] = entity.dump_data()
+        return li
+
+    def load(self, data):
+        # Loads all entities
+        processed_entities = set(self.entities)
+        for uuid, entity in data.items():
+            processed_entities.discard(uuid)
+            if uuid in self.entities:
+                self.entities[uuid].load_data(entity)
+                continue
+            # Create the entity
+            if entity["type"] == EntityType.PLAYER:
+                self.add_player(uuid)
+            elif entity["type"] == EntityType.BALL:
+                ball = Ball()
+                ball.load_data(entity)
+                ball.add_space(self.space)
+                self.register_entity(ball)
+        for d in processed_entities:
+            entity = self.entities[d]
+            try:
+                if entity.type == EntityType.PLAYER:
+                    self.space.remove(*entity.bb, *entity.bcb)
+                    self.remove_entity(entity)
+                elif entity.type == EntityType.BALL:
+                    self.space.remove(*ball.tuple)
+                    self.remove_entity(entity)
+            except Exception as e:
+                """Probably nothing happened"""
+
     def stop(self):
         for body in self.entities.values():
             if body.body_type != 2:  # if not static
@@ -362,7 +396,7 @@ class Engine:
         self.entities[entity.uuid] = entity
 
     def remove_entity(self, entity):
-        self.entities.pop(entity.uuid)
+        self.entities.pop(entity.uuid, None)
 
     async def run(self):
         # TODO: this method should be synchronous
@@ -431,9 +465,13 @@ class Engine:
 
     def _move_player_keys(self, keys) -> None:
         """`keys` dict where [MovePlayer.KEY] is True or False"""
+        if self.player is None:
+            return
         self.player.process_move_keys(keys)
 
     def _move_bar_keys(self, keys) -> None:
+        if self.player is None:
+            return
         self.player.process_bar_keys(keys)
 
     #########################################

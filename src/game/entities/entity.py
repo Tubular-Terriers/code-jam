@@ -15,6 +15,7 @@ class Entity:
         self.velocity = data["velocity"]
         self.angular_velocity = data["angular_velocity"]
         self.angle = data["angle"]
+        self.type = data["type"]
 
     # Partial
     def dump_data(self):

@@ -12,6 +12,7 @@ class Packet:
         creating a send packet
         """
         self.action_name = action_name
+        self.client_id = None
         if uuid == 0:
             self.packet_id = uuid4()
         else:
@@ -35,5 +36,8 @@ class Packet:
             "payload": self.dump(),
         }  # self.dump() must be implemented
         if self.packet_id:
-            p["packet_id"] = self.packet_id
+            p["packet_id"] = str(self.packet_id)
+        if self.client_id:
+            p["client_id"] = str(self.client_id)
+        print(p)
         return json.dumps(p)
