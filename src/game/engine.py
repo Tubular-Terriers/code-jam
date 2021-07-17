@@ -241,7 +241,7 @@ class Engine:
         ch_collision_box = self.space.add_collision_handler(
             collision_type.BALL_COLLISION_BOX, collision_type.BALL
         )
-        ch_collision_box.post_solve = on_collision_ball_hit
+        # ch_collision_box.post_solve = on_collision_ball_hit
 
         def on_collision_ball_bounce(arbiter, space, data):
             ball = arbiter.shapes[0].body
