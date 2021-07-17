@@ -48,12 +48,13 @@ class GamePlay(UI):
             connection = None
 
             async def c1():
+                nonlocal connection
                 try:
-                    nonlocal connection
                     # makes the connection look cool
                     await asyncio.sleep(2)
-                    await gee.initialize_server_connection("ws://localhost:3001")
-                    connection = True
+                    connection = await gee.initialize_server_connection(
+                        "ws://localhost:3001"
+                    )
                 except Exception:
                     connection = False
 
@@ -85,7 +86,6 @@ class GamePlay(UI):
                     # makes the connection look cool
                     await asyncio.sleep(0.5)
                     res = await gee.verify()
-                    connection = res
                 except Exception:
                     res = False
 
@@ -324,6 +324,8 @@ class GamePlay(UI):
             await asyncio.sleep(5000)
             return AppState.GAME_OVER
         except Exception:
+            app.screen.clear()
+            app.screen.refresh()
             return AppState.MAIN_MENU
 
 
