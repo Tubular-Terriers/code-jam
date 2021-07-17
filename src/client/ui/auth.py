@@ -19,27 +19,31 @@ class Auth(UI):
     def __init__(self):
         super().__init__("main_menu_scr")
         self.message = [
-            "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@@@@*/(@@@@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@@%%%%%%,@@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@(  *% ,%#@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@@#%  %(%@@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@%% . ..%%@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@#*, //@%%%%%%%%/* *@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@*      ////@@@. @@@///     #@@@@@@@@@@@",
-            "@@@@@@@@@@@        ////@@  @@//,       *@@@@@@@@@@",
-            "@@@@@@@@@@@*      *  ///@   ///        (@@@@@@@@@@",
-            "@@@@@@@@@@@.     # /%%,.  @@%%%         @@@@@@@@@@",
-            "@@@@@@@@@@@     .%#%        &          ,@@@@@@@@@@",
-            "@@@@@@@@@@@@        .     &       ,   *@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@*,          .*         ,@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@             @@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@..,**//((##%%@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
-            "Please authorize yourself to enter",
+            "                 ____",
+            "                / ___\ ",
+            "               |: =O =O",
+            "               |:: __ |",
+            "                \_/LLL\ ",
+            "          __ __./:__:\.__ __",
+            "         (##i \ |<__>| / i##)",
+            "         |--|:/\/ :: \/\:|--|",
+            "         |  |:  :====:  :|  |",
+            "        / :.'Y-' |::| '-Y`.: \ ",
+            "        |__| | : |__|.-.| |__|",
+            "        (##) | : /++\`-'! (##)",
+            "         \  \|n._\++/_.n| /  /",
+            "          \ xT::::--::::T/  /",
+            "           \Xl-. `""' .-lXX/",
+            "             |: \    / :|",
+            "             |:  i--i  :|",
+            "             |:  |  |  :| ",
+            "             |___|  |__;|",
+            "             P###Y  P###Y",
+            "             b###d  b###d",
+            "             |   |  |   | ",
+            "             |   |  |   | ",
+            "",
+            "Please get your passes before entering",
         ]
         self.horizontal_border = "─"
         self.vertical_border = "│"
@@ -67,21 +71,21 @@ class Auth(UI):
         curses.init_pair(7, curses.COLOR_GREEN, curses.COLOR_BLACK)
         curses.init_pair(8, curses.COLOR_YELLOW, curses.COLOR_BLACK)
 
-        y = height // 2 - len(self.message) - 2
+        y = 1
         for text in self.message:
             self.window.addstr(
                 y,
-                width // 2 - len(text) // 2,
+                50,
                 text,
                 curses.color_pair(2),
             )
             y += 1
 
         auth_button = Button(
-            len(self.message) + 17,
-            (width - 150) // 2,
-            width=150,
-            text="Wait! If you have a TOKEN, just copy it; if not GET THE HE... No, you're welcome. Just press enter to register...",
+            27,
+            (width - 30) // 2,
+            width=30,
+            text="get my pass",
             frame_color_pair_id=5,
             text_color_pair_id=7,
             key=keyboard.Key.enter,
@@ -90,14 +94,14 @@ class Auth(UI):
         )
 
         exit_button = Button(
-            len(self.message) + auth_button.height + 16,
+            30,
             (width - 30) // 2,
             width=30,
-            text="end before it began...",
+            text="End before it began...",
             text_color_pair_id=6,
             frame_color_pair_id=5,
             key=keyboard.Key.enter,
-            go_to=AppState.EXIT,
+            go_to=AppState.MAIN_MENU,
         )
 
         self.input_manager = app.input_manager
