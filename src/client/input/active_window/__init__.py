@@ -1,10 +1,9 @@
 # determines whether to import linux or windows
+# from ctypes import byref, windll, wintypes
+import ctypes
 import os
 import platform
 import time
-
-# from ctypes import byref, windll, wintypes
-import ctypes
 
 
 def is_focused():
