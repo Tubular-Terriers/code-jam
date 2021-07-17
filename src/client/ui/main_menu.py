@@ -222,7 +222,7 @@ class Main_menu(UI):
 
         play_button = Button(
             self.board_end_y + 5,
-            (self.board_end_x // 5) *1,
+            (self.board_end_x // 5) * 1,
             text="Host a game",
             text_color_pair_id=7,
             frame_color_pair_id=5,

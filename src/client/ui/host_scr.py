@@ -18,11 +18,11 @@ class Host_game_scr(UI):
 
     def __init__(self):
         super().__init__("host game")
-        self.game_code= "#code#"
+        self.game_code = "#code#"
         self.message = [
             "Please ask the others to join using the following method:",
             "1. click the join a game.",
-            "2. enter your game code: "+self.game_code,
+            "2. enter your game code: " + self.game_code,
         ]
         self.player_list = [
             "The players that have joined by now:",
@@ -32,7 +32,6 @@ class Host_game_scr(UI):
             "karthik",
         ]
         self.selected_widget = 0
-        
 
     async def view(self, app):
         # Required
@@ -74,28 +73,28 @@ class Host_game_scr(UI):
             color_id += 1
             y += 1
         play_button = Button(
-            (height//2) +y,
-            (width - 30) // 2 -5,
-            text = "start game",
+            (height // 2) + y,
+            (width - 30) // 2 - 5,
+            text="start game",
             text_color_pair_id=7,
             frame_color_pair_id=5,
-            width = 15,
+            width=15,
             go_to=AppState.GAME,
             key=keyboard.Key.enter,
             selected=self.selected_widget == 0,
         )
         exit_button = Button(
-            (height//2)+y,
-            (width - 30) // 2 +20,
-            text = "close lobby",
+            (height // 2) + y,
+            (width - 30) // 2 + 20,
+            text="close lobby",
             text_color_pair_id=7,
             frame_color_pair_id=5,
-            width = 15,
+            width=15,
             go_to=AppState.MAIN_MENU,
             key=keyboard.Key.enter,
             selected=self.selected_widget == 1,
         )
-        
+
         self.widgets = [play_button, exit_button]
         self.refresh()
 
@@ -105,7 +104,7 @@ class Host_game_scr(UI):
             curses.doupdate()
             await asyncio.sleep(0.08)
         return res
-        
+
     def press_on(self, key):
         if key == keyboard.Key.left:
             self.widgets[self.selected_widget].selected = False
@@ -126,6 +125,6 @@ class Host_game_scr(UI):
 
         elif key == keyboard.Key.enter:
             self.widgets[self.selected_widget].toggle()
-        
+
 
 host_game = Host_game_scr()
