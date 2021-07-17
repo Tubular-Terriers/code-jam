@@ -4,13 +4,14 @@ import sys
 import time
 from time import sleep
 
-from appstate import AppState
 from pynput import keyboard
-from ui._ui import UI
-from ui.widget.password import password
-from ui.widget.progress_bar import ProgressBar
-from ui.widget.simple_button import Button
-from ui.widget.simple_textbox import Box
+
+from client.appstate import AppState
+
+from ._ui import UI
+from .widget.password import password
+from .widget.progress_bar import ProgressBar
+from .widget.simple_button import Button
 
 
 class Menu(UI):
