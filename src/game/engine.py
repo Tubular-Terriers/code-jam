@@ -385,12 +385,6 @@ class Engine:
         self.remove_entity(self.entities[uuid])
         return True
 
-    def update_entity_speed(self, uuid, *amount):
-        # HERE HERE
-        # FIXME THIS
-        # self.entities[uuid].velocity = amount
-        pass
-
     def is_player_bordered(self):
         pass
 
