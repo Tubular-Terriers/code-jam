@@ -49,7 +49,7 @@ class Main_menu(UI):
         self.button_spacing = None
         self.colors_range = range(1, 9)
         self.selected_color = 1
-        self.selected_widget = 1
+        self.selected_widget = 0
         self.config = Config()
         self.sound_engine = SoundEffectsEngine(
             int(self.config.get(Settings.SFX_VOLUME))
@@ -234,7 +234,7 @@ class Main_menu(UI):
 
         join_game_button = Button(
             self.board_end_y + 5,
-            (self.board_end_x // 5) * 2,
+            (self.board_end_x // 6) * 2,
             text="Join a game",
             text_color_pair_id=7,
             frame_color_pair_id=5,
