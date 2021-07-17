@@ -113,13 +113,13 @@ class Player(Entity, pymunk.Body):
         """`dir` is a type of MovePlayer"""
         xv = 0
         yv = 0
-        if keys[MovePlayer.UP]:
+        if keys.get(MovePlayer.UP, False):
             yv -= 50
-        if keys[MovePlayer.DOWN]:
+        if keys.get(MovePlayer.DOWN, False):
             yv += 50
-        if keys[MovePlayer.LEFT]:
+        if keys.get(MovePlayer.LEFT, False):
             xv -= 50
-        if keys[MovePlayer.RIGHT]:
+        if keys.get(MovePlayer.RIGHT, False):
             xv += 50
         self.velocity = (xv, yv)
 
@@ -127,13 +127,13 @@ class Player(Entity, pymunk.Body):
         """`dir` is a type of MoveBar"""
         bar_vert = 0
         bar_hori = 0
-        if keys[MoveBar.UP]:
+        if keys.get(MoveBar.UP, False):
             bar_vert -= 1
-        if keys[MoveBar.DOWN]:
+        if keys.get(MoveBar.DOWN, False):
             bar_vert += 1
-        if keys[MoveBar.LEFT]:
+        if keys.get(MoveBar.LEFT, False):
             bar_hori -= 1
-        if keys[MoveBar.RIGHT]:
+        if keys.get(MoveBar.RIGHT, False):
             bar_hori += 1
         # Prioritize left right
         # The code below adds a game mechanic called
@@ -187,4 +187,4 @@ class Player(Entity, pymunk.Body):
 
     def dump_data(self):
         data = {**super().dump_data(), "bar_loc": self.bar_loc}
-        return json.dumps(data)
+        return data
