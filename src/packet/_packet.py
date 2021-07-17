@@ -1,11 +1,21 @@
 import json
+from uuid import uuid4
 
 
 class Packet:
     """Interface class. Only send() creates a packet with action name"""
 
-    def __init__(self, action_name: str):
+    def __init__(self, action_name: str, uuid=None):
+        """Set `uuid` to 0 to auto generate a packet id
+
+        pass in 1 from the super class's uuid parameter to enforce a uuid when
+        creating a send packet
+        """
         self.action_name = action_name
+        if uuid == 0:
+            self.packet_id = uuid4()
+        else:
+            self.packet_id = uuid
 
     def dump(self):
         """Dumps the data to `dict`"""
@@ -18,9 +28,12 @@ class Packet:
 
     def send(self) -> str:
         """Returns a json packet to send"""
-        return json.dumps(
-            {
-                "action": self.action_name,
-                "payload": self.dump(),
-            }  # self.dump() must be implemented
-        )
+        if self.packet_id == 1:
+            raise Exception("The super packet class requires a uuid to send")
+        p = {
+            "action": self.action_name,
+            "payload": self.dump(),
+        }  # self.dump() must be implemented
+        if self.packet_id:
+            p["packet_id"] = self.packet_id
+        return json.dumps(p)
