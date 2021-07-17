@@ -22,7 +22,7 @@ class Join_game_scr(UI):
             "JOIN A GAME",
             "please enter your code below to join the game.",
         ]
-        self.selected_widget = 1
+        self.selected_widget = 0
 
     async def view(self, app):
         # Required
@@ -80,9 +80,13 @@ class Join_game_scr(UI):
 
         self.widgets = [textbox, play_button, exit_button]
         self.refresh()
-
+        self.input_manager = app.input_manager
+        self.register_input_managers(
+            *self.widgets
+        )
         while True:
             if res := self.refresh():
+                app.game_code = textbox.text
                 break
             curses.doupdate()
             await asyncio.sleep(0.08)
@@ -91,7 +95,7 @@ class Join_game_scr(UI):
     def press_on(self, key):
         if key == keyboard.Key.left:
             self.widgets[self.selected_widget].selected = False
-            if not self.selected_widget == 1:
+            if not self.selected_widget == 0:
                 self.selected_widget -= 1
             else:
                 self.selected_widget = len(self.widgets) - 1
@@ -102,12 +106,17 @@ class Join_game_scr(UI):
             if not self.selected_widget == len(self.widgets) - 1:
                 self.selected_widget += 1
             else:
-                self.selected_widget = 1
+                self.selected_widget = 0
 
             self.widgets[self.selected_widget].selected = True
 
         elif key == keyboard.Key.enter:
-            self.widgets[self.selected_widget].toggle()
+            if self.selected_widget >= 1:
+                self.widgets[self.selected_widget].toggle()
+            else:
+                self.widgets[self.selected_widget].press_on(key)
+        elif self.selected_widget == 0:
+            self.widgets[self.selected_widget].press_on(key)
 
 
 join_game = Join_game_scr()
