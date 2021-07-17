@@ -47,9 +47,9 @@ class Join_game_scr(UI):
                 curses.color_pair(1),
             )
             y += 1
-            
+
         y += 1
-        
+
         w = 10
         textbox = Box(
             3,

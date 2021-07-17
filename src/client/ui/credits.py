@@ -80,7 +80,7 @@ class Credits(UI):
                 break
             self.draw()
             curses.doupdate()
-            await asyncio.sleep(.1)
+            await asyncio.sleep(0.1)
         return res
 
     def draw(self):

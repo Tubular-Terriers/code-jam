@@ -106,10 +106,10 @@ class Slider(Widget):
 
                 if self.progress_color_pair_id is not None:
                     self.window.attroff(curses.color_pair(self.progress_color_pair_id))
-                    
+
                 if self.progress_left_color_pair_id is not None and self.selected:
                     self.window.attron(curses.color_pair(self.progress_color_pair_id))
-                    
+
                 for x in range(completed, self.width - 3):
                     self.window.addstr(y, x, self.progress_left)
 
@@ -122,8 +122,10 @@ class Slider(Widget):
                 self.window.addstr(y, self.width - 2, self.vertical_border)
 
                 self.window.addstr(self.height - 3, 0, self.bottom_left_corner)
-                self.window.addstr(self.height - 3, self.width - 2, self.bottom_right_corner)
-        
+                self.window.addstr(
+                    self.height - 3, self.width - 2, self.bottom_right_corner
+                )
+
                 for x in range(1, self.width - 2):
                     self.window.addstr(self.height - 3, x, self.horizontal_border)
 
@@ -135,7 +137,9 @@ class Slider(Widget):
                 if self.text_color_pair_id is not None:
                     self.window.attron(curses.color_pair(self.text_color_pair_id))
 
-                self.window.addstr(0, self.width // 2 - (len(self.text) // 2), self.text)
+                self.window.addstr(
+                    0, self.width // 2 - (len(self.text) // 2), self.text
+                )
 
                 if self.text_color_pair_id is not None:
                     self.window.attroff(curses.color_pair(self.text_color_pair_id))
@@ -152,8 +156,6 @@ class Slider(Widget):
                     self.window.addstr(1, x, self.horizontal_border)
 
                 self.window.addstr(1, self.width - 2, self.upper_right_corner)
-
-                
 
         self.window.noutrefresh()
 
