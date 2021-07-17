@@ -4,8 +4,10 @@ import sys
 import time
 from time import sleep
 
-from client.appstate import AppState
 from pynput import keyboard
+
+from client.appstate import AppState
+
 from ._ui import UI
 from .widget.password import password
 from .widget.progress_bar import ProgressBar
