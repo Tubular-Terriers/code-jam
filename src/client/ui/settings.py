@@ -9,7 +9,7 @@ from client.appstate import AppState
 from ._ui import UI
 from .widget.button import Button
 from .widget.progress_bar import ProgressBar
-from .widget.slider import Slider
+from .widget.slider import Orientation, Slider
 
 
 class Settings(UI):
@@ -58,7 +58,7 @@ class Settings(UI):
         self.window.attron(curses.A_NORMAL)
 
         width = 25
-        menu_button = Button(
+        previous_menu_button = Button(
             self.height - self.height // 5,
             self.width // 2 - (width // 2),
             text_color_pair_id=4,
@@ -67,9 +67,33 @@ class Settings(UI):
             text="Back",
             key=keyboard.Key.enter,
             go_to=AppState.MAIN_MENU,
-            selected=self.selected_widget == 0,
+            selected=self.selected_widget == 0
         )
-
+        
+        apply_button = Button(
+            previous_menu_button.y - 4,
+            self.width // 2 - (width // 2),
+            text_color_pair_id=4,
+            frame_color_pair_id=5,
+            width=width,
+            text="Apply",
+            key=keyboard.Key.enter,
+            go_to=AppState.MAIN_MENU,
+            selected=self.selected_widget == 1
+        )
+        
+        save_button = Button(
+            apply_button.y - 4,
+            self.width // 2 - (width // 2),
+            text_color_pair_id=4,
+            frame_color_pair_id=5,
+            width=width,
+            text="Save",
+            key=keyboard.Key.enter,
+            go_to=AppState.MAIN_MENU,
+            selected=self.selected_widget == 2
+        )
+        
         width = 4
         height = 20
         self.increment_slider = Slider(
@@ -79,24 +103,27 @@ class Settings(UI):
             frame_color_pair_id=5,
             height=height,
             width=width,
-            selected=self.selected_widget == 1,
+            selected=self.selected_widget == 3,
+            orientation=Orientation.VERTICAL
         )
-
-        self.window.addstr(
-            self.height // 2 + (height // 2), self.width - width - 16, "Set increment"
-        )
+        
+        self.window.addstr(self.height // 2 + (height // 2),
+                           self.width - width - 16,
+                           "Set increment")
 
         width = 55
-        sfx_volume_slider = Slider(
-            self.height // 2 - (height // 2),
-            self.width // 2 - (width // 2),
-            text_color_pair_id=4,
-            frame_color_pair_id=5,
-            width=width,
-            selected=self.selected_widget == 2,
-        )
+        sfx_volume_slider = Slider(self.height // 2 - (height // 2),
+                                   self.width // 2 - (width // 2),
+                                   text="LEFT/RIGHT",
+                                   text_color_pair_id=4,
+                                   frame_color_pair_id=5,
+                                   width=width,
+                                   selected=True,         # self.selected_widget == 2 FIXME
+                                   progress=50
+                                   )
 
-        self.widgets = [menu_button, self.increment_slider, sfx_volume_slider]
+        self.widgets = [previous_menu_button, apply_button, save_button,
+                        self.increment_slider, sfx_volume_slider]
         self.refresh()
 
         while True:
@@ -104,61 +131,16 @@ class Settings(UI):
                 break
             self.update()
             curses.doupdate()
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(.1)
         return res
-
+    
     def update(self):
         self.increment = self.increment_slider.progress
 
     def press_on(self, key):
-        if self.widgets[self.selected_widget] == self.increment_slider:
-            if key == keyboard.Key.up:
-                self.increment_slider.update_progress(key, 1)
-            elif key == keyboard.Key.down:
-                self.increment_slider.update_progress(key, 1)
-            elif key == keyboard.Key.right:
-                self.selected_widget = 0
-            elif key == keyboard.Key.left:
-                self.selected_widget = 0
-        else:
-            if key == keyboard.Key.up:
-                self.widgets[self.selected_widget].selected = False
-                if not self.selected_widget == 0:
-                    self.selected_widget -= 1
-                else:
-                    self.selected_widget = len(self.widgets) - 1
-
-                self.widgets[self.selected_widget].selected = True
-
-            elif key == keyboard.Key.down:
-                self.widgets[self.selected_widget].selected = False
-
-                if not self.selected_widget == len(self.widgets) - 1:
-                    self.selected_widget += 1
-                else:
-                    self.selected_widget = 0
-
-                self.widgets[self.selected_widget].selected = True
-
-            elif key == keyboard.Key.right:
-                if not self.selected_widget == 0:
-                    self.widgets[self.selected_widget].update_progress(
-                        key, self.increment
-                    )
-
-            elif key == keyboard.Key.left:
-                if not self.selected_widget == 0:
-                    self.widgets[self.selected_widget].update_progress(
-                        key, self.increment
-                    )
-
-            elif key == keyboard.Key.enter:
-                if self.selected_widget == 0:
-                    self.widgets[self.selected_widget].toggle()
-
-            elif key == keyboard.Key.esc:
-                self.widgets[self.selected_widget].selected = False
-                self.selected_widget = 0
+        if self.selected_widget == 0:
+            if key == keyboard.Key.enter:
+                self.widgets[self.selected_widget].toggle()
 
 
 settings = Settings()
