@@ -13,7 +13,7 @@ class Button(Widget):
         x,
         key,
         height=4,
-        width=11,
+        width = 0,
         text=None,
         frame_color_pair_id: int = None,
         text_color_pair_id: int = None,
@@ -31,7 +31,7 @@ class Button(Widget):
         self.text_color_pair_id = text_color_pair_id
         self.frame_color_pair_id = frame_color_pair_id
         self.height = height if height >= 4 else 4
-        self.width = width if width >= 10 else 10
+        self.width = width if width > 0 else len(self.text) + 2
         self.window = curses.newwin(self.height, self.width, y, x)
         self.toggled = toggled
         self.callback = callback
