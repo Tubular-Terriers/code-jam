@@ -245,7 +245,6 @@ class Engine:
 
         def on_collision_ball_bounce(arbiter, space, data):
             ball = arbiter.shapes[0].body
-            ball.bounce_count += 1
             if ball.is_last_bounce():
                 self.space.remove(*ball.tuple)
                 self.remove_entity(ball)
@@ -253,6 +252,7 @@ class Engine:
                 #     self.space._remove_body, self.entities[ball.uuid]
                 # )
                 # remove the ball
+            ball.bounce_count += 1
 
         ch_collision_wall = self.space.add_collision_handler(
             collision_type.WALL, collision_type.BALL

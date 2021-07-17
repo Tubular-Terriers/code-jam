@@ -100,8 +100,11 @@ class GamePlay(UI):
          │ ─ ┌ ┬ ┐ ├ ┼ ┤ └ ┴ ┘
         ■■
         """
-
+        ball_blink_cycle = 0
         while True:
+            # deal with cycles
+            ball_blink_cycle = ball_blink_cycle % 5 + 1
+
             # Redraw the pad
             pad.clear()
             pad.border(0)
@@ -152,7 +155,14 @@ class GamePlay(UI):
                 elif entity.type == EntityType.BALL:
                     # Render the player
                     p = st(entity.position)
-                    pad.addstr(int(scy(p[1])), int(scx(p[0])), "⊙")
+                    if entity.is_last_bounce():
+                        pad.addstr(
+                            int(scy(p[1])),
+                            int(scx(p[0])),
+                            "⊗" if ball_blink_cycle > 2 else "⃝",
+                        )
+                    else:
+                        pad.addstr(int(scy(p[1])), int(scx(p[0])), "⊙")
                     # print(p)
 
             render_y = clamp(0, camera_y - 25, pad.getmaxyx()[0] - 51)
