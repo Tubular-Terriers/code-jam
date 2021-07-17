@@ -106,9 +106,6 @@ class Player(Entity, pymunk.Body):
     def reset(self):
         pass
 
-    def bleed(self):
-        self.health -= 1
-
     def process_move_keys(self, keys: dict):
         """`dir` is a type of MovePlayer"""
         xv = 0
@@ -183,7 +180,7 @@ class Player(Entity, pymunk.Body):
         """Callback"""
 
     def load_data(self, data):
-        super().load_data(data)
+        super().load_data({**data, "bar_loc": self.bar_loc})
 
     def dump_data(self):
         data = {**super().dump_data(), "bar_loc": self.bar_loc}

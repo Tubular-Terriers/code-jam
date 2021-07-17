@@ -167,8 +167,15 @@ class Engine:
             self.space.remove(arbiter.shapes[1])
             self.remove_entity(arbiter.shapes[1].body)
             self._emit(Sound.ID, Sound.PLAYER_DAMAGE)
-            if arbiter.shapes[0].body:
-                pass  # HERE HERE
+            self.space.remove(
+                arbiter.shapes[0],
+                *self.player.shapes,
+                *self.player.bcb,
+                *self.player.bb,
+            )
+            self.remove_entity(arbiter.shapes[0].body)
+            if player := arbiter.shapes[0].body:
+                pass
             return False
 
         ch = self.space.add_collision_handler(collision_type.BALL, collision_type.WALL)
@@ -266,6 +273,8 @@ class Engine:
 
         def on_collision_ball_bounce(arbiter, space, data):
             ball = arbiter.shapes[0].body
+
+            print(self.player.dump_data())
 
             if ball.is_last_bounce():
                 self.space.remove(*ball.tuple)
