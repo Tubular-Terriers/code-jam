@@ -51,6 +51,7 @@ class GamePlay(UI):
         #     await asyncio.sleep(0.2)
 
         game_engine = Engine(debug=True)
+        focused_uuid = game_engine.add_player()
         await game_engine.run()
 
         _150 = 150
@@ -85,7 +86,7 @@ class GamePlay(UI):
 
         def scx(x):
             """Short for screen clamp x."""
-            return clamp(0, x, _300 - 1)
+            return clamp(0, x, _300 - 2)
 
         def scy(y):
             """Short for screen clamp y."""
@@ -105,7 +106,7 @@ class GamePlay(UI):
             pad.clear()
             pad.border(0)
             w = curses.newwin(1, 100, 0, 0)
-            for entity in game_engine.entities.values():
+            for entity in list(game_engine.entities.values()):
                 if entity.type == EntityType.PLAYER:
                     # Render the player
                     p = st(entity.position)
@@ -143,10 +144,10 @@ class GamePlay(UI):
                         for i in range(bcb_top, bcb_bottom):
                             pad.addch(i, bcb_x, "█")
 
-                    # Need a general implementation later
-                    camera_x = int(p[0] + 0)
-                    camera_y = int(p[1] + 0)
-                    asdf = 1
+                    if focused_uuid == entity.uuid:
+                        camera_x = int(p[0] + 0)
+                        camera_y = int(p[1] + 0)
+                        asdf = 1
 
                 elif entity.type == EntityType.BALL:
                     # Render the player
@@ -156,6 +157,27 @@ class GamePlay(UI):
 
             render_y = clamp(0, camera_y - 25, pad.getmaxyx()[0] - 51)
             render_x = clamp(0, camera_x - 75, pad.getmaxyx()[1] - 151)
+
+            for wall in game_engine.walls:
+                # Determine if the wall is horizontal or not
+                # assume the wall is always either horizontal or vertical
+                a = wall.a
+                b = wall.b
+                if a[0] == b[0]:
+                    # the wall is vertical
+                    sy = min(a[1] / 4, b[1] / 4)
+                    my = max(a[1] / 4, b[1] / 4)
+                    if render_x < a[0] / 2 < render_x + 150:
+                        # render the wall
+                        for i in range(int(sy), int(my)):
+                            pad.addch(i, int(a[0] / 2), "█")
+                else:
+                    sx = min(a[0] / 2, b[0] / 2)
+                    mx = max(a[0] / 2, b[0] / 2)
+                    if render_y < a[1] / 4 < render_y + 50:
+                        for i in range(int(sx), int(mx)):
+                            pad.addch(int(a[1] / 4), i, "■")
+
             focused = not (render_y != camera_y - 25 or render_x != camera_x - 75)
 
             w.erase()

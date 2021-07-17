@@ -341,6 +341,8 @@ class Engine:
                 await asyncio.sleep(t - time.time() + 1 / self.tps)
         except asyncio.CancelledError:
             print("run loop is terminated")
+        except Exception as e:
+            traceback.print_exc()
 
     def tick(self):
         # Update global tick count
@@ -352,7 +354,7 @@ class Engine:
 
         # Do server side updates
         if self.is_server:
-            for entity in self.entities.values():
+            for entity in list(self.entities.values()):
                 if entity.type == EntityType.SPAWNER:
                     spawner = entity
                     spawner.cool()
