@@ -37,11 +37,25 @@ class GameEventEmitter:
                 self.websocket = ws
                 while True:
                     # try:
-                    print("LISTENING")
                     data = await self.websocket.recv()
                     self.on_recv(data)
 
-        asyncio.create_task(hook())
+        # send keymaps
+        async def update_keymaps():
+            while True:
+                await asyncio.sleep(0.05)
+                if not self.game:
+                    continue
+
+                async def sendc():
+                    return await self.websocket.send(
+                        packet.GamePacket(events=self.game.key_map).send()
+                    )
+
+                asyncio.get_event_loop().create_task(sendc())
+
+        self.h = asyncio.create_task(hook())
+        self.u = asyncio.create_task(update_keymaps())
         # no time to implement
         await asyncio.sleep(1)
         return True
@@ -50,7 +64,7 @@ class GameEventEmitter:
         self.game = game
 
     def on_recv(self, data):
-        print(f"recieved {data}")
+        # print(f"recieved {data}")
         packet_data = None
         try:
             packet_data = json.loads(data)
@@ -58,7 +72,7 @@ class GameEventEmitter:
             """Error while loading dumps"""
             print(f"Recieved {data}. Not a valid json")
             return
-        print(data)
+        # print(data)
         action_type = packet_data["action"]
         pl = packet_data["payload"]
 
@@ -87,8 +101,9 @@ class GameEventEmitter:
 
     async def send_packet_expect_response(self, packet_data: object, id):
         """Sends a packet and returns the response packet in dict. Returns None if there was no response"""
+        assert self.websocket is not None
         id = None
-        print(packet_data)
+        # print(packet_data)
         try:
             id = packet_data.packet_id
         except Exception:
@@ -103,7 +118,6 @@ class GameEventEmitter:
             msg = self.messages.get(str(id), None)
             self.messages.pop(str(id), None)
             return msg
-        print("here")
         self.messages.pop(str(id), None)
         return None
 
@@ -154,6 +168,14 @@ class GameEventEmitter:
 
     def set_hook():
         """Sets the callback (only 1 callback allowed)"""
+
+    def destroy(self):
+        try:
+            self.h.cancel()
+            self.u.cancel()
+        except Exception:
+            """Connection was not initialized anyway"""
+            pass
 
 
 # async def main():

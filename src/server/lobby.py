@@ -16,17 +16,19 @@ class Lobby:
         asyncio.get_event_loop().create_task(self.engine.run())
         # Constantly update
 
+        self.client_mappings = {}
+
         async def update_loop():
             # Get clients that are in this lobby
             event_stack = []
 
+            # Not utilized for now
             def add_event(e, v):
                 event_stack.append(e)
 
             self.engine.hook(add_event)
             while True:
                 dump = self.engine.dump()
-                print(dump)
 
                 for client in list(server.clients.values()):
                     if client.lobby is None:
@@ -38,10 +40,17 @@ class Lobby:
                             )
                         )
                     event_stack = []
-                await asyncio.sleep(5)
+                await asyncio.sleep(0.05)
 
         asyncio.get_event_loop().create_task(update_loop())
 
-    def add_player(self):
+    def on_recv(self, pl, id):
+        # Only accept player controls
+        keys = pl["events"]
+        uuid = self.client_mappings[id]
+        self.engine._process_player_keys(uuid, keys)
+
+    def add_player(self, client_id):
         uuid = self.engine.add_player()
+        self.client_mappings[client_id] = uuid
         return uuid

@@ -7,6 +7,7 @@ import websockets
 
 import packet
 from website.dcauth.auth_manager import AuthManager
+
 from .lobby import Lobby
 from dotenv import load_dotenv
 
@@ -59,9 +60,9 @@ class Server:
             w.websocket = None
             async for message in websocket:
                 w.websocket = websocket
-                print(websocket.__hash__())
+                # print(websocket.__hash__())
                 # Handle events
-                print(message)
+                # print(message)
                 packet_data = None
                 try:
                     packet_data = json.loads(message)
@@ -97,12 +98,11 @@ class Server:
                                 websocket, packet.Status(True, uuid=uuid).send()
                             )
                             w.verified = True
-                            print(client_id)
+                            # print(client_id)
                         else:
                             self.send_sync(packet.Status(False, "Invalid Token").send())
                             w.verified = False
                         continue
-                    print(w.verified)
                     if w.verified:
                         # Get lobby request
                         if action_type == packet.RequestLobby.ACTION:
@@ -117,13 +117,15 @@ class Server:
                             else:
                                 # HERE HERE
                                 w.lobby = list(self.lobbies.values())[0]
-                                puuid = w.lobby.add_player()
+                                puuid = w.lobby.add_player(client_id)
                                 self.send_sync(
                                     websocket,
                                     packet.Status(True, str(puuid), uuid=uuid).send(),
                                 )
                         if action_type == packet.GamePacket.ACTION:
-                            pass
+                            if w.lobby:
+                                w.lobby.on_recv(pl, client_id)
+
                     else:
                         # Ignore the message
                         print("client sent a non verify packet without verification")

@@ -24,12 +24,15 @@ class Slider(Widget):
         text=None,
         frame_color_pair_id: int = None,
         text_color_pair_id: int = None,
+        progress_color_pair_id: int = None,
+        progress_left_color_pair_id: int = None,
         selected=False,
         toggled=False,
         require_active=True,
         go_to=None,
         callback=None,
         progress: int = 0,
+        orientation: Orientation = Orientation.HORIZONTAL,
     ):
         super().__init__("slider")
         self.require_selected = require_active
@@ -38,7 +41,7 @@ class Slider(Widget):
         self.text = text
         self.text_color_pair_id = text_color_pair_id
         self.frame_color_pair_id = frame_color_pair_id
-        self.height = height if height >= 4 else 4
+        self.height = height if height >= 6 else 6
         self.width = width if width >= 10 else 10
         self.window = curses.newwin(self.height, self.width, y, x)
         self.toggled = toggled
@@ -55,41 +58,63 @@ class Slider(Widget):
         self.bottom_right_corner = "┘"
         self.complete_progress = "#"
         self.progress_left = "-"
-        self.progress = progress // 100
-        self.orientation: Orientation = Orientation.HORIZONTAL
+        self.progress = progress / 100
+        self.orientation: Orientation = orientation
         self.max_progress: int = 1
         self.min_progress: int = 0
+        self.progress_color_pair_id: int = progress_color_pair_id
+        self.progress_left_color_pair_id: int = progress_left_color_pair_id
 
     def refresh(self):
+        # TEXT
         if self.selected and self.text is not None:
+
+            if self.text_color_pair_id is not None:
+                self.window.attron(curses.color_pair(self.text_color_pair_id))
+
             self.window.addstr(0, self.width // 2 - (len(self.text) // 2), self.text)
 
+            if self.text_color_pair_id is not None:
+                self.window.attroff(curses.color_pair(self.text_color_pair_id))
+
+        # FRAME
         if self.selected and self.frame_color_pair_id is not None:
             self.window.attron(curses.color_pair(self.frame_color_pair_id))
 
         self.window.addstr(1, 0, self.upper_left_corner)
 
-        self.window.addstr(1, 1, self.horizontal_border * (self.width - 2))
-        self.window.addstr(1, self.width - 1, self.upper_right_corner)
-        for y in range(1, self.height - 2):
-            self.window.addstr(y, 0, self.vertical_border)
-        self.window.addstr(self.height - 2, 0, self.bottom_left_corner)
-        for y in range(1, self.height - 2):
-            self.window.addstr(y, self.width - 1, self.vertical_border)
-        self.window.addstr(
-            self.height - 2, 1, self.horizontal_border * (self.width - 2)
-        )
-        self.window.addstr(self.height - 2, self.width - 1, self.bottom_right_corner)
+        # HORIZONTAL ORIENTATION
+        if self.orientation is Orientation.HORIZONTAL:
+            for x in range(1, self.width - 2):
+                self.window.addstr(1, x, self.horizontal_border)
+
+            self.window.addstr(1, self.width - 2, self.upper_right_corner)
+
+            for y in range(2, self.height - 3):
+                self.window.addstr(y, 0, self.vertical_border)
+
+                if self.frame_color_pair_id is not None:
+                    self.window.attroff(curses.color_pair(self.frame_color_pair_id))
+
+                if self.progress_color_pair_id is not None:
+                    self.window.attron(curses.color_pair(self.progress_color_pair_id))
+
+                completed = int(self.progress * (self.width - 2))
+
+                for x in range(1, completed):
+                    self.window.addstr(y, x, self.complete_progress)
+
+                if self.progress_color_pair_id is not None:
+                    self.window.attroff(curses.color_pair(self.progress_color_pair_id))
+
+        # VERTICAL ORIENTATION
+        elif self.orientation is Orientation.VERTICAL:
+            pass
 
         self.window.noutrefresh()
-        if self.toggle_count >= 1 and (
-            self.selected is True or self.require_selected is False
-        ):
-            if self.go_to is not None:
-                return self.go_to
 
     def update_progress(self, key, increment):
-        value = increment // 100
+        value = increment / 100
 
         if key == keyboard.Key.right:
             self.progress += (
@@ -100,21 +125,12 @@ class Slider(Widget):
                 value if self.progress >= self.min_progress else self.min_progress
             )
 
+        self.refresh()
+
     def select(self):
         self.selected = True
         self.refresh()
 
-    def toggle(self):
-        self.toggle_count += 1
-        self.toggled = not self.toggled
+    def unselect(self):
+        self.selected = False
         self.refresh()
-
-    def press_on(self, key):
-        if key == self.key or key.char == self.key:
-            self.toggle_count += 1
-            self.toggled = not self.toggled
-            if self.callback is not None:
-                self.callback()
-            self.refresh()
-        else:
-            return key

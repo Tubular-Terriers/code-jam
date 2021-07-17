@@ -5,7 +5,7 @@ from .entity_type import EntityType
 
 class Entity:
     def __init__(self, type: EntityType, uuid):
-        self.uuid = uuid if uuid else uuid4()
+        self.uuid = uuid if uuid else str(uuid4())
         self.type = type
 
     # Partial
@@ -21,7 +21,7 @@ class Entity:
     def dump_data(self):
         """Remember to return a `json.dumps()`"""
         return {
-            "uuid": str(self.uuid),
+            "uuid": self.uuid,
             "type": self.type,
             "position": self.position,
             "velocity": self.velocity,
