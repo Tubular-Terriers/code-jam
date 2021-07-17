@@ -8,10 +8,9 @@ import pygame
 import pymunk
 import pymunk.pygame_util
 
-from .entities.border import Border
-
 from . import category, collision_type
 from .entities.ball import Ball
+from .entities.border import Border
 from .entities.player import Player
 from .entities.spawner import Spawner
 from .events import Error, MoveBar, MovePlayer, Sound

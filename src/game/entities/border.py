@@ -1,12 +1,13 @@
-import pymunk
-import random
 import math
+import random
+
+import pymunk
 
 from .. import category, collision_type
+from .._objects import border
+from .ball import Ball
 from .entity import Entity
 from .entity_type import EntityType
-from .ball import Ball
-from .._objects import border
 
 
 class Border(Entity, pymunk.Body):
