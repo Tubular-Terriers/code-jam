@@ -65,7 +65,7 @@ class Player(Entity, pymunk.Body):
         self.bcb_body = pymunk.Body(1, 1, pymunk.Body.KINEMATIC)
         bcb_width = 8
         bcb_height = 5
-        self.bcb_range = (self.hitbox_width - bcb_width) / 2
+        self.bcb_range = (self.hitbox_width - bcb_width + 2) / 2
         self.ball_collision_box = pymunk.Poly(
             self.bcb_body,
             [
