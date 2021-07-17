@@ -22,8 +22,8 @@ class Host_game_scr(UI):
         self.message = [
             "JOIN A GAME",
             "Please ask the others to join using the following method:",
-            "1. click the join a game.",
-            "2. enter your game code: " + self.game_code,
+            "1. Click the join a game.",
+            "2. Enter your game code: " + self.game_code,
         ]
         self.player_list = [
             "The players that have joined by now:",
@@ -76,7 +76,7 @@ class Host_game_scr(UI):
         play_button = Button(
             (height // 2) + y,
             (width - 30) // 2 - 5,
-            text="start game",
+            text="Start game",
             text_color_pair_id=7,
             frame_color_pair_id=5,
             width=15,
@@ -87,7 +87,7 @@ class Host_game_scr(UI):
         exit_button = Button(
             (height // 2) + y,
             (width - 30) // 2 + 20,
-            text="close lobby",
+            text="Close lobby",
             text_color_pair_id=7,
             frame_color_pair_id=5,
             width=15,
