@@ -22,7 +22,7 @@ class Join_game_scr(UI):
             "JOIN A GAME",
             "please enter your code below to join the game.",
         ]
-        self.selected_widget = 0
+        self.selected_widget = 1
 
     async def view(self, app):
         # Required
@@ -64,7 +64,7 @@ class Join_game_scr(UI):
             width=15,
             go_to=AppState.GAME,
             key=keyboard.Key.enter,
-            selected=self.selected_widget == 0,
+            selected=self.selected_widget == 1,
         )
         exit_button = Button(
             (height // 2) + y,
@@ -75,7 +75,7 @@ class Join_game_scr(UI):
             width=15,
             go_to=AppState.MAIN_MENU,
             key=keyboard.Key.enter,
-            selected=self.selected_widget == 1,
+            selected=self.selected_widget == 2,
         )
 
         self.widgets = [textbox, play_button, exit_button]
@@ -91,7 +91,7 @@ class Join_game_scr(UI):
     def press_on(self, key):
         if key == keyboard.Key.left:
             self.widgets[self.selected_widget].selected = False
-            if not self.selected_widget == 0:
+            if not self.selected_widget == 1:
                 self.selected_widget -= 1
             else:
                 self.selected_widget = len(self.widgets) - 1
@@ -102,7 +102,7 @@ class Join_game_scr(UI):
             if not self.selected_widget == len(self.widgets) - 1:
                 self.selected_widget += 1
             else:
-                self.selected_widget = 0
+                self.selected_widget = 1
 
             self.widgets[self.selected_widget].selected = True
 
