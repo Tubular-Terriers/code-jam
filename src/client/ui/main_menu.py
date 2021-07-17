@@ -279,7 +279,13 @@ class Main_menu(UI):
             go_to=AppState.EXIT,
             selected=self.selected_widget == 3,
         )
-        self.widgets = [play_button, join_game_button, settings_button, credits_button, exit_button]
+        self.widgets = [
+            play_button,
+            join_game_button,
+            settings_button,
+            credits_button,
+            exit_button,
+        ]
         self.refresh()
 
         while True:
