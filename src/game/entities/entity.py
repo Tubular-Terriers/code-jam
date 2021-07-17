@@ -20,7 +20,7 @@ class Entity:
     def dump_data(self):
         """Remember to return a `json.dumps()`"""
         return {
-            "uuid": self.uuid,
+            "uuid": str(self.uuid),
             "type": self.type,
             "position": self.position,
             "velocity": self.velocity,

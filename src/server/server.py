@@ -9,6 +9,8 @@ import packet
 
 from .lobby import Lobby
 
+from ..website.dcauth.auth_manager import AuthManager
+
 
 class Server:
     def __init__(self, port):
@@ -89,7 +91,7 @@ class Server:
 
                     # Verify packet
                     if action_type == packet.Verify.ACTION:
-                        if True:  # HERE HERE ADD AUTH
+                        if AuthManager.check(uuid):  # HERE HERE ADD AUTH
                             self.send_sync(
                                 websocket, packet.Status(True, uuid=uuid).send()
                             )

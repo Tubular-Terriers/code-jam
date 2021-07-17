@@ -59,8 +59,12 @@ class Player(Entity, pymunk.Body):
             )
             return b
 
-        self.hitbox_vert = hb_fact(self.hitbox_width, 0)
-        self.hitbox_hori = hb_fact(0, self.hitbox_width)
+        if not self.horizontal:
+            self.hitbox_vert = hb_fact(self.hitbox_width, 0)
+            self.bb = self, self.bounding_box, self.hitbox_vert
+        else:
+            self.hitbox_hori = hb_fact(0, self.hitbox_width) if self.horizontal else None
+            self.bb = self, self.bounding_box, self.hitbox_hori
 
         ##################################################
         # This is a whole different body on top of player
@@ -87,7 +91,6 @@ class Player(Entity, pymunk.Body):
         )
         self.ball_collision_box.elasticity = 1
 
-        self.bb = self, self.bounding_box, self.hitbox_vert, self.hitbox_hori
         self.bcb = (
             self.ball_collision_box,
             self.bcb_body,
@@ -182,5 +185,5 @@ class Player(Entity, pymunk.Body):
         super().load_data(data)
 
     def dump_data(self):
-        data = {**super().dump_data()}
+        data = {**super().dump_data(), "bar_loc": self.bar_loc}
         return json.dumps(data)
