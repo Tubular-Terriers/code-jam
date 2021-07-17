@@ -1,7 +1,8 @@
 # Exports default map
 import random
 
-from ._objects import border, wall
+from ._objects import wall
+from .entities.border import Border
 
 cor1x = [102, 360, 58, 412, 489, 231, 409, 535, 146]
 cor1y = [55, 177, 186, 298, 0, 186, 385, 406, 494]
@@ -10,10 +11,10 @@ cor2y = [55, 177, 186, 298, 180, 320, 561, 540, 600]
 
 data = [
     # Borders (arena border)
-    border(0, 0, 0, 600),
-    border(0, 0, 600, 0),
-    border(600, 0, 600, 600),
-    border(0, 600, 600, 600),
+    Border(0, 0, 0, 600),
+    Border(0, 0, 600, 0),
+    Border(600, 0, 600, 600),
+    Border(0, 600, 600, 600),
     # Inner
     wall(cor1x[0], cor1y[0], cor2x[0], cor2y[0]),
     wall(cor1x[1], cor1y[1], cor2x[1], cor2y[1]),

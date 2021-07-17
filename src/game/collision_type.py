@@ -1,4 +1,6 @@
 # fmt: off
+
+BORDER             = 0  # noqa: E221
 WALL               = 1  # noqa: E221
 BOUNDING_BOX       = 2  # noqa: E221
 BALL               = 3  # noqa: E221

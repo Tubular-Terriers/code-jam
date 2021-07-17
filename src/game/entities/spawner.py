@@ -12,7 +12,6 @@ class Spawner(Entity, pymunk.Body):
     def __init__(self, cooldown=1000, uuid=None):
         Entity.__init__(self, EntityType.SPAWNER, uuid)
         pymunk.Body.__init__(self, mass=1, moment=1, body_type=pymunk.Body.STATIC)
-        self.direction = None
         self.cooldown = cooldown
         self.timeout = cooldown
         self.SPAWN_ANGLE = 120
@@ -20,9 +19,6 @@ class Spawner(Entity, pymunk.Body):
         self.tuple = self,
 
     def add_space(self, space, object=None):
-        if object is not None:
-            # add the ball to the space
-            return
         space.add(*self.tuple)
 
     def spawn_ball(self, space, w, h, callback=None):  # with velocity between a given angle and direction

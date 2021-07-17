@@ -8,6 +8,8 @@ import pygame
 import pymunk
 import pymunk.pygame_util
 
+from .entities.border import Border
+
 from . import category, collision_type
 from .entities.ball import Ball
 from .entities.player import Player
@@ -150,10 +152,6 @@ class Engine:
         def on_collision_ball_hit(arbiter, space, data):
             # TODO: implement ball curving
             self._emit(Sound.ID, Sound.PADDLE_BOUNCE)
-            print("collision")
-            print(f"arbiter: {arbiter}")
-            print(f"space: {space}")
-            print(f"data: {data}")
 
             self.ball.ownerUUID = self.player.uuid
 
@@ -237,6 +235,7 @@ class Engine:
 
         def on_collision_ball_bounce(arbiter, space, data):
             self.ball.bounce_count += 1
+            self.update_entity_speed(self.ball.uuid, 1000, 1000)
             if self.ball.is_last_bounce():
                 self.space.remove(arbiter.shapes[1])
                 self.space.add_post_step_callback(self.space._remove_body, self.entities[self.ball.uuid])
@@ -249,6 +248,22 @@ class Engine:
 
         ch_collision_wall.post_solve = on_collision_ball_bounce
 
+        def on_collision_ball_strike(arbiter, space, data):  # FIXME change the name
+            print("huura")
+
+        ch_collision_border = self.space.add_collision_handler(
+            collision_type.BORDER, collision_type.BALL
+        )
+
+        ch_collision_border.post_solve = on_collision_ball_strike
+
+    def update_entity_speed(self, uuid, *amount):
+        print(amount)
+        self.entities[uuid].velocity = amount
+
+    def is_player_bordered(self):
+        pass
+
     def load_mapdata(self):
         """
         We are NOT going to pass this through websockets. TLDR; downloading maps is impossible
@@ -260,6 +275,12 @@ class Engine:
         for obj in data:
             # Load the objects into space
             # These are all static objects
+            if isinstance(obj, Border):
+                self.register_entity(obj)
+                self.space.add(obj)
+                print(self.space.bodies)
+                continue
+
             obj.body = self.space.static_body
 
             # Make these bouncy
@@ -287,7 +308,6 @@ class Engine:
         try:
             while self.running:
                 self.spawner.cool()
-                print(self.spawner.cooldown)
                 if self.spawner.is_cooled():
                     self.spawner.spawn_ball(self.space, self.width, self.height, self.register_entity)
                 t = time.time()

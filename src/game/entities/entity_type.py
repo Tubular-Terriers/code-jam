@@ -5,3 +5,4 @@ class EntityType:
     PLAYER = "player"
     BALL = "ball"
     SPAWNER = "spawner"
+    BORDER = "border"
