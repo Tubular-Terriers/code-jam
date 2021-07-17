@@ -222,43 +222,31 @@ class Main_menu(UI):
 
         play_button = Button(
             self.board_end_y + 5,
-            self.board_end_x // 6,
+            (self.board_end_x // 5) *1,
             text="Host a game",
             text_color_pair_id=7,
             frame_color_pair_id=5,
-            width=14,
+            width=15,
             key=keyboard.Key.enter,
-            go_to=AppState.GAME,
+            go_to=AppState.HOST_GAME,
             selected=self.selected_widget == 0,
         )
 
         join_game_button = Button(
             self.board_end_y + 5,
-            (self.board_end_x // 6) * 2,
+            (self.board_end_x // 5) * 2,
             text="join a game",
             text_color_pair_id=7,
             frame_color_pair_id=5,
-            width=14,
+            width=15,
             key=keyboard.Key.enter,
             go_to=AppState.GAME,
-            selected=self.selected_widget == 0,
-        )
-
-        settings_button = Button(
-            self.board_end_y + 5,
-            (self.board_end_x // 6) * 3,
-            width=14,
-            text="Settings",
-            text_color_pair_id=1,
-            frame_color_pair_id=5,
-            key=keyboard.Key.enter,
-            go_to=AppState.SETTINGS_SCR,
             selected=self.selected_widget == 1,
         )
 
         credits_button = Button(
             self.board_end_y + 5,
-            (self.board_end_x // 6) * 4,
+            (self.board_end_x // 5) * 3,
             width=15,
             text="Credits",
             text_color_pair_id=1,
@@ -270,22 +258,16 @@ class Main_menu(UI):
 
         exit_button = Button(
             self.board_end_y + 5,
-            (self.board_end_x // 6) * 5,
+            (self.board_end_x // 5) * 4,
             text="Exit",
             text_color_pair_id=6,
             frame_color_pair_id=5,
-            width=14,
+            width=15,
             key=keyboard.Key.enter,
             go_to=AppState.EXIT,
             selected=self.selected_widget == 3,
         )
-        self.widgets = [
-            play_button,
-            join_game_button,
-            settings_button,
-            credits_button,
-            exit_button,
-        ]
+        self.widgets = [play_button, join_game_button, credits_button, exit_button]
         self.refresh()
 
         while True:
