@@ -228,13 +228,13 @@ class Main_menu(UI):
             frame_color_pair_id=5,
             width=17,
             key=keyboard.Key.enter,
-            go_to=AppState.GAME,
+            go_to=AppState.HOST_GAME,
             selected=self.selected_widget == 0,
         )
 
         join_game_button = Button(
             self.board_end_y + 5,
-            (self.board_end_x // 6) * 2,
+            (self.board_end_x // 5) * 2,
             text="Join a game",
             text_color_pair_id=7,
             frame_color_pair_id=5,
