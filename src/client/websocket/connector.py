@@ -64,7 +64,7 @@ class GameEventEmitter:
         self.h = asyncio.create_task(hook())
         self.u = asyncio.create_task(update_keymaps())
         # no time to implement
-        await asyncio.sleep(1)
+        await asyncio.sleep(3)
         return not self.disconnected
 
     def on_init(self, game):
