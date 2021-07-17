@@ -9,7 +9,7 @@ from client.appstate import AppState
 
 from ._ui import UI
 from .widget.progress_bar import ProgressBar
-from .widget.simple_button import Button
+from .widget.button import Button
 from .widget.simple_textbox import Box
 
 
@@ -32,6 +32,7 @@ class Game_over(UI):
         self.message_text11 = "███▄▄▄███    ▀█▀    ██▄▄▄ ██     ██▄"
         self.message_text12 = " you came #" + self.position + ", better luck next time."
         # print(self.message)
+        self.selected_widget = 0
 
     async def view(self, app):
         # Required
@@ -86,32 +87,58 @@ class Game_over(UI):
         self.refresh()
         menu_button = Button(
             (height // 2) + 6,
-            (width // 2) - 15,
-            key=keyboard.Key.space,
+            width // 2 + 10,
+            text="Main menu",
+            text_color_pair_id=7,
+            frame_color_pair_id=5,
+            width=15,
             go_to=AppState.MAIN_MENU,
-        )
-        self.window.addstr(
-            (height // 2) + 6, (width // 2) - 12, "Press Space to go to Game menu"
+            key=keyboard.Key.enter,
+            selected=self.selected_widget == 0,
         )
         exit_button = Button(
-            (height // 2) + 9,
-            (width // 2) - 15,
-            key=keyboard.Key.esc,
+            (height // 2) + 6,
+            width // 2 + 5,
+            text="Exit",
+            text_color_pair_id=7,
+            frame_color_pair_id=5,
+            width=15,
             go_to=AppState.EXIT,
+            key=keyboard.Key.enter,
+            selected=self.selected_widget == 1,
         )
-        self.window.addstr((height // 2) + 9, (width // 2) - 12, "Press Escape to Exit")
 
         self.input_manager = app.input_manager
         self.widgets = [menu_button, exit_button]
-        self.register_input_managers(*self.widgets)
         self.refresh()
-        res = None
+
         while True:
             if res := self.refresh():
                 break
             curses.doupdate()
-            await asyncio.sleep(0.1)
+            await asyncio.sleep(0.08)
         return res
+
+    def press_on(self, key):
+        if key == keyboard.Key.left:
+            self.widgets[self.selected_widget].selected = False
+            if not self.selected_widget == 0:
+                self.selected_widget -= 1
+            else:
+                self.selected_widget = len(self.widgets) - 1
+            self.widgets[self.selected_widget].selected = True
+
+        elif key == keyboard.Key.right:
+            self.widgets[self.selected_widget].selected = False
+            if not self.selected_widget == len(self.widgets) - 1:
+                self.selected_widget += 1
+            else:
+                self.selected_widget = 0
+
+            self.widgets[self.selected_widget].selected = True
+
+        elif key == keyboard.Key.enter:
+            self.widgets[self.selected_widget].toggle()
 
 
 game_over = Game_over()
