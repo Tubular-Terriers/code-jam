@@ -33,13 +33,16 @@ class GameEventEmitter:
 
         # Register process hook
         async def hook():
-            async with websocket as ws:
-                self.websocket = ws
-                self.disconnected = False
-                while True:
-                    # try:
-                    data = await self.websocket.recv()
-                    self.on_recv(data)
+            try:
+                async with websocket as ws:
+                    self.websocket = ws
+                    self.disconnected = False
+                    while True:
+                        # try:
+                        data = await self.websocket.recv()
+                        self.on_recv(data)
+            except Exception:
+                self.disconnected = True
 
         # send keymaps
         async def update_keymaps():
