@@ -81,15 +81,15 @@ class Engine:
 
         self.register_entity(self.spawner)
 
-        try:
-            self.ball = Ball()
-            self.ball.position = (10 * 2 + 10, 300)
-            self.ball.velocity = (0, 100)
-            self.ball.angular_velocity = random.random() * 1000
-            self.ball.add_space(self.space)
-            self.register_entity(self.ball)
-        except Exception as e:
-            print(e)
+        # try:
+        #     self.ball = Ball()
+        #     self.ball.position = (10 * 2 + 10, 300)
+        #     self.ball.velocity = (0, 100)
+        #     self.ball.angular_velocity = random.random() * 1000
+        #     self.ball.add_space(self.space)
+        #     self.register_entity(self.ball)
+        # except Exception as e:
+        #     print(e)
 
         # Test bounding box
         bb = pymunk.BB(50, 300, 150, 150)
@@ -240,11 +240,11 @@ class Engine:
             ball = arbiter.shapes[0].body
             ball.bounce_count += 1
             if ball.is_last_bounce():
-                self.space.remove(ball)
-                self.space.add_post_step_callback(
-                    self.space._remove_body, self.entities[ball.uuid]
-                )
-                self.entities.pop(self.ball.uuid, None)
+                self.space.remove(*ball.tuple)
+                self.remove_entity(ball)
+                # self.space.add_post_step_callback(
+                #     self.space._remove_body, self.entities[ball.uuid]
+                # )
                 # remove the ball
 
         ch_collision_wall = self.space.add_collision_handler(
