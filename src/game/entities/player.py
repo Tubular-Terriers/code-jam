@@ -63,7 +63,9 @@ class Player(Entity, pymunk.Body):
             self.hitbox_vert = hb_fact(self.hitbox_width, 0)
             self.bb = self, self.bounding_box, self.hitbox_vert
         else:
-            self.hitbox_hori = hb_fact(0, self.hitbox_width) if self.horizontal else None
+            self.hitbox_hori = (
+                hb_fact(0, self.hitbox_width) if self.horizontal else None
+            )
             self.bb = self, self.bounding_box, self.hitbox_hori
 
         ##################################################
