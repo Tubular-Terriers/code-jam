@@ -64,6 +64,8 @@ class Engine:
 
         self.space.static_body
 
+        self.player = None
+
         # b = pymunk.Body(1, 1)
         # self.space.add(b)
         # c = pymunk.Circle(b, 10)
@@ -112,6 +114,9 @@ class Engine:
             # Process callbacks
             def process_key(key):
                 """Process key events passed from pygame window"""
+                if self.player is None:
+                    print("there is no player")
+                    return
                 if key == pygame.K_SPACE:
                     print("space pressed")
                     self.temp = self.player.dump_data()
@@ -241,7 +246,7 @@ class Engine:
         ch_collision_box = self.space.add_collision_handler(
             collision_type.BALL_COLLISION_BOX, collision_type.BALL
         )
-        # ch_collision_box.post_solve = on_collision_ball_hit
+        ch_collision_box.post_solve = on_collision_ball_hit
 
         def on_collision_ball_bounce(arbiter, space, data):
             ball = arbiter.shapes[0].body
