@@ -26,6 +26,11 @@ class Ball(Entity, pymunk.Body):
 
         self.ownerUUID = None
 
+    def reset(self):
+        self.bounce_count = 0
+        self.ownerUUID = None
+        return True
+
     def add_space(self, space):
         space.add(*self.tuple)
 

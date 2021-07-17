@@ -31,6 +31,9 @@ class Border(Entity, pymunk.Body):
     def add_space(self, space, object=None):
         space.add(*self.tuple)
 
+    def reset(self):
+        pass
+
     def get_segment(self):
         return self.border
 

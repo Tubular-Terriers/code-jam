@@ -19,26 +19,7 @@ class Auth(UI):
     def __init__(self):
         super().__init__("main_menu_scr")
         self.message = [
-            "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@@@@*/(@@@@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@@%%%%%%,@@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@(  *% ,%#@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@@#%  %(%@@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@%% . ..%%@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@#*, //@%%%%%%%%/* *@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@*      ////@@@. @@@///     #@@@@@@@@@@@",
-            "@@@@@@@@@@@        ////@@  @@//,       *@@@@@@@@@@",
-            "@@@@@@@@@@@*      *  ///@   ///        (@@@@@@@@@@",
-            "@@@@@@@@@@@.     # /%%,.  @@%%%         @@@@@@@@@@",
-            "@@@@@@@@@@@     .%#%        &          ,@@@@@@@@@@",
-            "@@@@@@@@@@@@        .     &       ,   *@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@*,          .*         ,@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@             @@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@..,**//((##%%@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+            "Please authorize yourself to enter",
         ]
         self.horizontal_border = "─"
         self.vertical_border = "│"
@@ -69,7 +50,7 @@ class Auth(UI):
         curses.init_pair(7, curses.COLOR_GREEN, curses.COLOR_BLACK)
         curses.init_pair(8, curses.COLOR_YELLOW, curses.COLOR_BLACK)
 
-        y = 0
+        y = 15
         for text in self.message:
             self.window.addstr(
                 y,
@@ -80,23 +61,22 @@ class Auth(UI):
             y += 1
 
         auth_button = Button(
-            len(self.message) + 5,
-            (width - 150) // 2,
-            width=150,
-            text="Wait! If you have a TOKEN, just copy it and my guy will know that; if not GET THE HE... No, "
-            "you're welcome. Just press enter to register...",
-            text_color_pair_id=7,
+            len(self.message) + 17,
+            (width - 30) // 2,
+            width=30,
+            text="copy the token to enter",
             frame_color_pair_id=5,
+            text_color_pair_id=7,
             key=keyboard.Key.enter,
             callback=self.open_auth_page,
             selected=True,
         )
 
         exit_button = Button(
-            len(self.message) + auth_button.height + 5,
-            (width - 25) // 2,
-            width=25,
-            text="end before it began...",
+            len(self.message) + auth_button.height + 17,
+            (width - 30) // 2,
+            width=30,
+            text="Skip",
             text_color_pair_id=6,
             frame_color_pair_id=5,
             key=keyboard.Key.enter,
