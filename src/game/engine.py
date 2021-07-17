@@ -164,18 +164,20 @@ class Engine:
 
         def on_hitbox_ball_hit(arbiter, space, data):
             """`arbiter.shapes[0]` is hitbox, `arbiter.shapes[1]` is ball"""
-            self.space.remove(arbiter.shapes[1])
-            self.remove_entity(arbiter.shapes[1].body)
-            self._emit(Sound.ID, Sound.PLAYER_DAMAGE)
-            self.space.remove(
-                arbiter.shapes[0],
-                *self.player.shapes,
-                *self.player.bcb,
-                *self.player.bb,
-            )
-            self.remove_entity(arbiter.shapes[0].body)
-            if player := arbiter.shapes[0].body:
-                pass
+            if (arbiter.shapes[0].horizontal and arbiter.shapes[0].body.horizontal) or (
+                not arbiter.shapes[0].horizontal
+                and not arbiter.shapes[0].body.horizontal
+            ):
+
+                self._emit(Sound.ID, Sound.PLAYER_DAMAGE)
+                self.space.remove(
+                    *arbiter.shapes[1].body.tuple,
+                    *arbiter.shapes[0].body.bcb,
+                    *arbiter.shapes[0].body.bb,
+                )
+                self.remove_entity(arbiter.shapes[0].body)
+                self.remove_entity(arbiter.shapes[1].body)
+                return True
             return False
 
         ch = self.space.add_collision_handler(collision_type.BALL, collision_type.WALL)
@@ -185,7 +187,6 @@ class Engine:
         ch.pre_solve = on_hitbox_ball_hit
 
         def on_collision_ball_hit(arbiter, space, data):
-            # TODO: implement ball curving
             self._emit(Sound.ID, Sound.PADDLE_BOUNCE)
 
             ball = arbiter.shapes[0].body
