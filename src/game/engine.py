@@ -11,6 +11,7 @@ import pymunk.pygame_util
 from . import category, collision_type
 from .entities.ball import Ball
 from .entities.border import Border
+from .entities.entity_type import EntityType
 from .entities.player import Player
 from .entities.spawner import Spawner
 from .events import Error, MoveBar, MovePlayer, Sound
@@ -79,11 +80,10 @@ class Engine:
         # self.register_entity(p)
 
         s = Spawner(100)
-        self.spawner = s
         s.position = (self.width // 2, self.height // 2)
         s.add_space(self.space)
 
-        self.register_entity(self.spawner)
+        self.register_entity(s)
 
         # try:
         #     self.ball = Ball()
@@ -352,11 +352,14 @@ class Engine:
 
         # Do server side updates
         if self.is_server:
-            self.spawner.cool()
-            if self.spawner.is_cooled():
-                self.spawner.spawn_ball(
-                    self.space, self.width, self.height, self.register_entity
-                )
+            for entity in self.entities.values():
+                if entity.type == EntityType.SPAWNER:
+                    spawner = entity
+                    spawner.cool()
+                    if spawner.is_cooled():
+                        spawner.spawn_ball(
+                            self.space, self.width, self.height, self.register_entity
+                        )
 
         if self.is_client:
             # Do controller
