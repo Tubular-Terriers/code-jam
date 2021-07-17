@@ -2,9 +2,10 @@ import time
 from enum import Enum, auto
 from os import environ, getpid
 
-from .__static__ import RichPresenceDetails
 from dotenv import load_dotenv
 from pypresence import Client
+
+from .__static__ import RichPresenceDetails
 
 
 class RichPresenceState(Enum):
@@ -63,7 +64,6 @@ class RichPresence:
             match,
             buttons,
             instance,
-            
         )
 
     def clear_activity(self, pid: int = getpid()):

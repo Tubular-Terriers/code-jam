@@ -40,8 +40,8 @@ class Main_menu(UI):
         self.ball = "●"
         self.ball_pos_x = None
         self.ball_pos_y = None
-        self.ball_speed_y = random.choice([num for num in range(-2, 2) if num != 0])
-        self.ball_speed_x = random.choice([num for num in range(-2, 2) if num != 0])
+        self.ball_speed_y = random.choice([num for num in range(-1, 1) if num != 0])
+        self.ball_speed_x = random.choice([num for num in range(-1, 1) if num != 0])
         self.board_start_y = None
         self.board_end_y = None
         self.board_start_x = 10
@@ -222,8 +222,8 @@ class Main_menu(UI):
 
         play_button = Button(
             self.board_end_y + 5,
-            self.board_end_x // 3,
-            text="Play",
+            self.board_end_x // 6,
+            text="Host a game",
             text_color_pair_id=7,
             frame_color_pair_id=5,
             width=14,
@@ -232,23 +232,21 @@ class Main_menu(UI):
             selected=self.selected_widget == 0,
         )
 
-        exit_button = Button(
+        join_game_button = Button(
             self.board_end_y + 5,
-            self.board_end_x - self.board_end_x // 3,
-            text="Exit",
-            text_color_pair_id=6,
+            (self.board_end_x // 6) * 2,
+            text="join a game",
+            text_color_pair_id=7,
             frame_color_pair_id=5,
             width=14,
             key=keyboard.Key.enter,
-            go_to=AppState.EXIT,
-            selected=self.selected_widget == 3,
+            go_to=AppState.GAME,
+            selected=self.selected_widget == 0,
         )
-
-        self.button_spacing = (exit_button.x - play_button.x) // 3
 
         settings_button = Button(
             self.board_end_y + 5,
-            play_button.x + self.button_spacing,
+            (self.board_end_x // 6) * 3,
             width=14,
             text="Settings",
             text_color_pair_id=1,
@@ -260,7 +258,7 @@ class Main_menu(UI):
 
         credits_button = Button(
             self.board_end_y + 5,
-            settings_button.x + self.button_spacing,
+            (self.board_end_x // 6) * 4,
             width=15,
             text="Credits",
             text_color_pair_id=1,
@@ -270,7 +268,24 @@ class Main_menu(UI):
             selected=self.selected_widget == 2,
         )
 
-        self.widgets = [play_button, settings_button, credits_button, exit_button]
+        exit_button = Button(
+            self.board_end_y + 5,
+            (self.board_end_x // 6) * 5,
+            text="Exit",
+            text_color_pair_id=6,
+            frame_color_pair_id=5,
+            width=14,
+            key=keyboard.Key.enter,
+            go_to=AppState.EXIT,
+            selected=self.selected_widget == 3,
+        )
+        self.widgets = [
+            play_button,
+            join_game_button,
+            settings_button,
+            credits_button,
+            exit_button,
+        ]
         self.refresh()
 
         while True:

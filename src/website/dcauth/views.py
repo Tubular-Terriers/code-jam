@@ -24,10 +24,8 @@ CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
 authmng = AuthManager()
 
 
-class todoHome(TemplateView):
-    def get(self, request, *args, **kwargs):
-
-        return render(request, "index.html")
+def Homepage(request):
+    return render(request, "index.html")
 
 
 def login_via_discord(request):
