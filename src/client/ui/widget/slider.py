@@ -15,21 +15,21 @@ class Orientation(Enum):
 
 class Slider(Widget):
     def __init__(
-            self,
-            y,
-            x,
-            key=None,
-            height=4,
-            width=11,
-            text=None,
-            frame_color_pair_id: int = None,
-            text_color_pair_id: int = None,
-            selected=False,
-            toggled=False,
-            require_active=True,
-            go_to=None,
-            callback=None,
-            progress: int = 0
+        self,
+        y,
+        x,
+        key=None,
+        height=4,
+        width=11,
+        text=None,
+        frame_color_pair_id: int = None,
+        text_color_pair_id: int = None,
+        selected=False,
+        toggled=False,
+        require_active=True,
+        go_to=None,
+        callback=None,
+        progress: int = 0,
     ):
         super().__init__("slider")
         self.require_selected = require_active
@@ -66,9 +66,9 @@ class Slider(Widget):
 
         if self.selected and self.frame_color_pair_id is not None:
             self.window.attron(curses.color_pair(self.frame_color_pair_id))
-        
+
         self.window.addstr(1, 0, self.upper_left_corner)
-        
+
         self.window.addstr(1, 1, self.horizontal_border * (self.width - 2))
         self.window.addstr(1, self.width - 1, self.upper_right_corner)
         for y in range(1, self.height - 2):
@@ -83,19 +83,23 @@ class Slider(Widget):
 
         self.window.noutrefresh()
         if self.toggle_count >= 1 and (
-                self.selected is True or self.require_selected is False
+            self.selected is True or self.require_selected is False
         ):
             if self.go_to is not None:
                 return self.go_to
-            
+
     def update_progress(self, key, increment):
         value = increment // 100
-        
+
         if key == keyboard.Key.right:
-            self.progress += value if self.progress <= self.max_progress else self.max_progress
+            self.progress += (
+                value if self.progress <= self.max_progress else self.max_progress
+            )
         elif key == keyboard.Key.left:
-            self.progress -= value if self.progress >= self.min_progress else self.min_progress
-    
+            self.progress -= (
+                value if self.progress >= self.min_progress else self.min_progress
+            )
+
     def select(self):
         self.selected = True
         self.refresh()
