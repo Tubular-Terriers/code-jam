@@ -19,6 +19,26 @@ class Auth(UI):
     def __init__(self):
         super().__init__("main_menu_scr")
         self.message = [
+            "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+            "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+            "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+            "@@@@@@@@@@@@@@@@@@@@@@@@*/(@@@@@@@@@@@@@@@@@@@@@@@",
+            "@@@@@@@@@@@@@@@@@@@@@@%%%%%%,@@@@@@@@@@@@@@@@@@@@@",
+            "@@@@@@@@@@@@@@@@@@@@@(  *% ,%#@@@@@@@@@@@@@@@@@@@@",
+            "@@@@@@@@@@@@@@@@@@@@@@#%  %(%@@@@@@@@@@@@@@@@@@@@@",
+            "@@@@@@@@@@@@@@@@@@@@@%% . ..%%@@@@@@@@@@@@@@@@@@@@",
+            "@@@@@@@@@@@@@@@#*, //@%%%%%%%%/* *@@@@@@@@@@@@@@@@",
+            "@@@@@@@@@@@*      ////@@@. @@@///     #@@@@@@@@@@@",
+            "@@@@@@@@@@@        ////@@  @@//,       *@@@@@@@@@@",
+            "@@@@@@@@@@@*      *  ///@   ///        (@@@@@@@@@@",
+            "@@@@@@@@@@@.     # /%%,.  @@%%%         @@@@@@@@@@",
+            "@@@@@@@@@@@     .%#%        &          ,@@@@@@@@@@",
+            "@@@@@@@@@@@@        .     &       ,   *@@@@@@@@@@@",
+            "@@@@@@@@@@@@@@*,          .*         ,@@@@@@@@@@@@",
+            "@@@@@@@@@@@@@@@@@@@             @@@@@@@@@@@@@@@@@@",
+            "@@@@@@@@@@@@@@@@@@@..,**//((##%%@@@@@@@@@@@@@@@@@@",
+            "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+            "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
             "Please authorize yourself to enter",
         ]
         self.horizontal_border = "─"
@@ -59,9 +79,9 @@ class Auth(UI):
 
         auth_button = Button(
             len(self.message) + 17,
-            (width - 30) // 2,
-            width=30,
-            text="copy the token to enter",
+            (width - 150) // 2,
+            width=150,
+            text="Wait! If you have a TOKEN, just copy it; if not GET THE HE... No, you're welcome. Just press enter to register...",
             frame_color_pair_id=5,
             text_color_pair_id=7,
             key=keyboard.Key.enter,
@@ -73,11 +93,11 @@ class Auth(UI):
             len(self.message) + auth_button.height + 16,
             (width - 30) // 2,
             width=30,
-            text="Skip",
+            text="end before it began...",
             text_color_pair_id=6,
             frame_color_pair_id=5,
             key=keyboard.Key.enter,
-            go_to=AppState.MAIN_MENU,
+            go_to=AppState.EXIT,
         )
 
         self.input_manager = app.input_manager
