@@ -240,7 +240,7 @@ class Main_menu(UI):
             frame_color_pair_id=5,
             width=17,
             key=keyboard.Key.enter,
-            go_to=AppState.GAME,
+            go_to=AppState.JOIN_GAME,
             selected=self.selected_widget == 1,
         )
 

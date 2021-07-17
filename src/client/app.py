@@ -14,6 +14,7 @@ from client.ui.host_scr import host_game
 from client.ui.main_menu import main_menu
 from client.ui.menu import menu
 from client.ui.settings import settings
+from client.ui.join_scr import join_game
 
 sys.path.append(".")
 import curses
@@ -75,6 +76,7 @@ class App:
         self.ui.settings = settings
         self.ui.auth = auth
         self.ui.host_game = host_game
+        self.ui.join_game = join_game
 
         # Register input_manager
         self.input_manager = input_manager
@@ -152,6 +154,8 @@ class App:
                 self.state = await self.set_ui(self.ui.auth)
             elif self.state == AppState.HOST_GAME:
                 self.state = await self.set_ui(self.ui.host_game)
+            elif self.state == AppState.JOIN_GAME:
+                self.state = await self.set_ui(self.ui.join_game)
             elif self.state == AppState.EXIT:
                 break
             else:
