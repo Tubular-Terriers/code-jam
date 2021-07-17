@@ -9,6 +9,8 @@ class Ball(Entity, pymunk.Body):
     def __init__(self, uuid=None):
         Entity.__init__(self, EntityType.BALL, uuid)
         pymunk.Body.__init__(self, mass=1, moment=1, body_type=pymunk.Body.DYNAMIC)
+        self.BOUNCE_AMOUNT = 3
+        self.bounce_count = 0
 
         self.circle = pymunk.Circle(self, 1)
         self.circle.filter = pymunk.ShapeFilter(
@@ -26,3 +28,6 @@ class Ball(Entity, pymunk.Body):
 
     def add_space(self, space):
         space.add(*self.tuple)
+
+    def is_last_bounce(self):
+        return self.bounce_count == self.BOUNCE_AMOUNT

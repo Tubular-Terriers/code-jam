@@ -11,6 +11,7 @@ import pymunk.pygame_util
 from . import category, collision_type
 from .entities.ball import Ball
 from .entities.player import Player
+from .entities.spawner import Spawner
 from .events import Error, MoveBar, MovePlayer, Sound
 
 
@@ -70,6 +71,13 @@ class Engine:
         p.add_space(self.space)
 
         self.register_entity(p)
+
+        s = Spawner(1000)
+        self.spawner = s
+        s.position = (self.width // 2, self.height // 2)
+        s.add_space(self.space)
+
+        self.register_entity(self.spawner)
 
         try:
             self.ball = Ball()
@@ -227,6 +235,20 @@ class Engine:
         )
         ch_collision_box.post_solve = on_collision_ball_hit
 
+        def on_collision_ball_bounce(arbiter, space, data):
+            self.ball.bounce_count += 1
+            if self.ball.is_last_bounce():
+                self.space.remove(arbiter.shapes[1])
+                self.space.add_post_step_callback(self.space._remove_body, self.entities[self.ball.uuid])
+                self.entities.pop(self.ball.uuid, None)
+                # remove the ball
+
+        ch_collision_wall = self.space.add_collision_handler(
+            collision_type.WALL, collision_type.BALL
+        )
+
+        ch_collision_wall.post_solve = on_collision_ball_bounce
+
     def load_mapdata(self):
         """
         We are NOT going to pass this through websockets. TLDR; downloading maps is impossible
@@ -264,6 +286,10 @@ class Engine:
     async def run_loop(self):
         try:
             while self.running:
+                self.spawner.cool()
+                print(self.spawner.cooldown)
+                if self.spawner.is_cooled():
+                    self.spawner.spawn_ball(self.space, self.width, self.height, self.register_entity)
                 t = time.time()
                 self.tick()
                 # Compensate for the calculation time in tick
