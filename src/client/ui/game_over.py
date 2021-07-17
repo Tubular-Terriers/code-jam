@@ -18,6 +18,7 @@ class Game_over(UI):
 
     def __init__(self):
         super().__init__("game_over_scr")
+        self.position = "1"
         self.message_text1 = "███▀▀▀██ ███▀▀▀███ ███▀█▄█▀███ ██▀▀▀"
         self.message_text2 = "██    ██ ██     ██ ██   █   ██ ██   "
         self.message_text3 = "██   ▄▄▄ ██▄▄▄▄▄██ ██   ▀   ██ ██▀▀▀"
@@ -29,6 +30,7 @@ class Game_over(UI):
         self.message_text9 = "██     ██   ██  ██  ██▀▀▀ ██▄▄▄▄▄▀▀ "
         self.message_text10 = "██     ██   ██  █▀  ██    ██     ██ "
         self.message_text11 = "███▄▄▄███    ▀█▀    ██▄▄▄ ██     ██▄"
+        self.message_text12 = " you came #"+self.position+", better luck next time."
         # print(self.message)
 
     async def view(self, app):
@@ -36,7 +38,7 @@ class Game_over(UI):
         super().view(app)
         height, width = self.window.getmaxyx()
         curses.start_color()
-        curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)
+        curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
         curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
         self.window.attron(curses.color_pair(2))
         self.window.attron(curses.A_BOLD)
@@ -75,9 +77,12 @@ class Game_over(UI):
         )
         self.window.attroff(curses.color_pair(2))
         self.window.attroff(curses.A_BOLD)
+        self.window.addstr(
+            int((height / 2) + 4), int(width / 2) - 15, f"{self.message_text12}", curses.color_pair(1)
+        )
         self.refresh()
         menu_button = Button(
-            (height // 2) + 5,
+            (height // 2) + 6,
             (width // 2) - 15,
             key=keyboard.Key.space,
             go_to=AppState.MAIN_MENU,
@@ -86,7 +91,7 @@ class Game_over(UI):
             (height // 2) + 6, (width // 2) - 12, "Press Space to go to Game menu"
         )
         exit_button = Button(
-            (height // 2) + 8,
+            (height // 2) + 9,
             (width // 2) - 15,
             key=keyboard.Key.esc,
             go_to=AppState.EXIT,
