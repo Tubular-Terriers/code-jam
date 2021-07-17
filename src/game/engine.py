@@ -246,7 +246,7 @@ class Engine:
         ch_collision_box = self.space.add_collision_handler(
             collision_type.BALL_COLLISION_BOX, collision_type.BALL
         )
-        ch_collision_box.post_solve = on_collision_ball_hit
+        # ch_collision_box.post_solve = on_collision_ball_hit
 
         def on_collision_ball_bounce(arbiter, space, data):
             ball = arbiter.shapes[0].body
@@ -353,10 +353,6 @@ class Engine:
         # Update global tick count
         self.tickcount += 1
 
-        # For all players, update their bounding box
-        # FIXME For now, only update self player
-        self.player._update_bar()
-
         # Do server side updates
         if self.is_server:
             for entity in list(self.entities.values()):
@@ -367,6 +363,9 @@ class Engine:
                         spawner.spawn_ball(
                             self.space, self.width, self.height, self.register_entity
                         )
+                elif entity.type == EntityType.PLAYER:
+                    player = entity
+                    player._update_bar()
 
         if self.is_client:
             # Do controller
