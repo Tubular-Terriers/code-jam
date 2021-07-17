@@ -7,6 +7,7 @@ import websockets
 
 import packet
 from website.dcauth.auth_manager import AuthManager
+
 from .lobby import Lobby
 
 
