@@ -32,7 +32,7 @@ class Auth(UI):
             r"|   \_______________________/   |",
             r"|  /|\ ATARI  SM124        _    |",
             r" \_____________________________/ ",
-            r"   !_________________________!   "
+            r"   !_________________________!   ",
         ]
         self.horizontal_border = "─"
         self.vertical_border = "│"
@@ -79,7 +79,7 @@ class Auth(UI):
             frame_color_pair_id=5,
             key=keyboard.Key.enter,
             callback=self.open_auth_page,
-            selected=True
+            selected=True,
         )
 
         exit_button = Button(

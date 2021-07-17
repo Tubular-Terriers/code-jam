@@ -67,9 +67,9 @@ class Settings(UI):
             text="Back",
             key=keyboard.Key.enter,
             go_to=AppState.MAIN_MENU,
-            selected=self.selected_widget == 0
+            selected=self.selected_widget == 0,
         )
-        
+
         apply_button = Button(
             previous_menu_button.y - 4,
             self.width // 2 - (width // 2),
@@ -79,9 +79,9 @@ class Settings(UI):
             text="Apply",
             key=keyboard.Key.enter,
             go_to=AppState.MAIN_MENU,
-            selected=self.selected_widget == 1
+            selected=self.selected_widget == 1,
         )
-        
+
         save_button = Button(
             apply_button.y - 4,
             self.width // 2 - (width // 2),
@@ -91,9 +91,9 @@ class Settings(UI):
             text="Save",
             key=keyboard.Key.enter,
             go_to=AppState.MAIN_MENU,
-            selected=self.selected_widget == 2
+            selected=self.selected_widget == 2,
         )
-        
+
         width = 4
         height = 20
         self.increment_slider = Slider(
@@ -104,26 +104,32 @@ class Settings(UI):
             height=height,
             width=width,
             selected=self.selected_widget == 3,
-            orientation=Orientation.VERTICAL
+            orientation=Orientation.VERTICAL,
         )
-        
-        self.window.addstr(self.height // 2 + (height // 2),
-                           self.width - width - 16,
-                           "Set increment")
+
+        self.window.addstr(
+            self.height // 2 + (height // 2), self.width - width - 16, "Set increment"
+        )
 
         width = 55
-        sfx_volume_slider = Slider(self.height // 2 - (height // 2),
-                                   self.width // 2 - (width // 2),
-                                   text="LEFT/RIGHT",
-                                   text_color_pair_id=4,
-                                   frame_color_pair_id=5,
-                                   width=width,
-                                   selected=True,         # self.selected_widget == 2 FIXME
-                                   progress=50
-                                   )
+        sfx_volume_slider = Slider(
+            self.height // 2 - (height // 2),
+            self.width // 2 - (width // 2),
+            text="LEFT/RIGHT",
+            text_color_pair_id=4,
+            frame_color_pair_id=5,
+            width=width,
+            selected=True,  # self.selected_widget == 2 FIXME
+            progress=50,
+        )
 
-        self.widgets = [previous_menu_button, apply_button, save_button,
-                        self.increment_slider, sfx_volume_slider]
+        self.widgets = [
+            previous_menu_button,
+            apply_button,
+            save_button,
+            self.increment_slider,
+            sfx_volume_slider,
+        ]
         self.refresh()
 
         while True:
@@ -131,9 +137,9 @@ class Settings(UI):
                 break
             self.update()
             curses.doupdate()
-            await asyncio.sleep(.1)
+            await asyncio.sleep(0.1)
         return res
-    
+
     def update(self):
         self.increment = self.increment_slider.progress
 

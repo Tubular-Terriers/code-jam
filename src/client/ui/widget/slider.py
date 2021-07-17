@@ -15,24 +15,24 @@ class Orientation(Enum):
 
 class Slider(Widget):
     def __init__(
-            self,
-            y,
-            x,
-            key=None,
-            height=4,
-            width=11,
-            text=None,
-            frame_color_pair_id: int = None,
-            text_color_pair_id: int = None,
-            progress_color_pair_id: int = None,
-            progress_left_color_pair_id: int = None,
-            selected=False,
-            toggled=False,
-            require_active=True,
-            go_to=None,
-            callback=None,
-            progress: int = 0,
-            orientation: Orientation = Orientation.HORIZONTAL
+        self,
+        y,
+        x,
+        key=None,
+        height=4,
+        width=11,
+        text=None,
+        frame_color_pair_id: int = None,
+        text_color_pair_id: int = None,
+        progress_color_pair_id: int = None,
+        progress_left_color_pair_id: int = None,
+        selected=False,
+        toggled=False,
+        require_active=True,
+        go_to=None,
+        callback=None,
+        progress: int = 0,
+        orientation: Orientation = Orientation.HORIZONTAL,
     ):
         super().__init__("slider")
         self.require_selected = require_active
@@ -100,17 +100,12 @@ class Slider(Widget):
                     self.window.attron(curses.color_pair(self.progress_color_pair_id))
 
                 completed = int(self.progress * (self.width - 2))
-                
+
                 for x in range(1, completed):
                     self.window.addstr(y, x, self.complete_progress)
 
                 if self.progress_color_pair_id is not None:
                     self.window.attroff(curses.color_pair(self.progress_color_pair_id))
-                
-                
-
-
-
 
         # VERTICAL ORIENTATION
         elif self.orientation is Orientation.VERTICAL:
@@ -122,9 +117,13 @@ class Slider(Widget):
         value = increment / 100
 
         if key == keyboard.Key.right:
-            self.progress += value if self.progress <= self.max_progress else self.max_progress
+            self.progress += (
+                value if self.progress <= self.max_progress else self.max_progress
+            )
         elif key == keyboard.Key.left:
-            self.progress -= value if self.progress >= self.min_progress else self.min_progress
+            self.progress -= (
+                value if self.progress >= self.min_progress else self.min_progress
+            )
 
         self.refresh()
 
