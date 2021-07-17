@@ -12,6 +12,7 @@ from django.views.generic.edit import FormView
 from dotenv import load_dotenv
 
 from .auth_manager import AuthManager
+from .md_manager import MarkdownManager
 
 load_dotenv()
 
@@ -22,15 +23,15 @@ CLIENT_ID = os.environ.get("CLIENT_ID")
 CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
 
 authmng = AuthManager()
+mdmng = MarkdownManager()
 
 
-class todoHome(TemplateView):
-    def get(self, request, *args, **kwargs):
-
-        return render(request, "index.html")
+def Homepage(request):
+    return render(request, "index.html")
 
 
 def login_via_discord(request):
+    return render(request, "devlog.html", {"pages": mdmng.parse()})
     REDIRECT_URI = f"{GAMESERVER_URL}login-success"
 
     discord_auth_url = (

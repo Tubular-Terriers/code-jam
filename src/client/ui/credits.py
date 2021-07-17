@@ -1,15 +1,14 @@
 import asyncio
 import curses
 import random
+import sys
 
 from pynput import keyboard
 
 from client.appstate import AppState
 
 from ._ui import UI
-from .widget.progress_bar import ProgressBar
-from .widget.simple_button import Button
-from .widget.simple_textbox import Box
+from .widget.button import Button
 
 
 class Credits(UI):
@@ -17,8 +16,8 @@ class Credits(UI):
 
     def __init__(self):
         super().__init__("main_menu_scr")
+        self.stars_count = 250
         self.spacing = 3
-        self.button_text = "Press Space to go to back to game menu"
         self._credits_ = [
             r"                          _  _    _          ",
             r"  ____  _____   ____   __| ||_| _| |_   ___ ",
@@ -37,91 +36,99 @@ class Credits(UI):
         self.locations_x = []
         self.locations_y = []
         self.stars = ["✶", "*"]
-        self.refreshtime = 0
+        self.refresh_time = 0
+        self.height = 0
+        self.width = 0
 
     async def view(self, app):
         # Required
         super().view(app)
-        height, width = self.window.getmaxyx()
-        for _ in range(250):
-            self.locations_x.append(random.randint(0, width - 1))
-            self.locations_y.append(random.randint(0, height - 1))
-        print(height, width)
+        self.height, self.width = self.window.getmaxyx()
+        for _ in range(self.stars_count):
+            self.locations_x.append(random.randint(0, self.width - 1))
+            self.locations_y.append(random.randint(0, self.height - 1))
         curses.start_color()
         curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)
-        curses.init_pair(2, curses.COLOR_BLUE, curses.COLOR_BLACK)
-        curses.init_pair(3, curses.COLOR_CYAN, curses.COLOR_BLACK)
+        curses.init_pair(2, 215, curses.COLOR_BLACK)
+        curses.init_pair(3, curses.COLOR_BLUE, curses.COLOR_BLACK)
         curses.init_pair(4, curses.COLOR_MAGENTA, curses.COLOR_BLACK)
-        y = 17
+        curses.init_pair(5, curses.COLOR_CYAN, curses.COLOR_BLACK)
+        curses.init_pair(6, curses.COLOR_RED, curses.COLOR_BLACK)
+        curses.init_pair(7, curses.COLOR_GREEN, curses.COLOR_BLACK)
+        curses.init_pair(8, curses.COLOR_YELLOW, curses.COLOR_BLACK)
+
+        width = 25
         menu_button = Button(
-            height // 3 + y + self.spacing - 1,
-            (width // 2) - len(self.button_text) // 2 - 3,
-            key=keyboard.Key.space,
+            self.height - self.height // 5,
+            self.width // 2 - (width // 2),
+            text_color_pair_id=4,
+            frame_color_pair_id=5,
+            width=width,
+            text="Back",
+            key=keyboard.Key.enter,
             go_to=AppState.MAIN_MENU,
+            selected=True,
         )
 
-        self.input_manager = app.input_manager
         self.widgets = [menu_button]
-        self.register_input_managers(*self.widgets)
-        res = None
+
+        self.refresh()
+
         while True:
-            if self.refreshtime % 10 == 0:
-                curses.init_pair(1, curses.COLOR_CYAN, curses.COLOR_BLACK)
-                curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_BLACK)
-                for i in range(len(self.locations_x)):
-                    self.add_white_star(self.locations_y[i], self.locations_x[i])
-                    if i % 10 == 0:
-                        chose = random.randint(0, 2)
-                        if chose == 0:
-                            self.add_white_star(
-                                self.locations_y[i], self.locations_x[i]
-                            )
-                        elif chose == 1:
-                            self.add_blue_star(self.locations_y[i], self.locations_x[i])
-                        elif chose == 2:
-                            self.remove_star(self.locations_y[i], self.locations_x[i])
-                    self.window.noutrefresh()
-            self.refreshtime += 1
-            curses.doupdate()
-            self.window.attron(curses.color_pair(2))
-            self.window.attron(curses.A_BOLD)
-            y = 0
-            for text in self._credits_:
-                self.window.addstr(height // 3 + y, width // 2 - len(text) // 2, text)
-                y += 1
-
-            self.window.attron(curses.A_ITALIC)
-
-            color_id = 1
-            for nick in self.devs:
-
-                if color_id % 2 == 0:
-                    self.window.attron(curses.color_pair(3))
-                else:
-                    self.window.attron(curses.color_pair(4))
-
-                self.window.addstr(
-                    height // 3 + y + self.spacing - 1,
-                    width // 2 - len(nick) // 2,
-                    nick,
-                )
-                y += 2
-                color_id += 1
-
-            self.window.attroff(curses.color_pair(2))
-            self.window.attroff(curses.A_BOLD)
-
-            self.window.addstr(
-                height // 3 + y + self.spacing,
-                (width // 2) - len(self.button_text) // 2,
-                self.button_text,
-            )
-            self.window.refresh()
-
             if res := self.refresh():
                 break
+            self.draw()
+            curses.doupdate()
             await asyncio.sleep(0.1)
         return res
+
+    def draw(self):
+        if self.refresh_time % 10 == 0:
+            curses.init_pair(1, curses.COLOR_CYAN, curses.COLOR_BLACK)
+            curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_BLACK)
+            for i in range(len(self.locations_x)):
+                self.add_white_star(self.locations_y[i], self.locations_x[i])
+                if i % 10 == 0:
+                    chose = random.randint(0, 2)
+                    if chose == 0:
+                        self.add_white_star(self.locations_y[i], self.locations_x[i])
+                    elif chose == 1:
+                        self.add_blue_star(self.locations_y[i], self.locations_x[i])
+                    elif chose == 2:
+                        self.remove_star(self.locations_y[i], self.locations_x[i])
+                self.window.noutrefresh()
+        self.refresh_time += 1
+        curses.doupdate()
+        self.window.attron(curses.color_pair(2))
+        self.window.attron(curses.A_BOLD)
+        y = 0
+        for text in self._credits_:
+            self.window.addstr(
+                self.height // 3 + y, self.width // 2 - len(text) // 2, text
+            )
+            y += 1
+
+        self.window.attron(curses.A_ITALIC)
+
+        color_id = 1
+        for nick in self.devs:
+
+            if color_id % 2 == 0:
+                self.window.attron(curses.color_pair(3))
+            else:
+                self.window.attron(curses.color_pair(4))
+
+            self.window.addstr(
+                self.height // 3 + y + self.spacing - 1,
+                self.width // 2 - len(nick) // 2,
+                nick,
+            )
+            y += 2
+            color_id += 1
+
+        self.window.attroff(curses.color_pair(2))
+        self.window.attroff(curses.A_BOLD)
+        self.window.refresh()
 
     def add_blue_star(self, y, x):
         self.window.attron(curses.color_pair(1))
@@ -135,6 +142,11 @@ class Credits(UI):
 
     def remove_star(self, y, x):
         self.window.addstr(y, x, " ")
+
+    def press_on(self, key):
+        if key == keyboard.Key.enter:
+            self.widgets[0].toggle()
+            self.window.addstr(0, 0, "DDIJSADJASDIASD")
 
 
 credits_scr = Credits()

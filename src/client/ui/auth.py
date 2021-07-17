@@ -19,26 +19,31 @@ class Auth(UI):
     def __init__(self):
         super().__init__("main_menu_scr")
         self.message = [
-            "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@@@@*/(@@@@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@@%%%%%%,@@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@(  *% ,%#@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@@#%  %(%@@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@%% . ..%%@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@#*, //@%%%%%%%%/* *@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@*      ////@@@. @@@///     #@@@@@@@@@@@",
-            "@@@@@@@@@@@        ////@@  @@//,       *@@@@@@@@@@",
-            "@@@@@@@@@@@*      *  ///@   ///        (@@@@@@@@@@",
-            "@@@@@@@@@@@.     # /%%,.  @@%%%         @@@@@@@@@@",
-            "@@@@@@@@@@@     .%#%        &          ,@@@@@@@@@@",
-            "@@@@@@@@@@@@        .     &       ,   *@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@*,          .*         ,@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@             @@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@..,**//((##%%@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+            "                 ____",
+            "                / ___\ ",
+            "               |: =O =O",
+            "               |:: __ |",
+            "                \_/LLL\ ",
+            "          __ __./:__:\.__ __",
+            "         (##i \ |<__>| / i##)",
+            "         |--|:/\/ :: \/\:|--|",
+            "         |  |:  :====:  :|  |",
+            "        / :.'Y-' |::| '-Y`.: \ ",
+            "        |__| | : |__|.-.| |__|",
+            "        (##) | : /++\`-'! (##)",
+            "         \  \|n._\++/_.n| /  /",
+            "          \ xT::::--::::T/  /",
+            "           \Xl-. `""' .-lXX/",
+            "             |: \    / :|",
+            "             |:  i--i  :|",
+            "             |:  |  |  :| ",
+            "             |___|  |__;|",
+            "             P###Y  P###Y",
+            "             b###d  b###d",
+            "             |   |  |   | ",
+            "             |   |  |   | ",
+            "",
+            "Please get your passes before entering",
         ]
         self.horizontal_border = "─"
         self.vertical_border = "│"
@@ -66,33 +71,32 @@ class Auth(UI):
         curses.init_pair(7, curses.COLOR_GREEN, curses.COLOR_BLACK)
         curses.init_pair(8, curses.COLOR_YELLOW, curses.COLOR_BLACK)
 
-        y = height // 2 - len(self.message)
+        y = 1
         for text in self.message:
             self.window.addstr(
                 y,
-                width // 2 - len(text) // 2,
+                50,
                 text,
                 curses.color_pair(2),
             )
             y += 1
 
         auth_button = Button(
-            height - 25,
-            (width - 150) // 2,
-            width=150,
-            text="Wait! If you have a TOKEN, just copy it and my guy will know that; if not GET THE HE... No, "
-            "you're welcome. Just press enter to register...",
-            text_color_pair_id=7,
+            27,
+            (width - 30) // 2,
+            width=30,
+            text="get my pass",
             frame_color_pair_id=5,
+            text_color_pair_id=7,
             key=keyboard.Key.enter,
             callback=self.open_auth_page,
             selected=True,
         )
 
         exit_button = Button(
-            height - 15,
-            (width - 25) // 2,
-            width=25,
+            30,
+            (width - 30) // 2,
+            width=30,
             text="End before it began...",
             text_color_pair_id=6,
             frame_color_pair_id=5,
