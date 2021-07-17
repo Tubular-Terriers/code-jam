@@ -14,7 +14,7 @@ class Ball(Entity, pymunk.Body):
         self.BOUNCE_AMOUNT = 3
         self.bounce_count = 0
 
-        self.update_id = random.randint(0, 9)
+        self.update_id = random.randint(1, 10)
 
         self.circle = pymunk.Circle(self, 1)
         self.circle.filter = pymunk.ShapeFilter(

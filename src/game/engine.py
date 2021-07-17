@@ -163,9 +163,12 @@ class Engine:
 
         def on_hitbox_ball_hit(arbiter, space, data):
             """`arbiter.shapes[0]` is hitbox, `arbiter.shapes[1]` is ball"""
-            if (arbiter.shapes[0].horizontal and arbiter.shapes[0].body.horizontal) or (
-                not arbiter.shapes[0].horizontal
-                and not arbiter.shapes[0].body.horizontal
+            if not (
+                (arbiter.shapes[0].horizontal and arbiter.shapes[0].body.horizontal)
+                or (
+                    not arbiter.shapes[0].horizontal
+                    and not arbiter.shapes[0].body.horizontal
+                )
             ):
 
                 self._emit(Sound.ID, Sound.PLAYER_DAMAGE)
@@ -315,7 +318,8 @@ class Engine:
         return li
 
     def load(self, data):
-        self.ball_update_tick = (self.ball_update_tick - 1) % 10 + 1
+        # return
+        self.ball_update_tick = self.ball_update_tick % 10 + 1
         # Loads all entities
         processed_entities = set(self.entities.keys())
         # print(len(processed_entities))
@@ -325,10 +329,11 @@ class Engine:
                 self.entities[entity_uuid].load_data(entity)
                 continue
             # Create the entity
+            # continue
             if entity["type"] == EntityType.PLAYER:
                 self.add_player(entity_uuid)
             elif entity["type"] == EntityType.BALL:
-                if entity.update_id != self.ball_update_tick:
+                if entity["update_id"] != self.ball_update_tick:
                     continue
                 ball = Ball(entity_uuid)
                 ball.load_data(entity)
@@ -393,9 +398,7 @@ class Engine:
         if owner:
             self.playerUUID = uuid
         p.add_space(self.space)
-
         self.register_entity(p)
-
         return p.uuid
 
     def is_dead(self):
@@ -435,6 +438,8 @@ class Engine:
             self.walls.append(obj)
 
     def register_entity(self, entity):
+        if entity.uuid in self.entities:
+            return
         self.entities[entity.uuid] = entity
 
     def remove_entity(self, entity):
@@ -520,7 +525,6 @@ class Engine:
         self.player.process_bar_keys(keys)
 
     def _process_player_keys(self, player_uuid, keys):
-
         player = self.entities.get(player_uuid, None)
         if player is None:
             return

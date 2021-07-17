@@ -48,3 +48,6 @@ class Box(Widget):
 
     def end_text_on(self, *_):
         self.typing = False
+
+    def toggle(self):
+        pass

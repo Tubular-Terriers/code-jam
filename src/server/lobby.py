@@ -27,20 +27,29 @@ class Lobby:
                 event_stack.append(e)
 
             self.engine.hook(add_event)
-            while True:
-                dump = self.engine.dump()
+            try:
+                while True:
+                    dump = self.engine.dump()
 
-                for client in list(server.clients.values()):
-                    if client.lobby is None:
-                        continue
-                    if client.lobby.ID == self.ID:
-                        asyncio.get_event_loop().create_task(
-                            client.websocket.send(
-                                packet.GamePacket(event_stack, dump).send()
+                    # print(dump)
+
+                    for client in list(server.clients.values()):
+                        # print(list(server.clients.values()))
+                        if client.lobby is None:
+                            continue
+                        if client.lobby.ID == self.ID:
+                            # print("send")
+                            asyncio.get_event_loop().create_task(
+                                client.websocket.send(
+                                    packet.GamePacket(event_stack, dump).send()
+                                )
                             )
-                        )
-                    event_stack = []
-                await asyncio.sleep(0.05)
+                            # print("send2")
+
+                        event_stack = []
+                    await asyncio.sleep(0.05)
+            except Exception:
+                print("HERE")
 
         asyncio.get_event_loop().create_task(update_loop())
 

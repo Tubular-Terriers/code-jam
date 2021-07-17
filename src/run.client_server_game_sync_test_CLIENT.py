@@ -13,7 +13,9 @@ from game.events.move_player import MovePlayer
 
 # Before running the game, request a player from the server
 async def main():
-    gee = GameEventEmitter("my token")
+    gee = GameEventEmitter(
+        "4b5b0f90d4210379a864834210cee954c224f0198e51572f5e92f1e41e383915"
+    )
     print("made client")
     await gee.initialize_server_connection("ws://localhost:3001")
 
@@ -32,7 +34,7 @@ async def main():
     print(lobby)
 
     client_game = Engine(
-        debug=True, is_server=False, is_client=True, ignore_self_control=True
+        debug=False, is_server=False, is_client=True, ignore_self_control=True
     )
     client_game.add_player(lobby)
     gee.on_init(client_game)
@@ -41,8 +43,9 @@ async def main():
 
     while True:
         # simulate inputs
-        client_game.update_keymap(False, True, False, False, False, False, False, False)
-        await asyncio.sleep(0.1)
+        # client_game.update_keymap(False, True, False, False, False, False, False, False)
+        # await asyncio.sleep(0.1)
+        await asyncio.sleep(1)
 
     # print(status.is_ok)
 

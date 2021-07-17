@@ -34,7 +34,7 @@ class Server:
         asyncio.get_event_loop().run_until_complete(start_server)
 
     def send_sync(self, websocket, data):
-        return asyncio.create_task(websocket.send(data))
+        return asyncio.get_event_loop().create_task(websocket.send(data))
 
     def create_lobby(self):
         lob = Lobby(self)
@@ -52,6 +52,7 @@ class Server:
         # Ignore path
         self.counter += 1
         client_id = self.counter
+        # websocket.enableTrace(True)
         try:
             w = self.clients[client_id] = SimpleNamespace()
             w.lobby = None
@@ -68,6 +69,7 @@ class Server:
                     packet_data = json.loads(message)
                 except json.JSONDecodeError:
                     print("invalid json")
+                    continue
                 action_type = packet_data.get("action", "INVALID")
                 pl = packet_data.get("payload", None)
                 if action_type == "INVALID":
@@ -91,15 +93,18 @@ class Server:
 
                     #    packet
                     if action_type == packet.Verify.ACTION:
-                        if self.authmng.check(pl["TOKEN"]):  # HERE HERE REMOVE OR
+                        if True or self.authmng.check(
+                            pl["token"]
+                        ):  # HERE HERE REMOVE OR
                             self.send_sync(
                                 websocket, packet.Status(True, uuid=uuid).send()
                             )
                             w.verified = True
-                            # print(client_id)
+                            print(client_id)
                         else:
                             self.send_sync(
-                                packet.Status(False, "Invalid Token", uuid=uuid).send()
+                                websocket,
+                                packet.Status(False, "Invalid Token", uuid=uuid).send(),
                             )
                             w.verified = False
                         continue
@@ -124,20 +129,27 @@ class Server:
                                 )
                         if action_type == packet.GamePacket.ACTION:
                             if w.lobby:
-                                w.lobby.on_recv(pl, client_id)
-
+                                try:
+                                    w.lobby.on_recv(pl, client_id)
+                                except Exception:
+                                    traceback.print_exc()
                     else:
                         # Ignore the message
                         print("client sent a non verify packet without verification")
-
+                    __ = 3
                     # STREAM PACKETS
                     # like game packeets
                 except Exception:
+                    print("EXCEPTION HERE")
                     traceback.print_exc()
+                __ = 3
         except websockets.exceptions.ConnectionClosed as e:
             print("client closed connection")
             self.clients.pop(websockets)
         except Exception as e:
+            print("EXCEPTION!!!!!!!!!!!!!!!!!")
             traceback.print_exc()
         finally:
+            print(f"popped {client_id}")
             self.clients.pop(client_id, None)
+        print("connection closed by  server???????????????")

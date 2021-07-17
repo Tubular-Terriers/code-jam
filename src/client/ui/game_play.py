@@ -15,6 +15,8 @@ from .widget.progress_bar import ProgressBar
 from .widget.simple_button import Button
 from .widget.simple_textbox import Box
 
+import traceback
+
 
 def clamp(a, b, c):
     return max(a, min(b, c))
@@ -30,6 +32,7 @@ class GamePlay(UI):
     async def view(self, app):
         # Required
         try:
+            app.screen.refresh()
             super().view(app)
 
             gee = GameEventEmitter(
@@ -58,6 +61,7 @@ class GamePlay(UI):
                         "wss://pongconsole.xyz/ws"
                     )
                 except Exception:
+                    traceback.print_exc()
                     connection = False
 
             asyncio.get_event_loop().create_task(c1())
@@ -89,6 +93,7 @@ class GamePlay(UI):
                     await asyncio.sleep(0.5)
                     res = await gee.verify()
                 except Exception:
+                    traceback.print_exc()
                     res = False
 
             asyncio.get_event_loop().create_task(c2())
@@ -112,7 +117,10 @@ class GamePlay(UI):
                 return AppState.MAIN_MENU
 
             game_engine = Engine(
-                debug=True, is_server=app.input_manager.is_pressed("w"), is_client=True
+                debug=False,
+                is_server=app.input_manager.is_pressed("w"),
+                is_client=True,
+                ignore_self_control=True,
             )
 
             focused_uuid = lobby = await gee.get_lobby()
@@ -141,7 +149,7 @@ class GamePlay(UI):
             camera_x = 100
             camera_y = 100
 
-            focused = app.input_manager.is_pressed("w")
+            # focused = app.input_manager.is_pressed("w")
 
             def t(tup):
                 """Returns a scaled down version. x,y (600, 600) -> (300, 150)"""
@@ -176,6 +184,9 @@ class GamePlay(UI):
             ■■
             """
             ball_blink_cycle = 0
+            # await asyncio.sleep(2)
+            # exit()
+
             while True:
                 # deal with cycles
                 ball_blink_cycle = ball_blink_cycle % 5 + 1
@@ -219,7 +230,7 @@ class GamePlay(UI):
                             bcb_top = int(arm_top + 6 + d)
                             for i in range(scy(bcb_top), scy(bcb_top + 3)):
                                 pad.addch(i, bcb_x, "█")
-
+                        # print("a")
                         if focused_uuid == entity.uuid:
                             camera_x = int(p[0] + 0)
                             camera_y = int(p[1] + 0)
@@ -296,8 +307,8 @@ class GamePlay(UI):
                 await asyncio.sleep(0.05)
                 if game_engine.is_dead():
                     break
-                if gee.disconnected:
-                    return AppState.GAME
+                if self.go_main:
+                    break
 
                 # if app.input_manager.is_pressed("w"):
                 #     camera_y -= 1
@@ -323,12 +334,17 @@ class GamePlay(UI):
                 # self.window.addstr(0, 0, f"x:{x} y:{y}")
 
                 # app.screen.clear()
-            await asyncio.sleep(5000)
-            return AppState.GAME_OVER
+            await asyncio.sleep(5)
+            return AppState.MAIN_MENU
         except Exception:
             app.screen.clear()
             app.screen.refresh()
             return AppState.MAIN_MENU
+        finally:
+            print("destroy called")
+            gee.destroy()
+            # if game_engine.run_task:
+            #     game_engine.run_task.cancel()
 
     def press_on(self, key):
         if key == keyboard.Key.esc:

@@ -13,6 +13,7 @@ from client.ui.game_over import game_over
 from client.ui.host_scr import host_game
 from client.ui.join_scr import join_game
 from client.ui.main_menu import main_menu
+from client.ui.game_play import GamePlay
 from client.ui.menu import menu
 from client.ui.settings import settings
 
@@ -72,6 +73,7 @@ class App:
         self.ui.menu = menu
         self.ui.main_menu = main_menu
         self.ui.game_over = game_over
+        self.ui.GamePlay = GamePlay
         self.ui.ss_error = ss_error  # TODO: Remove or use this
         self.ui.credit = credits_scr
         self.ui.settings = settings
@@ -143,8 +145,7 @@ class App:
             elif self.state == AppState.MAIN_MENU:
                 self.state = await self.set_ui(self.ui.main_menu)
             elif self.state == AppState.GAME:
-                # TO-Do
-                break
+                self.state = await self.set_ui(self.ui.GamePlay())
             elif self.state == AppState.GAME_OVER:
                 self.state = await self.set_ui(self.ui.game_over)
             elif self.state == AppState.CREDITS_SCR:

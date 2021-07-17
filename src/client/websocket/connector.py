@@ -33,36 +33,42 @@ class GameEventEmitter:
 
         # Register process hook
         async def hook():
+            print("hook here")
             try:
+                print("adklsfj")
                 async with websocket as ws:
+                    print(f"foijas {ws}")
                     self.websocket = ws
                     self.disconnected = False
                     while True:
                         # try:
                         data = await self.websocket.recv()
+                        # print(data)
                         self.on_recv(data)
             except Exception:
-                self.disconnected = True
+                pass
+                # self.disconnected = True
 
         # send keymaps
         async def update_keymaps():
-            while not self.disconnected:
+            while True:
                 await asyncio.sleep(0.05)
                 if not self.game:
                     continue
 
                 async def sendc():
                     try:
-                        return await self.websocket.send(
+                        await self.websocket.send(
                             packet.GamePacket(events=self.game.key_map).send()
                         )
-                    except Exception:
+                    except Exception as e:
+                        print(e)
                         self.disconnected = True
 
                 asyncio.get_event_loop().create_task(sendc())
 
-        self.h = asyncio.create_task(hook())
-        self.u = asyncio.create_task(update_keymaps())
+        self.h = asyncio.get_event_loop().create_task(hook())
+        self.u = asyncio.get_event_loop().create_task(update_keymaps())
         # no time to implement
         await asyncio.sleep(3)
         return not self.disconnected
@@ -93,7 +99,10 @@ class GameEventEmitter:
         # Stream packets
         if action_type == packet.GamePacket.ACTION:
             if self.game:
-                self.game.load(pl["entities"])
+                try:
+                    self.game.load(pl["entities"])
+                except Exception as e:
+                    print(e)
         # if action_type == packet.VerifyResponse.ACTION:
         #     print("verification packet recieved")
         #     p = packet.VerifyResponse.load(pl)
@@ -108,7 +117,8 @@ class GameEventEmitter:
 
     async def send_packet_expect_response(self, packet_data: object, id):
         """Sends a packet and returns the response packet in dict. Returns None if there was no response"""
-        assert self.websocket is not None
+        if self.websocket is None:
+            return
         id = None
         # print(packet_data)
         try:
@@ -150,7 +160,7 @@ class GameEventEmitter:
         vp = packet.Verify(self.TOKEN)
         res = await self.send_packet_expect_response(vp, vp.packet_id)
         pl = packet.Status.load(res)
-        print(pl)
+        # print(pl)
         if pl.status:
             return True
         return False
@@ -162,7 +172,7 @@ class GameEventEmitter:
         pl = packet.Status.load(res)
         if res is None:
             return False
-        print(pl)
+        # print(pl)
         return pl.error  # This returns the uuid
 
     #     try:

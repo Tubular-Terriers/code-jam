@@ -7,6 +7,7 @@ import time
 
 
 def is_focused():
+    return True
     return get_window_pid(platform.system()) == init_pid
 
 

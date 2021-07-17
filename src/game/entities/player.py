@@ -185,16 +185,6 @@ class Player(Entity, pymunk.Body):
             dy = self.bar_loc * self.bcb_range
             self.bcb_body.position = (self.position[0], self.position[1] + dy)
 
-    def _set_vertical(self) -> None:
-        if self.horizontal:
-            self.bar_loc = 0
-            self.horizontal = False
-
-    def _set_horizontal(self) -> None:
-        if not self.horizontal:
-            self.bar_loc = 0
-            self.horizontal = True
-
     def tick(self, callback):
         """Callback"""
 
