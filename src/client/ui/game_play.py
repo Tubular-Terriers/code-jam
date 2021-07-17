@@ -36,6 +36,8 @@ class GamePlay(UI):
                 "4b5b0f90d4210379a864834210cee954c224f0198e51572f5e92f1e41e383915"
             )
 
+            self.go_main = False
+
             self.disp_h, self.disp_w = 50, 150
             self.c_y, self.c_x = self.window.getmaxyx()
             self.c_y = int(self.c_y / 2)
@@ -53,7 +55,7 @@ class GamePlay(UI):
                     # makes the connection look cool
                     await asyncio.sleep(2)
                     connection = await gee.initialize_server_connection(
-                        "ws://localhost:3001"
+                        "wss://pongconsole.xyz/ws"
                     )
                 except Exception:
                     connection = False
@@ -72,7 +74,7 @@ class GamePlay(UI):
                 await asyncio.sleep(0.1)
 
             if not connection:
-                self.connecting_to_server.message = "FAILED TO CONNECT"
+                self.connecting_to_server.message = "FAILED TO CONNECT (going to menu)"
                 self.connecting_to_server.refresh()
                 curses.doupdate()
                 await asyncio.sleep(3)
@@ -327,6 +329,10 @@ class GamePlay(UI):
             app.screen.clear()
             app.screen.refresh()
             return AppState.MAIN_MENU
+
+    def press_on(self, key):
+        if key == keyboard.Key.esc:
+            self.go_main = True
 
 
 # Return single menu object
