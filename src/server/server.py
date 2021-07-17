@@ -4,12 +4,12 @@ import traceback
 from types import SimpleNamespace
 
 import websockets
+from dotenv import load_dotenv
 
 import packet
 from website.dcauth.auth_manager import AuthManager
 
 from .lobby import Lobby
-from dotenv import load_dotenv
 
 load_dotenv()
 
