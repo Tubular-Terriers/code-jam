@@ -12,7 +12,7 @@ class Lobby:
     def __init__(self, server):
         self.server = server
         self.ID = uuid4()
-        self.engine = Engine(debug=True, is_server=True, is_client=False)
+        self.engine = Engine(debug=False, is_server=True, is_client=False)
         asyncio.get_event_loop().create_task(self.engine.run())
         # Constantly update
 
