@@ -63,7 +63,6 @@ class RichPresence:
             match,
             buttons,
             instance,
-            
         )
 
     def clear_activity(self, pid: int = getpid()):

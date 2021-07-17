@@ -86,7 +86,7 @@ class Auth(UI):
             frame_color_pair_id=5,
             key=keyboard.Key.enter,
             callback=self.open_auth_page,
-            selected=True
+            selected=True,
         )
 
         exit_button = Button(
