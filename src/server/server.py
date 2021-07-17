@@ -8,6 +8,9 @@ import websockets
 import packet
 from website.dcauth.auth_manager import AuthManager
 from .lobby import Lobby
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 class Server:
@@ -18,6 +21,8 @@ class Server:
         self.clients = {}
 
         self.lobbies = {}
+
+        self.authmng = AuthManager()
 
         self.create_lobby()
 
@@ -85,8 +90,8 @@ class Server:
 
                     #    packet
                     if action_type == packet.Verify.ACTION:
-                        if True or AuthManager.check(
-                            pl["token"]
+                        if self.authmng.check(
+                            pl["TOKEN"]
                         ):  # HERE HERE REMOVE OR
                             self.send_sync(
                                 websocket, packet.Status(True, uuid=uuid).send()
