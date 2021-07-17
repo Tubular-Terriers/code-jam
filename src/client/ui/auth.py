@@ -19,31 +19,20 @@ class Auth(UI):
     def __init__(self):
         super().__init__("main_menu_scr")
         self.message = [
-            "                 ____",
-            "                / ___\ ",
-            "               |: =O =O",
-            "               |:: __ |",
-            "                \_/LLL\ ",
-            "          __ __./:__:\.__ __",
-            "         (##i \ |<__>| / i##)",
-            "         |--|:/\/ :: \/\:|--|",
-            "         |  |:  :====:  :|  |",
-            "        / :.'Y-' |::| '-Y`.: \ ",
-            "        |__| | : |__|.-.| |__|",
-            "        (##) | : /++\`-'! (##)",
-            "         \  \|n._\++/_.n| /  /",
-            "          \ xT::::--::::T/  /",
-            "           \Xl-. `" "' .-lXX/",
-            "             |: \    / :|",
-            "             |:  i--i  :|",
-            "             |:  |  |  :| ",
-            "             |___|  |__;|",
-            "             P###Y  P###Y",
-            "             b###d  b###d",
-            "             |   |  |   | ",
-            "             |   |  |   | ",
-            "",
-            "Please get your passes before entering",
+            r"  _____________________________  ",
+            r" /                             \ ",
+            r"|    _______________________    |",
+            r"|   /       The poing       \   |",
+            r"|   |         _____         |   |",
+            r"|   |        |==   |        |   |",
+            r"|   |        |  o. |        |   |",
+            r"|   |        |__O__|        |   |",
+            r"|   |                       |   |",
+            r"|   | Insert disk 1 to begin|   |",
+            r"|   \_______________________/   |",
+            r"|  /|\ ATARI  SM124        _    |",
+            r" \_____________________________/ ",
+            r"   !_________________________!   "
         ]
         self.horizontal_border = "─"
         self.vertical_border = "│"
@@ -71,33 +60,33 @@ class Auth(UI):
         curses.init_pair(7, curses.COLOR_GREEN, curses.COLOR_BLACK)
         curses.init_pair(8, curses.COLOR_YELLOW, curses.COLOR_BLACK)
 
-        y = 1
+        y = height // 2 - len(self.message)
         for text in self.message:
             self.window.addstr(
                 y,
-                50,
+                width // 2 - len(text) // 2,
                 text,
                 curses.color_pair(2),
             )
             y += 1
 
         auth_button = Button(
-            27,
-            (width - 30) // 2,
-            width=30,
-            text="get my pass",
-            frame_color_pair_id=5,
+            height - 25,
+            width // 2 - (100 // 2),
+            width=100,
+            text="Hello stranger, just press enter to register",
             text_color_pair_id=7,
+            frame_color_pair_id=5,
             key=keyboard.Key.enter,
             callback=self.open_auth_page,
-            selected=True,
+            selected=True
         )
 
         exit_button = Button(
-            30,
-            (width - 30) // 2,
-            width=30,
-            text="End before it began...",
+            height - 15,
+            width // 2 - (45 // 2),
+            width=45,
+            text="End before it even began...",
             text_color_pair_id=6,
             frame_color_pair_id=5,
             key=keyboard.Key.enter,
