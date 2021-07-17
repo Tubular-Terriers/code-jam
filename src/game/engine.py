@@ -78,7 +78,7 @@ class Engine:
 
         # self.register_entity(p)
 
-        s = Spawner(1000)
+        s = Spawner(100)
         self.spawner = s
         s.position = (self.width // 2, self.height // 2)
         s.add_space(self.space)
@@ -160,8 +160,8 @@ class Engine:
             # TODO: implement ball curving
             self._emit(Sound.ID, Sound.PADDLE_BOUNCE)
 
-            ball = arbiter.shapes[1].body
-            player = arbiter.shapes[0].body
+            ball = arbiter.shapes[0].body
+            player = arbiter.shapes[1].body
 
             ball.ownerUUID = player.uuid
 
