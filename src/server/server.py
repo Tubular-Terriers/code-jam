@@ -6,8 +6,8 @@ from types import SimpleNamespace
 import websockets
 
 import packet
+from website.dcauth.auth_manager import AuthManager
 
-from ..website.dcauth.auth_manager import AuthManager
 from .lobby import Lobby
 
 
@@ -86,7 +86,9 @@ class Server:
 
                     # Verify packet
                     if action_type == packet.Verify.ACTION:
-                        if AuthManager.check(uuid):  # HERE HERE ADD AUTH
+                        if True or AuthManager.check(
+                            pl["token"]
+                        ):  # HERE HERE REMOVE OR
                             self.send_sync(
                                 websocket, packet.Status(True, uuid=uuid).send()
                             )
