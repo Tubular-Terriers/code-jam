@@ -54,8 +54,8 @@ class GameEventEmitter:
 
                 asyncio.get_event_loop().create_task(sendc())
 
-        asyncio.create_task(hook())
-        asyncio.create_task(update_keymaps())
+        self.h = asyncio.create_task(hook())
+        self.u = asyncio.create_task(update_keymaps())
         # no time to implement
         await asyncio.sleep(1)
         return True
@@ -101,6 +101,7 @@ class GameEventEmitter:
 
     async def send_packet_expect_response(self, packet_data: object, id):
         """Sends a packet and returns the response packet in dict. Returns None if there was no response"""
+        assert self.websocket is not None
         id = None
         # print(packet_data)
         try:
@@ -117,7 +118,6 @@ class GameEventEmitter:
             msg = self.messages.get(str(id), None)
             self.messages.pop(str(id), None)
             return msg
-        print("here")
         self.messages.pop(str(id), None)
         return None
 
@@ -168,6 +168,14 @@ class GameEventEmitter:
 
     def set_hook():
         """Sets the callback (only 1 callback allowed)"""
+
+    def destroy(self):
+        try:
+            self.h.cancel()
+            self.u.cancel()
+        except Exception:
+            """Connection was not initialized anyway"""
+            pass
 
 
 # async def main():

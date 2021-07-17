@@ -4,6 +4,7 @@ import curses
 from pynput import keyboard
 
 from client.appstate import AppState
+from client.websocket import GameEventEmitter
 from game.engine import Engine
 from game.entities.ball import Ball
 from game.entities.entity_type import EntityType
@@ -30,31 +31,97 @@ class GamePlay(UI):
         # Required
         super().view(app)
 
+        gee = GameEventEmitter("token")
+
         self.disp_h, self.disp_w = 50, 150
         self.c_y, self.c_x = self.window.getmaxyx()
         self.c_y = int(self.c_y / 2)
         self.c_x = int(self.c_x / 2)
 
-        # self.connecting_to_server = ProgressBar(
-        #     width=32, y=self.c_y, x=self.c_x, message_text="Connecting to server"
-        # )
+        self.connecting_to_server = ProgressBar(
+            width=32, y=self.c_y, x=self.c_x, message_text="Connecting to server"
+        )
 
-        # loading = 0
-        # dots = 0
-        # while True:
-        #     loading = (loading % 100) + 10
-        #     dots = (dots % 3) + 1
-        #     self.connecting_to_server.message = f"Connecting to server{'.' * dots}"
-        #     self.connecting_to_server.set_progress(loading)
-        #     self.connecting_to_server.refresh()
-        #     curses.doupdate()
-        #     await asyncio.sleep(0.2)
+        connection = None
 
-        game_engine = Engine(debug=True, is_server=False, is_client=True)
-        focused_uuid = game_engine.add_player()
+        async def c1():
+            try:
+                nonlocal connection
+                # makes the connection look cool
+                await asyncio.sleep(2)
+                await gee.initialize_server_connection("ws://localhost:3001")
+                connection = True
+            except Exception:
+                connection = False
 
-        game_server = Engine(debug=True, is_server=True, is_client=False)
-        game_server.hook(game_engine)
+        asyncio.get_event_loop().create_task(c1())
+
+        loading = 0
+        dots = 0
+        while connection is None:
+            loading = (loading % 100) + 10
+            dots = (dots % 3) + 1
+            self.connecting_to_server.message = f"Connecting to server{'.' * dots}"
+            self.connecting_to_server.set_progress(loading)
+            self.connecting_to_server.refresh()
+            curses.doupdate()
+            await asyncio.sleep(0.1)
+
+        if not connection:
+            self.connecting_to_server.message = "FAILED TO CONNECT"
+            self.connecting_to_server.refresh()
+            curses.doupdate()
+            await asyncio.sleep(3)
+            return AppState.MAIN_MENU
+
+        res = None
+
+        async def c2():
+            try:
+                nonlocal res
+                # makes the connection look cool
+                await asyncio.sleep(0.5)
+                res = await gee.verify()
+                connection = res
+            except Exception:
+                res = False
+
+        asyncio.get_event_loop().create_task(c2())
+
+        loading = 0
+        dots = 0
+        while res is None:
+            loading = (loading % 100) + 10
+            dots = (dots % 3) + 1
+            self.connecting_to_server.message = f"verifying{'.' * dots}"
+            self.connecting_to_server.set_progress(loading)
+            self.connecting_to_server.refresh()
+            curses.doupdate()
+            await asyncio.sleep(0.2)
+
+        if not res:
+            self.connecting_to_server.message = "FAILED TO VERIFY (Invalid Token)"
+            self.connecting_to_server.refresh()
+            curses.doupdate()
+            await asyncio.sleep(3)
+            return AppState.MAIN_MENU
+
+        game_engine = Engine(
+            debug=True, is_server=app.input_manager.is_pressed("w"), is_client=True
+        )
+
+        focused_uuid = lobby = await gee.get_lobby()
+        if not lobby:
+            self.connecting_to_server.message = (
+                "Unknown error (Try restarting the game)"
+            )
+            self.connecting_to_server.refresh()
+            await asyncio.sleep(3)
+            return AppState.MAIN_MENU
+
+        game_engine.add_player(lobby, owner=True)
+        gee.on_init(game_engine)
+
         await game_engine.run()
 
         _150 = 150
@@ -69,7 +136,7 @@ class GamePlay(UI):
         camera_x = 100
         camera_y = 100
 
-        focused = False
+        focused = app.input_manager.is_pressed("w")
 
         def t(tup):
             """Returns a scaled down version. x,y (600, 600) -> (300, 150)"""
@@ -151,7 +218,6 @@ class GamePlay(UI):
                     if focused_uuid == entity.uuid:
                         camera_x = int(p[0] + 0)
                         camera_y = int(p[1] + 0)
-                        asdf = 1
 
                 elif entity.type == EntityType.BALL:
                     # Render the player
@@ -210,6 +276,22 @@ class GamePlay(UI):
             w.attron(curses.color_pair(2))
             w.noutrefresh()
 
+            game_engine.update_keymap(
+                app.input_manager.is_pressed("w"),
+                app.input_manager.is_pressed("s"),
+                app.input_manager.is_pressed("a"),
+                app.input_manager.is_pressed("d"),
+                app.input_manager.is_pressed(keyboard.Key.up),
+                app.input_manager.is_pressed(keyboard.Key.down),
+                app.input_manager.is_pressed(keyboard.Key.left),
+                app.input_manager.is_pressed(keyboard.Key.right),
+            )
+
+            app.screen.refresh()
+            await asyncio.sleep(0.05)
+            if game_engine.is_dead():
+                break
+
             # if app.input_manager.is_pressed("w"):
             #     camera_y -= 1
             # if app.input_manager.is_pressed("s"):
@@ -233,12 +315,9 @@ class GamePlay(UI):
 
             # self.window.addstr(0, 0, f"x:{x} y:{y}")
 
-            app.screen.refresh()
-            await asyncio.sleep(0.05)
             # app.screen.clear()
-
-        await asyncio.sleep(1000)
-
+        await asyncio.sleep(5000)
+        return AppState.GAME_OVER
         self.time += 10
         my_bar = ProgressBar(width=32, y=1, x=0, message_text="Press space to exit")
         my_bar.set_progress(self.time)

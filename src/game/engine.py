@@ -18,12 +18,15 @@ from .events import Error, MoveBar, MovePlayer, Sound
 
 
 class Engine:
-    def __init__(self, debug=False, is_server=True, is_client=True):
+    def __init__(
+        self, debug=False, is_server=True, is_client=True, ignore_self_control=False
+    ):
         """Does not run until `#run` is called"""
         self.created_timestamp = time.time()
         self.running = True
         self.debug_render = None
 
+        self.ignore_self_control = ignore_self_control
         self.is_server = is_server
         self.is_client = True
 
@@ -45,6 +48,8 @@ class Engine:
         self.key_map[MoveBar.DOWN] = False
         self.key_map[MoveBar.LEFT] = False
         self.key_map[MoveBar.RIGHT] = False
+
+        self.playerUUID = ""
 
         # def c(n, v):
         #     if n == Sound.ID:
@@ -277,7 +282,7 @@ class Engine:
         ch_collision_wall.post_solve = on_collision_ball_bounce
 
         def on_collision_ball_strike(arbiter, space, data):  # FIXME change the name
-            print("huura")
+            # print("huura")
             return True
 
         ch_collision_border = self.space.add_collision_handler(
@@ -304,9 +309,8 @@ class Engine:
     def load(self, data):
         # Loads all entities
         processed_entities = set(self.entities.keys())
-        print(len(processed_entities))
+        # print(len(processed_entities))
         for entity_uuid, entity in data.items():
-            print(f"loading entity {entity_uuid}")
             processed_entities.discard(entity_uuid)
             if entity_uuid in self.entities:
                 self.entities[entity_uuid].load_data(entity)
@@ -322,7 +326,6 @@ class Engine:
         for d in processed_entities:
             entity = self.entities.get(d, None)
             self.entities.pop(d, None)
-            print(f"deleting uuid {d} {entity is None}")
             if entity is None:
                 continue
             try:
@@ -330,7 +333,7 @@ class Engine:
                     self.space.remove(*entity.bb, *entity.bcb)
                     self.remove_entity(entity)
                 elif entity.type == EntityType.BALL:
-                    self.space.remove(*ball.tuple)
+                    self.space.remove(*entity.tuple)
                     self.remove_entity(entity)
             except Exception as e:
                 print(e)
@@ -378,17 +381,22 @@ class Engine:
     def is_player_bordered(self):
         pass
 
-    def add_player(self, uuid=None):
+    def add_player(self, uuid=None, owner=False):
         p = Player(uuid)
-        # In the server, this is changed multiple times
-        # But it wont matter that much
-        self.player = p
         p.position = (100, 200)
+        self.player = p
+        if owner:
+            self.playerUUID = uuid
         p.add_space(self.space)
 
         self.register_entity(p)
 
         return p.uuid
+
+    def is_dead(self):
+        if self.entities.get(self.playerUUID, None) is None:
+            return True
+        return False
 
     def load_mapdata(self):
         """
@@ -458,6 +466,9 @@ class Engine:
                             self.space, self.width, self.height, self.register_entity
                         )
                 elif entity.type == EntityType.PLAYER:
+                    if entity.uuid == self.playerUUID:
+                        if self.ignore_self_control:
+                            continue
                     player = entity
                     player._update_bar()
 
@@ -504,6 +515,7 @@ class Engine:
         self.player.process_bar_keys(keys)
 
     def _process_player_keys(self, player_uuid, keys):
+
         player = self.entities.get(player_uuid, None)
         if player is None:
             return
@@ -585,7 +597,8 @@ class DebugRender:
             except AttributeError:
                 pass
             except Exception as e:
-                print(e)
+                pass
+                # print(e)
         self.screen.fill("WHITE")
         self.space.debug_draw(self.draw_options)
         pygame.display.update()

@@ -93,7 +93,7 @@ class Server:
                                 websocket, packet.Status(True, uuid=uuid).send()
                             )
                             w.verified = True
-                            print(client_id)
+                            # print(client_id)
                         else:
                             self.send_sync(packet.Status(False, "Invalid Token").send())
                             w.verified = False
@@ -118,7 +118,9 @@ class Server:
                                     packet.Status(True, str(puuid), uuid=uuid).send(),
                                 )
                         if action_type == packet.GamePacket.ACTION:
-                            pass
+                            if w.lobby:
+                                w.lobby.on_recv(pl, client_id)
+
                     else:
                         # Ignore the message
                         print("client sent a non verify packet without verification")

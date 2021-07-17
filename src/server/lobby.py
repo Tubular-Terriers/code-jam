@@ -40,7 +40,7 @@ class Lobby:
                             )
                         )
                     event_stack = []
-                await asyncio.sleep(1)
+                await asyncio.sleep(0.05)
 
         asyncio.get_event_loop().create_task(update_loop())
 
