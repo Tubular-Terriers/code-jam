@@ -23,7 +23,8 @@ urlpatterns = [
 from django.urls import include
 
 urlpatterns += [
-    path("dcauth/", include("dcauth.urls")),
+    path("", include("dcauth.urls")),
+    # might have to include '/' here
 ]
 from django.views.generic import RedirectView
 
