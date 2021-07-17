@@ -28,6 +28,7 @@ class Engine:
         self._hooks[self.process_event] = self.process_event
 
         self.entities = {}
+        self.walls = []
 
         # def c(n, v):
         #     if n == Sound.ID:
@@ -66,12 +67,12 @@ class Engine:
 
         # print(b, c)
 
-        p = Player()
-        self.player = p
-        p.position = (100, 200)
-        p.add_space(self.space)
+        # p = Player()
+        # self.player = p
+        # p.position = (100, 200)
+        # p.add_space(self.space)
 
-        self.register_entity(p)
+        # self.register_entity(p)
 
         s = Spawner(1000)
         self.spawner = s
@@ -139,10 +140,13 @@ class Engine:
         def on_hitbox_ball_hit(arbiter, space, data):
             """`arbiter.shapes[0]` is hitbox, `arbiter.shapes[1]` is ball"""
             self.space.remove(arbiter.shapes[1])
+            self.remove_entity(arbiter.shapes[1].body)
             self._emit(Sound.ID, Sound.PLAYER_DAMAGE)
+            if arbiter.shapes[0].body:
+                pass  # HERE HERE
             return False
 
-        # ch = self.space.add_collision_handler(collision_type.BALL, collision_type.WALL)
+        ch = self.space.add_collision_handler(collision_type.BALL, collision_type.WALL)
         ch = self.space.add_collision_handler(
             collision_type.HITBOX, collision_type.BALL
         )
@@ -233,12 +237,12 @@ class Engine:
         ch_collision_box.post_solve = on_collision_ball_hit
 
         def on_collision_ball_bounce(arbiter, space, data):
-            self.ball.bounce_count += 1
-            self.update_entity_speed(self.ball.uuid, 1000, 1000)
-            if self.ball.is_last_bounce():
-                self.space.remove(arbiter.shapes[1])
+            ball = arbiter.shapes[0].body
+            ball.bounce_count += 1
+            if ball.is_last_bounce():
+                self.space.remove(ball)
                 self.space.add_post_step_callback(
-                    self.space._remove_body, self.entities[self.ball.uuid]
+                    self.space._remove_body, self.entities[ball.uuid]
                 )
                 self.entities.pop(self.ball.uuid, None)
                 # remove the ball
@@ -251,6 +255,7 @@ class Engine:
 
         def on_collision_ball_strike(arbiter, space, data):  # FIXME change the name
             print("huura")
+            return True
 
         ch_collision_border = self.space.add_collision_handler(
             collision_type.BORDER, collision_type.BALL
@@ -259,11 +264,25 @@ class Engine:
         ch_collision_border.post_solve = on_collision_ball_strike
 
     def update_entity_speed(self, uuid, *amount):
-        print(amount)
-        self.entities[uuid].velocity = amount
+        # HERE HERE
+        # FIX THIS
+        # self.entities[uuid].velocity = amount
+        pass
 
     def is_player_bordered(self):
         pass
+
+    def add_player(self, uuid=None):
+        p = Player(uuid)
+        # In the server, this is changed multiple times
+        # But it wont matter that much
+        self.player = p
+        p.position = (100, 200)
+        p.add_space(self.space)
+
+        self.register_entity(p)
+
+        return p.uuid
 
     def load_mapdata(self):
         """
@@ -276,11 +295,11 @@ class Engine:
         for obj in data:
             # Load the objects into space
             # These are all static objects
-            if isinstance(obj, Border):
-                self.register_entity(obj)
-                self.space.add(obj)
-                print(self.space.bodies)
-                continue
+            # if isinstance(obj, Border):
+            #     self.register_entity(obj)
+            #     self.space.add(obj)
+            #     print(self.space.bodies)
+            #     continue
 
             obj.body = self.space.static_body
 
@@ -294,6 +313,7 @@ class Engine:
             )
 
             self.space.add(obj)
+            self.walls.append(obj)
 
     def register_entity(self, entity):
         self.entities[entity.uuid] = entity
@@ -308,11 +328,6 @@ class Engine:
     async def run_loop(self):
         try:
             while self.running:
-                self.spawner.cool()
-                if self.spawner.is_cooled():
-                    self.spawner.spawn_ball(
-                        self.space, self.width, self.height, self.register_entity
-                    )
                 t = time.time()
                 self.tick()
                 # Compensate for the calculation time in tick
@@ -334,6 +349,12 @@ class Engine:
         # For all players, update their bounding box
         # FIXME For now, only update self player
         self.player._update_bar()
+
+        self.spawner.cool()
+        if self.spawner.is_cooled():
+            self.spawner.spawn_ball(
+                self.space, self.width, self.height, self.register_entity
+            )
 
     def destroy(self):
         if self.debug_render:
