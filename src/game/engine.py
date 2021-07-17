@@ -73,7 +73,6 @@ class Engine:
         self.space = pymunk.Space()
         self.space.gravity = 0, 0
         self.coroutine = None
-        self.ball_body = None
 
         self.space.static_body.filter = pymunk.ShapeFilter(
             categories=category.WALL, mask=category.MASK.WALL
@@ -300,13 +299,13 @@ class Engine:
 
         ch_collision_border.post_solve = on_collision_ball_strike
 
-    def reset(self):
-        for body in self.entities.values():
-            body.reset()
-            if body.type == "player":
-                self.space.remove(*list(set.union(*body.tuple)))
-            else:
-                self.space.remove(*body.tuple)
+    # def reset(self):
+    #     for body in self.entities.values():
+    #         body.reset()
+    #         if body.type == "player":
+    #             self.space.remove(*list(set.union(*body.tuple)))
+    #         else:
+    #             self.space.remove(*body.tuple)
 
     def dump(self):
         # Dumps all entities
@@ -362,17 +361,17 @@ class Engine:
         self.key_map[MoveBar.LEFT] = g
         self.key_map[MoveBar.RIGHT] = h
 
-    def stop(self):
-        for body in self.entities.values():
-            if body.body_type != 2:  # if not static
-                body.sleep()
-        return True
+    # def stop(self):
+    #     for body in self.entities.values():
+    #         if body.body_type != 2:  # if not static
+    #             body.sleep()
+    #     return True
 
-    def start(self):
-        for body in self.entities.values():
-            if body.body_type != 2:  # if not static
-                body.activate()
-        return True
+    # def start(self):
+    #     for body in self.entities.values():
+    #         if body.body_type != 2:  # if not static
+    #             body.activate()
+    #     return True
 
     def get_player_count(self):
         return sum(1 for body in self.entities.values() if body.type == "player")

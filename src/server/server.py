@@ -98,7 +98,9 @@ class Server:
                             w.verified = True
                             # print(client_id)
                         else:
-                            self.send_sync(packet.Status(False, "Invalid Token").send())
+                            self.send_sync(
+                                packet.Status(False, "Invalid Token", uuid=uuid).send()
+                            )
                             w.verified = False
                         continue
                     if w.verified:
