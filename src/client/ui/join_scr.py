@@ -54,7 +54,7 @@ class Join_game_scr(UI):
             (height // 2) + y,
             (width - 30) // 2 - 5,
         )
-        y+=4
+        y += 4
         play_button = Button(
             (height // 2) + y,
             (width - 30) // 2 - 5,
