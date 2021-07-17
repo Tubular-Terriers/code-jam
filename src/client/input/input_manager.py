@@ -112,7 +112,7 @@ class InputManager:
                 return
 
             # Handle
-            self.pressed_keys.remove(k)
+            self.pressed_keys.discard(k)
             self.callback.on_release(k)
 
         if not mock:
