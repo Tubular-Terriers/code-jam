@@ -67,13 +67,13 @@ class Credits(UI):
             text="Back",
             key=keyboard.Key.enter,
             go_to=AppState.MAIN_MENU,
-            selected=True
+            selected=True,
         )
 
         self.widgets = [menu_button]
 
         self.refresh()
-        
+
         while True:
             if res := self.refresh():
                 break
@@ -81,7 +81,7 @@ class Credits(UI):
             curses.doupdate()
             await asyncio.sleep(0.1)
         return res
-    
+
     def draw(self):
         if self.refresh_time % 10 == 0:
             curses.init_pair(1, curses.COLOR_CYAN, curses.COLOR_BLACK)
@@ -91,9 +91,7 @@ class Credits(UI):
                 if i % 10 == 0:
                     chose = random.randint(0, 2)
                     if chose == 0:
-                        self.add_white_star(
-                            self.locations_y[i], self.locations_x[i]
-                        )
+                        self.add_white_star(self.locations_y[i], self.locations_x[i])
                     elif chose == 1:
                         self.add_blue_star(self.locations_y[i], self.locations_x[i])
                     elif chose == 2:
@@ -105,7 +103,9 @@ class Credits(UI):
         self.window.attron(curses.A_BOLD)
         y = 0
         for text in self._credits_:
-            self.window.addstr(self.height // 3 + y, self.width // 2 - len(text) // 2, text)
+            self.window.addstr(
+                self.height // 3 + y, self.width // 2 - len(text) // 2, text
+            )
             y += 1
 
         self.window.attron(curses.A_ITALIC)
