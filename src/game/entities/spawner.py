@@ -1,11 +1,12 @@
-import pymunk
-import random
 import math
+import random
+
+import pymunk
 
 from .. import category, collision_type
+from .ball import Ball
 from .entity import Entity
 from .entity_type import EntityType
-from .ball import Ball
 
 
 class Spawner(Entity, pymunk.Body):
@@ -16,12 +17,14 @@ class Spawner(Entity, pymunk.Body):
         self.timeout = cooldown
         self.SPAWN_ANGLE = 120
         self.magnitude = 70
-        self.tuple = self,
+        self.tuple = (self,)
 
     def add_space(self, space, object=None):
         space.add(*self.tuple)
 
-    def spawn_ball(self, space, w, h, callback=None):  # with velocity between a given angle and direction
+    def spawn_ball(
+        self, space, w, h, callback=None
+    ):  # with velocity between a given angle and direction
         # spawn it not only if cools down but if ball gets destroyed as well
         if self.is_cooled():
             print("spawned a ball")
@@ -34,9 +37,11 @@ class Spawner(Entity, pymunk.Body):
             dx = random.choice([1, -1])
 
             ball = Ball()
-            ball.position = (w//2, h//2)
-            ball.velocity = (math.cos(math.radians(dθ)) * dx * self.magnitude,
-                             math.sin(math.radians(dθ)) * self.magnitude)
+            ball.position = (w // 2, h // 2)
+            ball.velocity = (
+                math.cos(math.radians(dθ)) * dx * self.magnitude,
+                math.sin(math.radians(dθ)) * self.magnitude,
+            )
 
             ball.add_space(space)
             if callback is not None:
