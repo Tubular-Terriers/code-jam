@@ -274,8 +274,6 @@ class Engine:
         def on_collision_ball_bounce(arbiter, space, data):
             ball = arbiter.shapes[0].body
 
-            print(self.player.dump_data())
-
             if ball.is_last_bounce():
                 self.space.remove(*ball.tuple)
                 self.remove_entity(ball)
