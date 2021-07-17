@@ -1,11 +1,12 @@
-import pymunk
-import random
 import math
+import random
+
+import pymunk
 
 from .. import category, collision_type
+from .ball import Ball
 from .entity import Entity
 from .entity_type import EntityType
-from .ball import Ball
 
 
 class Spawner(Entity, pymunk.Body):
