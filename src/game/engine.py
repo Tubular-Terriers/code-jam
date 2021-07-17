@@ -241,10 +241,11 @@ class Engine:
         ch_collision_box = self.space.add_collision_handler(
             collision_type.BALL_COLLISION_BOX, collision_type.BALL
         )
-        # ch_collision_box.post_solve = on_collision_ball_hit
+        ch_collision_box.post_solve = on_collision_ball_hit
 
         def on_collision_ball_bounce(arbiter, space, data):
             ball = arbiter.shapes[0].body
+
             if ball.is_last_bounce():
                 self.space.remove(*ball.tuple)
                 self.remove_entity(ball)
@@ -270,9 +271,39 @@ class Engine:
 
         ch_collision_border.post_solve = on_collision_ball_strike
 
+    def reset(self):
+        for body in self.entities.values():
+            body.reset()
+            if body.type == "player":
+                self.space.remove(*list(set.union(*body.tuple)))
+            else:
+                self.space.remove(*body.tuple)
+
+    def stop(self):
+        for body in self.entities.values():
+            if body.body_type != 2:  # if not static
+                body.sleep()
+        return True
+
+    def start(self):
+        for body in self.entities.values():
+            if body.body_type != 2:  # if not static
+                body.activate()
+        return True
+
+    def get_player_count(self):
+        return sum(1 for body in self.entities.values() if body.type == "player")
+
+    def remove_player(self, uuid):
+        if uuid not in self.entities:  # check if entity.type == player
+            return
+        self.space.remove(self.entities[uuid])
+        self.remove_entity(self.entities[uuid])
+        return True
+
     def update_entity_speed(self, uuid, *amount):
         # HERE HERE
-        # FIX THIS
+        # FIXME THIS
         # self.entities[uuid].velocity = amount
         pass
 

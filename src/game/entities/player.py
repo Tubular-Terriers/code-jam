@@ -76,6 +76,8 @@ class Player(Entity, pymunk.Body):
             ],
         )
 
+        self.tuple = self.shapes, self.bcb_body.shapes
+
         self.ball_collision_box.collision_type = collision_type.BALL_COLLISION_BOX
         self.ball_collision_box.filter = pymunk.ShapeFilter(
             categories=category.BALL_COLLISION_BOX,
@@ -93,6 +95,9 @@ class Player(Entity, pymunk.Body):
         space.add(pymunk.constraints.RotaryLimitJoint(space.static_body, self, 0, 0))
         space.add(*self.bb)
         space.add(*self.bcb)
+
+    def reset(self):
+        pass
 
     def process_move_keys(self, keys: dict):
         """`dir` is a type of MovePlayer"""
