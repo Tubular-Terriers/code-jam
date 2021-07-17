@@ -178,4 +178,4 @@ class Player(Entity, pymunk.Body):
 
     def dump_data(self):
         data = {**super().dump_data()}
-        return json.dumps(data)
+        return data

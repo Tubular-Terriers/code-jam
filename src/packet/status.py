@@ -19,4 +19,6 @@ class Status(Packet):
 
     @staticmethod
     def load(payload) -> object:
+        if payload is None:
+            return Status(False)
         return Status((payload["status"] == "OK"), payload.get("error", None))

@@ -19,27 +19,35 @@ class GameEventEmitter:
         self.websocket = None
         self.initialized = False
         self.verified = False
-        self.client_id = uuid4()
+
+        self.game = None
 
         self.messages = {}
         self.tasks = {}
 
+        self.player_uuid = None
+
     async def initialize_server_connection(self, url):
         self.initialized = True
-        self.websocket = await websockets.connect(url)
+        websocket = websockets.connect(url)
 
         # Register process hook
         async def hook():
-            while True:
-                try:
+            async with websocket as ws:
+                self.websocket = ws
+                while True:
+                    # try:
+                    print("LISTENING")
                     data = await self.websocket.recv()
                     self.on_recv(data)
-                except Exception as e:
-                    if not self.websocket.open:
-                        break
 
-        asyncio.get_event_loop().create_task(hook())
+        asyncio.create_task(hook())
+        # no time to implement
+        await asyncio.sleep(1)
         return True
+
+    def on_init(self, game):
+        self.game = game
 
     def on_recv(self, data):
         print(f"recieved {data}")
@@ -62,6 +70,9 @@ class GameEventEmitter:
             return
 
         # Stream packets
+        if action_type == packet.GamePacket.ACTION:
+            if self.game:
+                self.game.load(pl["entities"])
         # if action_type == packet.VerifyResponse.ACTION:
         #     print("verification packet recieved")
         #     p = packet.VerifyResponse.load(pl)
@@ -90,10 +101,10 @@ class GameEventEmitter:
             await task
         except asyncio.CancelledError:
             msg = self.messages.get(str(id), None)
-            self.messages.pop(str(id))
+            self.messages.pop(str(id), None)
             return msg
         print("here")
-        self.messages.pop(str(id))
+        self.messages.pop(str(id), None)
         return None
 
     def assert_init(self):
@@ -111,19 +122,27 @@ class GameEventEmitter:
             traceback.print_exc()
 
     async def send(self, websocket, packet_data):
-        # Inject client id
-        packet_data.client_id = self.client_id
         return await websocket.send(packet_data.send())
 
     async def verify(self):
         self.assert_init()
-        vp = packet.Verify(self.TOKEN, 0)
+        vp = packet.Verify(self.TOKEN)
         res = await self.send_packet_expect_response(vp, vp.packet_id)
         pl = packet.Status.load(res)
         print(pl)
         if pl.status:
             return True
         return False
+
+    async def get_lobby(self) -> str:
+        self.assert_init()
+        lp = packet.RequestLobby()
+        res = await self.send_packet_expect_response(lp, lp.packet_id)
+        pl = packet.Status.load(res)
+        if res is None:
+            return False
+        print(pl)
+        return pl.error  # This returns the uuid
 
     #     try:
     #         vp = packet.Verify(self.TOKEN)

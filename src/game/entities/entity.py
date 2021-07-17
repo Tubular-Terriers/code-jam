@@ -15,12 +15,13 @@ class Entity:
         self.velocity = data["velocity"]
         self.angular_velocity = data["angular_velocity"]
         self.angle = data["angle"]
+        self.type = data["type"]
 
     # Partial
     def dump_data(self):
         """Remember to return a `json.dumps()`"""
         return {
-            "uuid": self.uuid,
+            "uuid": str(self.uuid),
             "type": self.type,
             "position": self.position,
             "velocity": self.velocity,

@@ -4,8 +4,6 @@
 
 ```json
 {
-    //
-    "client_id": "uuid of client (because websockets doesn't have sessionID)",
     "packet_id":"present in only request packets (notated by * in front of action name)",
     "action": "verify|verify_response|game_init|game",
     "payload": {
@@ -22,7 +20,7 @@ action name      |client                 |server
 *request_lobby   | lobby join request    | returns lobby data
 *status          |                       | returns a response status
 game_init        |                       | sends player's `uuid` and game data to client
-game (symmetric) | send game data        | send game data
+game (symmetric) | send game data(event) | send game data(dump)
 
 ## Verification
 
