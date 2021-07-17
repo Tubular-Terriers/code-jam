@@ -2,6 +2,7 @@
 import os
 import platform
 import time
+
 # from ctypes import byref, windll, wintypes
 import ctypes
 
@@ -29,7 +30,9 @@ def get_window_pid(system):
         try:
             pid = ctypes.wintypes.DWORD()
             active = ctypes.windll.user32.GetForegroundWindow()
-            return int(ctypes.windll.user32.GetWindowThreadProcessId(active, ctypes.byref(pid)))
+            return int(
+                ctypes.windll.user32.GetWindowThreadProcessId(active, ctypes.byref(pid))
+            )
         except Exception:
             return None
 
