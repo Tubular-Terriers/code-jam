@@ -40,8 +40,8 @@ class Main_menu(UI):
         self.ball = "●"
         self.ball_pos_x = None
         self.ball_pos_y = None
-        self.ball_speed_y = random.choice([num for num in range(-1, 1) if num != 0])
-        self.ball_speed_x = random.choice([num for num in range(-1, 1) if num != 0])
+        self.ball_speed_y = random.choice([num for num in range(-2, 2) if num != 0])
+        self.ball_speed_x = random.choice([num for num in range(-2, 2) if num != 0])
         self.board_start_y = None
         self.board_end_y = None
         self.board_start_x = 10
@@ -67,26 +67,18 @@ class Main_menu(UI):
             self.ball_pos_y = self.board_end_y - 1
             self.ball_speed_y = -self.ball_speed_y
 
-            if is_focused():
+            if is_focused() or not bool(self.config.get(Settings.MUTE_GAME_ON_FOCUS_LOSS)):
                 self.sound_engine.play_sound(SoundEffects.WALL_BOUNCE)
 
             self.window.addstr(self.board_end_y, self.ball_pos_x, " ")
-            if (
-                self.ball_pos_y == self.board_end_y - 1
-                and self.ball_pos_x == self.board_end_x - 1
-            ):
+
+            if self.ball_pos_x == self.board_end_x - 1:
                 self.window.addstr(
-                    self.board_end_y,
-                    self.board_end_x,
-                    self.bottom_right_corner,
-                    curses.color_pair(9),
+                    self.board_end_y, self.board_end_x, self.bottom_right_corner
                 )
             else:
                 self.window.addstr(
-                    self.board_end_y,
-                    self.ball_pos_x,
-                    self.horizontal_border,
-                    curses.color_pair(9),
+                    self.board_end_y, self.ball_pos_x, self.horizontal_border
                 )
 
             self.switch_ball_color()
@@ -96,17 +88,13 @@ class Main_menu(UI):
             self.ball_pos_y = self.board_start_y + 1
             self.ball_speed_y = -self.ball_speed_y
 
+            if is_focused() or not bool(self.config.get(Settings.MUTE_GAME_ON_FOCUS_LOSS)):
+                self.sound_engine.play_sound(SoundEffects.WALL_BOUNCE)
+
+            self.window.addstr(self.board_start_y, self.ball_pos_x, " ")
+
             self.window.addstr(
-                self.board_start_y,
-                self.ball_pos_x,
-                self.horizontal_border,
-                curses.color_pair(9),
-            )
-            self.window.addstr(
-                self.board_end_y,
-                self.ball_pos_x,
-                self.horizontal_border,
-                curses.color_pair(9),
+                self.board_start_y, self.ball_pos_x, self.horizontal_border
             )
 
             self.switch_ball_color()
@@ -114,24 +102,25 @@ class Main_menu(UI):
         if self.ball_pos_x >= self.board_end_x:
             self.ball_pos_x = self.board_end_x - 1
             self.ball_speed_x = -self.ball_speed_x
-            self.window.addstr(
-                self.ball_pos_y,
-                self.board_end_x,
-                self.vertical_border,
-                curses.color_pair(9),
-            )
+
+            if is_focused() or not bool(self.config.get(Settings.MUTE_GAME_ON_FOCUS_LOSS)):
+                self.sound_engine.play_sound(SoundEffects.WALL_BOUNCE)
+
+            self.window.addstr(self.ball_pos_y, self.board_end_x, " ")
+            self.window.addstr(self.ball_pos_y, self.board_end_x, self.vertical_border)
 
             self.switch_ball_color()
 
         if self.ball_pos_x <= self.board_start_x:
             self.ball_pos_x = self.board_start_x + 1
             self.ball_speed_x = -self.ball_speed_x
+
+            if is_focused() or not bool(self.config.get(Settings.MUTE_GAME_ON_FOCUS_LOSS)):
+                self.sound_engine.play_sound(SoundEffects.WALL_BOUNCE)
+
             self.window.addstr(self.ball_pos_y, self.board_start_x, " ")
             self.window.addstr(
-                self.ball_pos_y,
-                self.board_start_x,
-                self.vertical_border,
-                curses.color_pair(9),
+                self.ball_pos_y, self.board_start_x, self.vertical_border
             )
 
             self.switch_ball_color()
@@ -160,7 +149,6 @@ class Main_menu(UI):
         curses.init_pair(6, curses.COLOR_RED, curses.COLOR_BLACK)
         curses.init_pair(7, curses.COLOR_GREEN, curses.COLOR_BLACK)
         curses.init_pair(8, curses.COLOR_YELLOW, curses.COLOR_BLACK)
-        curses.init_pair(9, curses.COLOR_BLACK, curses.COLOR_BLACK)
 
         self.window.attron(curses.color_pair(2))
 
@@ -189,49 +177,32 @@ class Main_menu(UI):
             )
 
         for y in range(self.board_start_y + 1, self.board_end_y):
-            self.window.addstr(
-                y, self.board_start_x, self.vertical_border, curses.color_pair(1)
-            )
+            self.window.addstr(y, self.board_start_x, self.vertical_border)
 
         self.window.addstr(
-            self.board_start_y,
-            self.board_start_x,
-            self.upper_left_corner,
-            curses.color_pair(1),
+            self.board_start_y, self.board_start_x, self.upper_left_corner
         )
         self.window.addstr(
-            self.board_start_y,
-            self.board_end_x,
-            self.upper_right_corner,
-            curses.color_pair(1),
+            self.board_start_y, self.board_end_x, self.upper_right_corner
         )
 
         for y in range(self.board_start_y + 1, self.board_end_y):
-            self.window.addstr(
-                y, self.board_end_x, self.vertical_border, curses.color_pair(1)
-            )
+            self.window.addstr(y, self.board_end_x, self.vertical_border)
 
         self.window.addstr(
-            self.board_end_y,
-            self.board_start_x,
-            self.bottom_left_corner,
-            curses.color_pair(1),
+            self.board_end_y, self.board_start_x, self.bottom_left_corner
         )
-        self.window.addstr(
-            self.board_end_y, self.board_end_x, self.bottom_right_corner
-        ), curses.color_pair(1)
+        self.window.addstr(self.board_end_y, self.board_end_x, self.bottom_right_corner)
 
         for x in range(self.board_start_x + 1, self.board_end_x):
-            self.window.addstr(
-                self.board_end_y, x, self.horizontal_border, curses.color_pair(1)
-            )
+            self.window.addstr(self.board_end_y, x, self.horizontal_border)
 
         self.ball_pos_y = (
-            self.board_end_y - self.board_start_y
-        ) // 2 + self.board_start_y
+                                  self.board_end_y - self.board_start_y
+                          ) // 2 + self.board_start_y
         self.ball_pos_x = (
-            self.board_end_x - self.board_start_x
-        ) // 2 + self.board_start_x
+                                  self.board_end_x - self.board_start_x
+                          ) // 2 + self.board_start_x
 
         self.window.attron(curses.A_BOLD)
         self.window.attron(curses.color_pair(3))
@@ -244,10 +215,10 @@ class Main_menu(UI):
         play_button = Button(
             self.board_end_y + 5,
             self.board_end_x // 3,
-            width=12,
             text="Play",
             text_color_pair_id=7,
             frame_color_pair_id=5,
+            width=14,
             key=keyboard.Key.enter,
             go_to=AppState.GAME,
             selected=self.selected_widget == 0,
@@ -256,10 +227,10 @@ class Main_menu(UI):
         exit_button = Button(
             self.board_end_y + 5,
             self.board_end_x - self.board_end_x // 3,
-            width=12,
             text="Exit",
             text_color_pair_id=6,
             frame_color_pair_id=5,
+            width=14,
             key=keyboard.Key.enter,
             go_to=AppState.EXIT,
             selected=self.selected_widget == 3,
@@ -270,7 +241,7 @@ class Main_menu(UI):
         settings_button = Button(
             self.board_end_y + 5,
             play_button.x + self.button_spacing,
-            width=12,
+            width=14,
             text="Settings",
             text_color_pair_id=1,
             frame_color_pair_id=5,
@@ -282,7 +253,7 @@ class Main_menu(UI):
         credits_button = Button(
             self.board_end_y + 5,
             settings_button.x + self.button_spacing,
-            width=12,
+            width=15,
             text="Credits",
             text_color_pair_id=1,
             frame_color_pair_id=5,
@@ -295,7 +266,6 @@ class Main_menu(UI):
         self.refresh()
 
         while True:
-            self.window.addstr(0, 0, str(self.selected_widget))
             if res := self.refresh():
                 break
             await self.move_ball()
