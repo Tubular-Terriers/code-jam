@@ -17,11 +17,14 @@ from .events import Error, MoveBar, MovePlayer, Sound
 
 
 class Engine:
-    def __init__(self, debug=False):
+    def __init__(self, debug=False, is_server=True):
         """Does not run until `#run` is called"""
         self.created_timestamp = time.time()
         self.running = True
         self.debug_render = None
+
+        self.is_server = is_server
+
         self.tickcount = 0
 
         self._hooks = {}
@@ -350,11 +353,13 @@ class Engine:
         # FIXME For now, only update self player
         self.player._update_bar()
 
-        self.spawner.cool()
-        if self.spawner.is_cooled():
-            self.spawner.spawn_ball(
-                self.space, self.width, self.height, self.register_entity
-            )
+        # Do server side updates
+        if self.is_server:
+            self.spawner.cool()
+            if self.spawner.is_cooled():
+                self.spawner.spawn_ball(
+                    self.space, self.width, self.height, self.register_entity
+                )
 
     def destroy(self):
         if self.debug_render:
