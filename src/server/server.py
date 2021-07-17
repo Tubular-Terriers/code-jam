@@ -84,7 +84,7 @@ class Server:
                         uuid = packet_data["packet_id"]
                         print(f"uuid was {uuid}")
 
-                    # Verify packet
+                    #    packet
                     if action_type == packet.Verify.ACTION:
                         if True or AuthManager.check(
                             pl["token"]

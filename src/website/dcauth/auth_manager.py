@@ -17,8 +17,11 @@ class AuthManager:
     def test(self):
         print(self.db)
 
-    def check(self, uid):
-        return uid in self.db.keys()
+    def check(self, key):
+        if len(key) == 36:  # it's uid
+            return key in self.db.keys()
+        elif len(key) == 64:  # it's token
+            return key in self.db.values()
 
     def add(self, uid):
         SECRET_SALT = os.environ.get("SALT")
