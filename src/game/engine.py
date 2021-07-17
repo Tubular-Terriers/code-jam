@@ -35,6 +35,17 @@ class Engine:
         self.entities = {}
         self.walls = []
 
+        self.key_map = {}
+        # Set initial keymap
+        self.key_map[MovePlayer.UP] = False
+        self.key_map[MovePlayer.DOWN] = False
+        self.key_map[MovePlayer.LEFT] = False
+        self.key_map[MovePlayer.RIGHT] = False
+        self.key_map[MoveBar.UP] = False
+        self.key_map[MoveBar.DOWN] = False
+        self.key_map[MoveBar.LEFT] = False
+        self.key_map[MoveBar.RIGHT] = False
+
         # def c(n, v):
         #     if n == Sound.ID:
         #         print(v)
@@ -292,22 +303,28 @@ class Engine:
 
     def load(self, data):
         # Loads all entities
-        processed_entities = set(self.entities)
-        for uuid, entity in data.items():
-            processed_entities.discard(uuid)
-            if uuid in self.entities:
-                self.entities[uuid].load_data(entity)
+        processed_entities = set(self.entities.keys())
+        print(len(processed_entities))
+        for entity_uuid, entity in data.items():
+            print(f"loading entity {entity_uuid}")
+            processed_entities.discard(entity_uuid)
+            if entity_uuid in self.entities:
+                self.entities[entity_uuid].load_data(entity)
                 continue
             # Create the entity
             if entity["type"] == EntityType.PLAYER:
-                self.add_player(uuid)
+                self.add_player(entity_uuid)
             elif entity["type"] == EntityType.BALL:
-                ball = Ball()
+                ball = Ball(entity_uuid)
                 ball.load_data(entity)
                 ball.add_space(self.space)
                 self.register_entity(ball)
         for d in processed_entities:
-            entity = self.entities[d]
+            entity = self.entities.get(d, None)
+            self.entities.pop(d, None)
+            print(f"deleting uuid {d} {entity is None}")
+            if entity is None:
+                continue
             try:
                 if entity.type == EntityType.PLAYER:
                     self.space.remove(*entity.bb, *entity.bcb)
@@ -316,7 +333,19 @@ class Engine:
                     self.space.remove(*ball.tuple)
                     self.remove_entity(entity)
             except Exception as e:
-                """Probably nothing happened"""
+                print(e)
+        # Just loop everything
+
+    def update_keymap(self, a, b, c, d, e, f, g, h):
+        # Set initial keymap
+        self.key_map[MovePlayer.UP] = a
+        self.key_map[MovePlayer.DOWN] = b
+        self.key_map[MovePlayer.LEFT] = c
+        self.key_map[MovePlayer.RIGHT] = d
+        self.key_map[MoveBar.UP] = e
+        self.key_map[MoveBar.DOWN] = f
+        self.key_map[MoveBar.LEFT] = g
+        self.key_map[MoveBar.RIGHT] = h
 
     def stop(self):
         for body in self.entities.values():
@@ -473,6 +502,13 @@ class Engine:
         if self.player is None:
             return
         self.player.process_bar_keys(keys)
+
+    def _process_player_keys(self, player_uuid, keys):
+        player = self.entities.get(player_uuid, None)
+        if player is None:
+            return
+        player.process_move_keys(keys)
+        player.process_bar_keys(keys)
 
     #########################################
     # Event emitter

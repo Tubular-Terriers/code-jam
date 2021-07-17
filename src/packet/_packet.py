@@ -39,5 +39,4 @@ class Packet:
             p["packet_id"] = str(self.packet_id)
         if self.client_id:
             p["client_id"] = str(self.client_id)
-        print(p)
         return json.dumps(p)

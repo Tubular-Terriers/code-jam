@@ -9,7 +9,7 @@ class GamePacket(Packet):
     def __init__(self, events=None, entities=None):
         super().__init__(self.ACTION)
         if events is None:
-            events = []
+            events = {}
         if entities is None:
             entities = []
         self.events = events
