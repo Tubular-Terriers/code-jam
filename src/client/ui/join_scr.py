@@ -20,7 +20,7 @@ class Join_game_scr(UI):
         super().__init__("join game")
         self.message = [
             "JOIN A GAME",
-            "please enter your code below to join the game.",
+            "Please enter your code below to join the game.",
         ]
         self.selected_widget = 0
 
@@ -47,18 +47,21 @@ class Join_game_scr(UI):
                 curses.color_pair(1),
             )
             y += 1
+            
         y += 1
+        
+        w = 10
         textbox = Box(
             3,
             15,
             (height // 2) + y,
-            (width - 30) // 2 - 5,
+            width // 2 - w // 2 - 2,
         )
         y += 4
         play_button = Button(
             (height // 2) + y,
             (width - 30) // 2 - 5,
-            text="start game",
+            text="Start game",
             text_color_pair_id=7,
             frame_color_pair_id=5,
             width=15,
@@ -69,7 +72,7 @@ class Join_game_scr(UI):
         exit_button = Button(
             (height // 2) + y,
             (width - 30) // 2 + 20,
-            text="go to main menu",
+            text="Back",
             text_color_pair_id=7,
             frame_color_pair_id=5,
             width=15,

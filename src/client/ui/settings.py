@@ -107,10 +107,6 @@ class Settings(UI):
             orientation=Orientation.VERTICAL,
         )
 
-        self.window.addstr(
-            self.height // 2 + (height // 2), self.width - width - 16, "Set increment"
-        )
-
         width = 55
         sfx_volume_slider = Slider(
             self.height // 2 - (height // 2),
@@ -118,17 +114,33 @@ class Settings(UI):
             text="LEFT/RIGHT",
             text_color_pair_id=4,
             frame_color_pair_id=5,
+            progress_color_pair_id=3,
+            progress_left_color_pair_id=7,
             width=width,
-            selected=True,  # self.selected_widget == 2 FIXME
+            selected=False,  # self.selected_widget == 2 FIXME
             progress=50,
         )
-
+        
+        music_volume_slider = Slider(
+            self.height // 2 - (height // 2) + 7,
+            self.width // 2 - (width // 2),
+            text="LEFT/RIGHT",
+            text_color_pair_id=4,
+            frame_color_pair_id=5,
+            progress_color_pair_id=3,
+            progress_left_color_pair_id=7,
+            width=width,
+            selected=False,  # self.selected_widget == 2 FIXME
+            progress=50,
+            )
+        
         self.widgets = [
             previous_menu_button,
             save_button,
             apply_button,
             self.increment_slider,
             sfx_volume_slider,
+            music_volume_slider
         ]
         self.refresh()
 
@@ -139,6 +151,23 @@ class Settings(UI):
             curses.doupdate()
             await asyncio.sleep(0.1)
         return res
+    
+    def draw_text(self, active_text):
+        self.window.addstr(
+            self.height // 2 + (height // 2), self.width - width - 16, "Set increment"
+        )
+
+        txt = "Sound Effects Volume"
+        self.window.addstr(
+            self.height // 2 - (height // 2) + 6,
+            self.width // 2 - (len(txt) // 2),
+            txt)
+
+        txt = "Music volume"
+        self.window.addstr(
+            self.height // 2 - (height // 2) + 13,
+            self.width // 2 - (len(txt) // 2),
+            txt)
 
     def update(self):
         self.increment = self.increment_slider.progress
