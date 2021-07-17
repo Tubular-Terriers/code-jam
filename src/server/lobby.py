@@ -20,10 +20,10 @@ class Lobby:
             # Get clients that are in this lobby
             event_stack = []
 
-            # def add_event(e, v):
-            #     event_stack.append(e)
+            def add_event(e, v):
+                event_stack.append(e)
 
-            # self.engine.hook(add_event)
+            self.engine.hook(add_event)
             while True:
                 dump = self.engine.dump()
                 print(dump)
