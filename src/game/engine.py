@@ -141,7 +141,7 @@ class Engine:
                     self._emit(MoveBar.ID, keys)
                 except Exception as e:
                     print(e)
-                    self._emit(Error.ID, e.message)
+                    self._emit(Error.ID, f"{e}")
 
             self.control = routine
             self.debug_render = DebugRender(self.space, self.destroy, process_key)
