@@ -38,6 +38,7 @@ class App:
         self.target_width = 130
 
         self.valid = True
+        self.game_code = None
 
         if not stdscr:
             li = os.get_terminal_size().lines

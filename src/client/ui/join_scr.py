@@ -64,7 +64,7 @@ class Join_game_scr(UI):
             width=15,
             go_to=AppState.GAME,
             key=keyboard.Key.enter,
-            selected=self.selected_widget == 0,
+            selected=self.selected_widget == 1,
         )
         exit_button = Button(
             (height // 2) + y,
@@ -75,14 +75,18 @@ class Join_game_scr(UI):
             width=15,
             go_to=AppState.MAIN_MENU,
             key=keyboard.Key.enter,
-            selected=self.selected_widget == 1,
+            selected=self.selected_widget == 2,
         )
 
         self.widgets = [textbox, play_button, exit_button]
         self.refresh()
-
+        self.input_manager = app.input_manager
+        self.register_input_managers(
+            *self.widgets
+        )
         while True:
             if res := self.refresh():
+                app.game_code = textbox.text
                 break
             curses.doupdate()
             await asyncio.sleep(0.08)
@@ -107,7 +111,12 @@ class Join_game_scr(UI):
             self.widgets[self.selected_widget].selected = True
 
         elif key == keyboard.Key.enter:
-            self.widgets[self.selected_widget].toggle()
+            if self.selected_widget >= 1:
+                self.widgets[self.selected_widget].toggle()
+            else:
+                self.widgets[self.selected_widget].press_on(key)
+        elif self.selected_widget == 0:
+            self.widgets[self.selected_widget].press_on(key)
 
 
 join_game = Join_game_scr()
