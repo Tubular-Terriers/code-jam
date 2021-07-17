@@ -1,18 +1,16 @@
 import asyncio
 import curses
+import sys
 import time
 from time import sleep
-import sys
 
+from appstate import AppState
 from pynput import keyboard
-from ui.widget.password import password
-
 from ui._ui import UI
+from ui.widget.password import password
 from ui.widget.progress_bar import ProgressBar
 from ui.widget.simple_button import Button
 from ui.widget.simple_textbox import Box
-from ui.widget.password import password
-from appstate import AppState
 
 
 class Menu(UI):
