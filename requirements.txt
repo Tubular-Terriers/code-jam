@@ -1,16 +1,6 @@
 # Requirements for the project, organized by subprojects
 # For example, the client run code does not require server modules
 
-# Client
-python-dotenv~=0.18.0
-pynput~=1.7.3
-pymunk~=6.0.0
-pypresence~=4.2.0
-
-# Server
-pynput~=1.7.3
-pymunk~=6.0.0
-
 appdirs==1.4.4
 asgiref==3.4.1
 bandit==1.7.0
