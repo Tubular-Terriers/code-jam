@@ -188,8 +188,8 @@ class GamePlay(UI):
                     if entity.horizontal:
                         # Hitbox
                         arm_y = int(p[1])
-                        arm_left = int(scx(p[0] - 25 / 2))
-                        arm_right = int(scx(p[0] + 25 / 2))
+                        arm_left = int(scx(p[0] - 12))
+                        arm_right = int(scx(p[0] + 13))
                         for i in range(arm_left, arm_right + 1):
                             pad.addch(arm_y, i, "─")
 

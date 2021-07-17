@@ -68,6 +68,7 @@ class Engine:
         self.ttc = 5
 
         self.ttc_tick = 0
+        self.ball_update_tick = 0
 
         self.space = pymunk.Space()
         self.space.gravity = 0, 0
@@ -307,6 +308,7 @@ class Engine:
         return li
 
     def load(self, data):
+        self.ball_update_tick = (self.ball_update_tick - 1) % 10 + 1
         # Loads all entities
         processed_entities = set(self.entities.keys())
         # print(len(processed_entities))
@@ -319,6 +321,8 @@ class Engine:
             if entity["type"] == EntityType.PLAYER:
                 self.add_player(entity_uuid)
             elif entity["type"] == EntityType.BALL:
+                if entity.update_id != self.ball_update_tick:
+                    continue
                 ball = Ball(entity_uuid)
                 ball.load_data(entity)
                 ball.add_space(self.space)
@@ -578,7 +582,7 @@ class DebugRender:
                     self.quitcb()
                     return
                 # Compensate for the calculation time in tick
-                await asyncio.sleep(1 / 60 - (time.time() - t))
+                await asyncio.sleep(1 / 40 - (time.time() - t))
         except asyncio.CancelledError:
             print("game closed")
             return

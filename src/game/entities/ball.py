@@ -1,3 +1,5 @@
+import random
+
 import pymunk
 
 from .. import category, collision_type
@@ -11,6 +13,8 @@ class Ball(Entity, pymunk.Body):
         pymunk.Body.__init__(self, mass=1, moment=1, body_type=pymunk.Body.DYNAMIC)
         self.BOUNCE_AMOUNT = 3
         self.bounce_count = 0
+
+        self.update_id = random.randint(0, 9)
 
         self.circle = pymunk.Circle(self, 1)
         self.circle.filter = pymunk.ShapeFilter(
@@ -36,3 +40,15 @@ class Ball(Entity, pymunk.Body):
 
     def is_last_bounce(self):
         return self.bounce_count == self.BOUNCE_AMOUNT
+
+    def load_data(self, data):
+        super().load_data(data)
+        self.bounce_count = data["bounce_count"]
+        self.update_id = data["update_id"]
+
+    def dump_data(self):
+        return {
+            **super().dump_data(),
+            "update_id": self.update_id,
+            "bounce_count": self.bounce_count,
+        }
