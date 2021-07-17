@@ -13,7 +13,7 @@ class Button(Widget):
         x,
         key,
         height=4,
-        width = 0,
+        width=0,
         text=None,
         frame_color_pair_id: int = None,
         text_color_pair_id: int = None,
