@@ -4,12 +4,12 @@ import traceback
 from types import SimpleNamespace
 
 import websockets
+from dotenv import load_dotenv
 
 import packet
 from website.dcauth.auth_manager import AuthManager
 
 from .lobby import Lobby
-from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -91,9 +91,7 @@ class Server:
 
                     #    packet
                     if action_type == packet.Verify.ACTION:
-                        if self.authmng.check(
-                            pl["TOKEN"]
-                        ):  # HERE HERE REMOVE OR
+                        if self.authmng.check(pl["TOKEN"]):  # HERE HERE REMOVE OR
                             self.send_sync(
                                 websocket, packet.Status(True, uuid=uuid).send()
                             )

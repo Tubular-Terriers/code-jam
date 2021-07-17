@@ -24,6 +24,7 @@ class GameEventEmitter:
 
         self.messages = {}
         self.tasks = {}
+        self.disconnected = False
 
         self.player_uuid = None
 
@@ -42,15 +43,18 @@ class GameEventEmitter:
 
         # send keymaps
         async def update_keymaps():
-            while True:
+            while not self.disconnected:
                 await asyncio.sleep(0.05)
                 if not self.game:
                     continue
 
                 async def sendc():
-                    return await self.websocket.send(
-                        packet.GamePacket(events=self.game.key_map).send()
-                    )
+                    try:
+                        return await self.websocket.send(
+                            packet.GamePacket(events=self.game.key_map).send()
+                        )
+                    except Exception:
+                        self.disconnected = True
 
                 asyncio.get_event_loop().create_task(sendc())
 

@@ -111,13 +111,13 @@ class Player(Entity, pymunk.Body):
         xv = 0
         yv = 0
         if keys.get(MovePlayer.UP, False):
-            yv -= 50
+            yv -= 100
         if keys.get(MovePlayer.DOWN, False):
-            yv += 50
+            yv += 100
         if keys.get(MovePlayer.LEFT, False):
-            xv -= 50
+            xv -= 100
         if keys.get(MovePlayer.RIGHT, False):
-            xv += 50
+            xv += 100
         self.velocity = (xv, yv)
 
     def process_bar_keys(self, keys: dict):

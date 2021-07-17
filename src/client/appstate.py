@@ -13,3 +13,4 @@ class AppState(Enum):
     CREDITS_SCR = auto()
     AUTH_SCR = auto()
     HOST_GAME = auto()
+    JOIN_GAME = auto()
