@@ -30,7 +30,7 @@ class Game_over(UI):
         self.message_text9 = "██     ██   ██  ██  ██▀▀▀ ██▄▄▄▄▄▀▀ "
         self.message_text10 = "██     ██   ██  █▀  ██    ██     ██ "
         self.message_text11 = "███▄▄▄███    ▀█▀    ██▄▄▄ ██     ██▄"
-        self.message_text12 = " you came #"+self.position+", better luck next time."
+        self.message_text12 = " you came #" + self.position + ", better luck next time."
         # print(self.message)
 
     async def view(self, app):
@@ -78,7 +78,10 @@ class Game_over(UI):
         self.window.attroff(curses.color_pair(2))
         self.window.attroff(curses.A_BOLD)
         self.window.addstr(
-            int((height / 2) + 4), int(width / 2) - 15, f"{self.message_text12}", curses.color_pair(1)
+            int((height / 2) + 4),
+            int(width / 2) - 15,
+            f"{self.message_text12}",
+            curses.color_pair(1),
         )
         self.refresh()
         menu_button = Button(
