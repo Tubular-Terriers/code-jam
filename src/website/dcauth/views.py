@@ -30,8 +30,11 @@ def Homepage(request):
     return render(request, "index.html")
 
 
-def login_via_discord(request):
+def devlog(request):
     return render(request, "devlog.html", {"pages": mdmng.parse()})
+
+
+def login_via_discord(request):
     REDIRECT_URI = f"{GAMESERVER_URL}login-success"
 
     discord_auth_url = (
