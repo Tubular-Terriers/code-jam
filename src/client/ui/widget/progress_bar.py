@@ -42,12 +42,10 @@ class ProgressBar(Widget):
         self.message_text = message_text
         self.message_alignment = message_alignment
         self.message = None if message_text is None else self._create_message_()
-        # print(self.message)
         self.window = curses.newwin(self.height, self.width + 3, self.y, self.x)
         self.progress = 0
 
     def refresh(self):
-        # self.window.erase()
         completed = int(self.progress * self.width)
 
         display = "\n┌" + "─" * self.width + "┐\n"
