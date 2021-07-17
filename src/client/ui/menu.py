@@ -2,15 +2,17 @@ import asyncio
 import curses
 import time
 from time import sleep
+import sys
 
 from pynput import keyboard
+from ui.widget.password import password
 
-from client.appstate import AppState
-
-from ._ui import UI
-from .widget.progress_bar import ProgressBar
-from .widget.simple_button import Button
-from .widget.simple_textbox import Box
+from ui._ui import UI
+from ui.widget.progress_bar import ProgressBar
+from ui.widget.simple_button import Button
+from ui.widget.simple_textbox import Box
+from ui.widget.password import password
+from appstate import AppState
 
 
 class Menu(UI):
@@ -27,7 +29,7 @@ class Menu(UI):
         my_bar = ProgressBar(width=32, y=1, x=0, message_text="Press space to exit")
         my_bar.set_progress(self.time)
         my_button = Button(2, 34, go_to=AppState.GAME_OVER)
-        editor = Box(3, 20, 5, 0)
+        editor = password(3, 20, 5, 0)
         # You can manually refresh them as well
         self.widgets = [my_bar, my_button, editor]
         self.input_manager = app.input_manager
