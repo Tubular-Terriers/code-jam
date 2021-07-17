@@ -326,7 +326,7 @@ class Engine:
         self.entities[entity.uuid] = entity
 
     def remove_entity(self, entity):
-        del self.entities[entity.uuid]
+        self.entities.pop(entity.uuid)
 
     async def run(self):
         # TODO: this method should be synchronous
@@ -426,7 +426,7 @@ class Engine:
         self._hooks[callback] = callback
 
     def unhook(self, callback):
-        del self._hooks[callback]
+        self._hooks.pop(callback)
 
 
 class DebugRender:
