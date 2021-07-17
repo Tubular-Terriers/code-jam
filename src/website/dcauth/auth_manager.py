@@ -47,7 +47,7 @@ class AuthManager:
     def apply(self):
         try:
             self.db_file.seek(0)
-          json.dump(self.db, self.db_file, ensure_ascii=False, indent=2)
+            json.dump(self.db, self.db_file, ensure_ascii=False, indent=2)
             return True
         except Exception:
             return False

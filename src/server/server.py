@@ -19,6 +19,10 @@ class Server:
 
         self.lobbies = {}
 
+        self.create_lobby()
+
+        self.counter = 0
+
     def run(self):
         start_server = websockets.serve(self.application, "localhost", self.port)
         asyncio.get_event_loop().run_until_complete(start_server)
@@ -40,8 +44,17 @@ class Server:
 
     async def application(self, websocket, path):
         # Ignore path
+        self.counter += 1
+        client_id = self.counter
         try:
+            w = self.clients[client_id] = SimpleNamespace()
+            w.lobby = None
+            w.token = None
+            w.verified = False
+            w.websocket = None
             async for message in websocket:
+                w.websocket = websocket
+                print(websocket.__hash__())
                 # Handle events
                 print(message)
                 packet_data = None
@@ -57,23 +70,6 @@ class Server:
                 if pl is None:
                     print("invalid payload")
                     continue
-
-                client_id = packet_data.get("client_id", None)
-                if client_id is None:
-                    print("packet didn't have client_id")
-                    return
-
-                if len(client_id) > 100:
-                    print("client id is too long")
-                    return
-
-                # Regiser the client
-                # There is no way to unregister a client at the moment
-                if client_id not in self.clients:
-                    w = self.clients[client_id] = SimpleNamespace()
-                    w.lobby = None
-                    w.token = None
-                    w.verified = False
 
                 # below might be triggered because of an invalid packet
                 # or because there was an internal server error
@@ -93,17 +89,17 @@ class Server:
                             self.send_sync(
                                 websocket, packet.Status(True, uuid=uuid).send()
                             )
-                            self.clients[client_id].verified = True
+                            w.verified = True
                             print(client_id)
                         else:
                             self.send_sync(packet.Status(False, "Invalid Token").send())
-                            self.clients[client_id].verified = False
-                        return
-
-                    if self.clients[client_id].verified:
+                            w.verified = False
+                        continue
+                    print(w.verified)
+                    if w.verified:
                         # Get lobby request
                         if action_type == packet.RequestLobby.ACTION:
-                            if self.clients[client_id].lobby:
+                            if w.lobby:
                                 # listen for game_init
                                 self.send_sync(
                                     websocket,
@@ -112,7 +108,15 @@ class Server:
                                     ).send(),
                                 )
                             else:
-                                pass
+                                # HERE HERE
+                                w.lobby = list(self.lobbies.values())[0]
+                                puuid = w.lobby.add_player()
+                                self.send_sync(
+                                    websocket,
+                                    packet.Status(True, str(puuid), uuid=uuid).send(),
+                                )
+                        if action_type == packet.GamePacket.ACTION:
+                            pass
                     else:
                         # Ignore the message
                         print("client sent a non verify packet without verification")
@@ -126,3 +130,5 @@ class Server:
             self.clients.pop(websockets)
         except Exception as e:
             traceback.print_exc()
+        finally:
+            self.clients.pop(client_id, None)

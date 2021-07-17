@@ -49,7 +49,7 @@ class Main_menu(UI):
         self.button_spacing = None
         self.colors_range = range(1, 9)
         self.selected_color = 1
-        self.selected_widget = 0
+        self.selected_widget = 1
         self.config = Config()
         self.sound_engine = SoundEffectsEngine(
             int(self.config.get(Settings.SFX_VOLUME))
@@ -220,25 +220,25 @@ class Main_menu(UI):
         self.window.attroff(curses.color_pair(3))
         self.window.attroff(curses.A_BOLD)
 
-        play_button = Button(
+        host_game_button = Button(
             self.board_end_y + 5,
             self.board_end_x // 6,
             text="Host a game",
             text_color_pair_id=7,
             frame_color_pair_id=5,
-            width=14,
+            width=17,
             key=keyboard.Key.enter,
-            go_to=AppState.GAME,
+            go_to=AppState.HOST_GAME,
             selected=self.selected_widget == 0,
         )
 
         join_game_button = Button(
             self.board_end_y + 5,
-            (self.board_end_x // 6) * 2,
-            text="join a game",
+            (self.board_end_x // 5) * 2,
+            text="Join a game",
             text_color_pair_id=7,
             frame_color_pair_id=5,
-            width=14,
+            width=17,
             key=keyboard.Key.enter,
             go_to=AppState.GAME,
             selected=self.selected_widget == 1,
@@ -247,7 +247,7 @@ class Main_menu(UI):
         settings_button = Button(
             self.board_end_y + 5,
             (self.board_end_x // 6) * 3,
-            width=14,
+            width=18,
             text="Settings",
             text_color_pair_id=1,
             frame_color_pair_id=5,
@@ -259,7 +259,7 @@ class Main_menu(UI):
         credits_button = Button(
             self.board_end_y + 5,
             (self.board_end_x // 6) * 4,
-            width=15,
+            width=17,
             text="Credits",
             text_color_pair_id=1,
             frame_color_pair_id=5,
@@ -274,13 +274,13 @@ class Main_menu(UI):
             text="Exit",
             text_color_pair_id=6,
             frame_color_pair_id=5,
-            width=14,
+            width=18,
             key=keyboard.Key.enter,
             go_to=AppState.EXIT,
             selected=self.selected_widget == 4,
         )
         self.widgets = [
-            play_button,
+            host_game_button,
             join_game_button,
             settings_button,
             credits_button,
