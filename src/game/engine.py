@@ -11,19 +11,24 @@ import pymunk.pygame_util
 from . import category, collision_type
 from .entities.ball import Ball
 from .entities.border import Border
+from .entities.entity_type import EntityType
 from .entities.player import Player
 from .entities.spawner import Spawner
 from .events import Error, MoveBar, MovePlayer, Sound
 
 
 class Engine:
-    def __init__(self, debug=False, is_server=True):
+    def __init__(
+        self, debug=False, is_server=True, is_client=True, ignore_self_control=False
+    ):
         """Does not run until `#run` is called"""
         self.created_timestamp = time.time()
         self.running = True
         self.debug_render = None
 
+        self.ignore_self_control = ignore_self_control
         self.is_server = is_server
+        self.is_client = True
 
         self.tickcount = 0
 
@@ -32,6 +37,19 @@ class Engine:
 
         self.entities = {}
         self.walls = []
+
+        self.key_map = {}
+        # Set initial keymap
+        self.key_map[MovePlayer.UP] = False
+        self.key_map[MovePlayer.DOWN] = False
+        self.key_map[MovePlayer.LEFT] = False
+        self.key_map[MovePlayer.RIGHT] = False
+        self.key_map[MoveBar.UP] = False
+        self.key_map[MoveBar.DOWN] = False
+        self.key_map[MoveBar.LEFT] = False
+        self.key_map[MoveBar.RIGHT] = False
+
+        self.playerUUID = ""
 
         # def c(n, v):
         #     if n == Sound.ID:
@@ -50,17 +68,19 @@ class Engine:
         self.ttc = 5
 
         self.ttc_tick = 0
+        self.ball_update_tick = 0
 
         self.space = pymunk.Space()
         self.space.gravity = 0, 0
         self.coroutine = None
-        self.ball_body = None
 
         self.space.static_body.filter = pymunk.ShapeFilter(
             categories=category.WALL, mask=category.MASK.WALL
         )
 
         self.space.static_body
+
+        self.player = None
 
         # b = pymunk.Body(1, 1)
         # self.space.add(b)
@@ -77,12 +97,11 @@ class Engine:
 
         # self.register_entity(p)
 
-        s = Spawner(1000)
-        self.spawner = s
+        s = Spawner(100)
         s.position = (self.width // 2, self.height // 2)
         s.add_space(self.space)
 
-        self.register_entity(self.spawner)
+        self.register_entity(s)
 
         # try:
         #     self.ball = Ball()
@@ -111,6 +130,8 @@ class Engine:
             # Process callbacks
             def process_key(key):
                 """Process key events passed from pygame window"""
+                if self.player is None:
+                    return
                 if key == pygame.K_SPACE:
                     print("space pressed")
                     self.temp = self.player.dump_data()
@@ -135,18 +156,27 @@ class Engine:
                     self._emit(MoveBar.ID, keys)
                 except Exception as e:
                     print(e)
-                    self._emit(Error.ID, e.message)
+                    self._emit(Error.ID, f"{e}")
 
             self.control = routine
             self.debug_render = DebugRender(self.space, self.destroy, process_key)
 
         def on_hitbox_ball_hit(arbiter, space, data):
             """`arbiter.shapes[0]` is hitbox, `arbiter.shapes[1]` is ball"""
-            self.space.remove(arbiter.shapes[1])
-            self.remove_entity(arbiter.shapes[1].body)
-            self._emit(Sound.ID, Sound.PLAYER_DAMAGE)
-            if arbiter.shapes[0].body:
-                pass  # HERE HERE
+            if (arbiter.shapes[0].horizontal and arbiter.shapes[0].body.horizontal) or (
+                not arbiter.shapes[0].horizontal
+                and not arbiter.shapes[0].body.horizontal
+            ):
+
+                self._emit(Sound.ID, Sound.PLAYER_DAMAGE)
+                self.space.remove(
+                    *arbiter.shapes[1].body.tuple,
+                    *arbiter.shapes[0].body.bcb,
+                    *arbiter.shapes[0].body.bb,
+                )
+                self.remove_entity(arbiter.shapes[0].body)
+                self.remove_entity(arbiter.shapes[1].body)
+                return True
             return False
 
         ch = self.space.add_collision_handler(collision_type.BALL, collision_type.WALL)
@@ -156,10 +186,12 @@ class Engine:
         ch.pre_solve = on_hitbox_ball_hit
 
         def on_collision_ball_hit(arbiter, space, data):
-            # TODO: implement ball curving
             self._emit(Sound.ID, Sound.PADDLE_BOUNCE)
 
-            self.ball.ownerUUID = self.player.uuid
+            ball = arbiter.shapes[0].body
+            player = arbiter.shapes[1].body
+
+            ball.ownerUUID = player.uuid
 
             def _map(p, x1, x2, dx1, dx2) -> float:  # A simple range mapper
                 return ((dx2 - dx1) * ((p - x1) / (x2 - x1))) + dx1
@@ -167,48 +199,48 @@ class Engine:
             poly = arbiter.shapes[0]
             collided = arbiter.shapes[1]
 
-            print("colided: ", collided)
+            # print("colided: ", collided)
             space_vertices = []
             for v in poly.get_vertices():
                 x, y = v.rotated(poly.body.angle) + poly.body.position
                 space_vertices.append((x, y))
 
             cx, cy = arbiter.contact_point_set.points[0].point_a  # Contact points
-            print("Contact Points: (x, y): ", cx, cy)
+            # print("Contact Points: (x, y): ", cx, cy)
             # Actual shape corners
             x1, y1 = space_vertices[0]
             x2, y2 = space_vertices[2]
-            print("World Corners (x1, x2): ", x1, x2)
-            print("World Corners (y1, y2): ", y1, y2)
+            # print("World Corners (x1, x2): ", x1, x2)
+            # print("World Corners (y1, y2): ", y1, y2)
 
             # Local shpe corners
             lx1, ly1 = x1 - x1, y1 - y1
             lx2, ly2 = x2 - x1, y2 - y1
             lcx, lcy = cx - x1, cy - y1
-            print("Local Corners (x1, x2): ", lx1, lx2)
-            print("Local Corners (y1, y2): ", ly1, ly2)
-            print("Local Contact (x, y): ", lcx, lcy)
+            # print("Local Corners (x1, x2): ", lx1, lx2)
+            # print("Local Corners (y1, y2): ", ly1, ly2)
+            # print("Local Contact (x, y): ", lcx, lcy)
 
             w = abs(lx2 - lx1)  # Width
             h = abs(ly2 - ly1)  # Height
-            print("Width & Height: ", w, h)
+            # print("Width & Height: ", w, h)
 
             # Biased coordinates
             tx1, tx2 = lx1 - w // 2, lx2 - w // 2
             ty1, ty2 = ly1 - h // 2, ly2 - h // 2
             tcx, tcy = lcx - w // 2, lcy - h // 2
 
-            print("Biased Range (x1, x2): ", tx1, tx2)
-            print("Biased Range (y1, y2): ", ty1, ty2)
-            print("Biased Contact (x, y): ", tcx, tcy)
+            # print("Biased Range (x1, x2): ", tx1, tx2)
+            # print("Biased Range (y1, y2): ", ty1, ty2)
+            # print("Biased Contact (x, y): ", tcx, tcy)
 
             # Angular range
             a1, a2 = -90, 90
-            print("Angular range: ", a1, a2)
+            # print("Angular range: ", a1, a2)
 
             # Interpolated coordinates
             mx, my = _map(tcx, tx1, tx2, a1, a2), _map(tcy, ty1, ty2, a1, a2)
-            print("Mapped: ", mx, my)
+            # print("Mapped: ", mx, my)
 
             # Setting vector directions manually
             dirx = 1 if mx > 0 else -1
@@ -222,7 +254,7 @@ class Engine:
                 my *= diry  # Make my > 0
             elif y2 - cy < 0:  # Upper collision
                 my *= -diry  # Make my < 0
-            print("Directed: ", mx, my)
+            # print("Directed: ", mx, my)
 
             magnitude = 70  # In order to get real velocity data
             nx, ny = (
@@ -230,7 +262,7 @@ class Engine:
                 math.sin(math.radians(my)) * magnitude,
             )
 
-            print("Velocity: ", nx, ny)
+            # print("Velocity: ", nx, ny)
 
             collided.body.velocity = nx, ny
 
@@ -241,7 +273,7 @@ class Engine:
 
         def on_collision_ball_bounce(arbiter, space, data):
             ball = arbiter.shapes[0].body
-            ball.bounce_count += 1
+
             if ball.is_last_bounce():
                 self.space.remove(*ball.tuple)
                 self.remove_entity(ball)
@@ -249,6 +281,7 @@ class Engine:
                 #     self.space._remove_body, self.entities[ball.uuid]
                 # )
                 # remove the ball
+            ball.bounce_count += 1
 
         ch_collision_wall = self.space.add_collision_handler(
             collision_type.WALL, collision_type.BALL
@@ -257,7 +290,7 @@ class Engine:
         ch_collision_wall.post_solve = on_collision_ball_bounce
 
         def on_collision_ball_strike(arbiter, space, data):  # FIXME change the name
-            print("huura")
+            # print("huura")
             return True
 
         ch_collision_border = self.space.add_collision_handler(
@@ -266,30 +299,114 @@ class Engine:
 
         ch_collision_border.post_solve = on_collision_ball_strike
 
-    def update_entity_speed(self, uuid, *amount):
-        # HERE HERE
-        # FIX THIS
-        # self.entities[uuid].velocity = amount
-        pass
+    # def reset(self):
+    #     for body in self.entities.values():
+    #         body.reset()
+    #         if body.type == "player":
+    #             self.space.remove(*list(set.union(*body.tuple)))
+    #         else:
+    #             self.space.remove(*body.tuple)
+
+    def dump(self):
+        # Dumps all entities
+        li = {}
+        for entity in list(self.entities.values()):
+            li[str(entity.uuid)] = entity.dump_data()
+        return li
+
+    def load(self, data):
+        self.ball_update_tick = (self.ball_update_tick - 1) % 10 + 1
+        # Loads all entities
+        processed_entities = set(self.entities.keys())
+        # print(len(processed_entities))
+        for entity_uuid, entity in data.items():
+            processed_entities.discard(entity_uuid)
+            if entity_uuid in self.entities:
+                self.entities[entity_uuid].load_data(entity)
+                continue
+            # Create the entity
+            if entity["type"] == EntityType.PLAYER:
+                self.add_player(entity_uuid)
+            elif entity["type"] == EntityType.BALL:
+                if entity.update_id != self.ball_update_tick:
+                    continue
+                ball = Ball(entity_uuid)
+                ball.load_data(entity)
+                ball.add_space(self.space)
+                self.register_entity(ball)
+        for d in processed_entities:
+            entity = self.entities.get(d, None)
+            self.entities.pop(d, None)
+            if entity is None:
+                continue
+            try:
+                if entity.type == EntityType.PLAYER:
+                    self.space.remove(*entity.bb, *entity.bcb)
+                    self.remove_entity(entity)
+                elif entity.type == EntityType.BALL:
+                    self.space.remove(*entity.tuple)
+                    self.remove_entity(entity)
+            except Exception as e:
+                print(e)
+        # Just loop everything
+
+    def update_keymap(self, a, b, c, d, e, f, g, h):
+        # Set initial keymap
+        self.key_map[MovePlayer.UP] = a
+        self.key_map[MovePlayer.DOWN] = b
+        self.key_map[MovePlayer.LEFT] = c
+        self.key_map[MovePlayer.RIGHT] = d
+        self.key_map[MoveBar.UP] = e
+        self.key_map[MoveBar.DOWN] = f
+        self.key_map[MoveBar.LEFT] = g
+        self.key_map[MoveBar.RIGHT] = h
+
+    # def stop(self):
+    #     for body in self.entities.values():
+    #         if body.body_type != 2:  # if not static
+    #             body.sleep()
+    #     return True
+
+    # def start(self):
+    #     for body in self.entities.values():
+    #         if body.body_type != 2:  # if not static
+    #             body.activate()
+    #     return True
+
+    def get_player_count(self):
+        return sum(1 for body in self.entities.values() if body.type == "player")
+
+    def remove_player(self, uuid):
+        if uuid not in self.entities:  # check if entity.type == player
+            return
+        self.space.remove(self.entities[uuid])
+        self.remove_entity(self.entities[uuid])
+        return True
 
     def is_player_bordered(self):
         pass
 
-    def add_player(self, uuid=None):
+    def add_player(self, uuid=None, owner=False):
         p = Player(uuid)
-        # In the server, this is changed multiple times
-        # But it wont matter that much
-        self.player = p
         p.position = (100, 200)
+        self.player = p
+        if owner:
+            self.playerUUID = uuid
         p.add_space(self.space)
 
         self.register_entity(p)
 
         return p.uuid
 
+    def is_dead(self):
+        if self.entities.get(self.playerUUID, None) is None:
+            return True
+        return False
+
     def load_mapdata(self):
         """
         We are NOT going to pass this through websockets. TLDR; downloading maps is impossible
+
         This is a method for dividing up modules so code does not get clogged up
         """
         from .default_map import data
@@ -321,7 +438,7 @@ class Engine:
         self.entities[entity.uuid] = entity
 
     def remove_entity(self, entity):
-        del self.entities[entity.uuid]
+        self.entities.pop(entity.uuid, None)
 
     async def run(self):
         # TODO: this method should be synchronous
@@ -336,29 +453,37 @@ class Engine:
                 await asyncio.sleep(t - time.time() + 1 / self.tps)
         except asyncio.CancelledError:
             print("run loop is terminated")
+        except Exception as e:
+            traceback.print_exc()
 
     def tick(self):
         # Update global tick count
         self.tickcount += 1
 
-        # Do controller
-        self.ttc_tick += 1
-        if self.ttc_tick == self.ttc:
-            self.control()
-            self.ttc_tick = 0
-        self.space.step(1 / self.tps)
-
-        # For all players, update their bounding box
-        # FIXME For now, only update self player
-        self.player._update_bar()
-
         # Do server side updates
         if self.is_server:
-            self.spawner.cool()
-            if self.spawner.is_cooled():
-                self.spawner.spawn_ball(
-                    self.space, self.width, self.height, self.register_entity
-                )
+            for entity in list(self.entities.values()):
+                if entity.type == EntityType.SPAWNER:
+                    spawner = entity
+                    spawner.cool()
+                    if spawner.is_cooled():
+                        spawner.spawn_ball(
+                            self.space, self.width, self.height, self.register_entity
+                        )
+                elif entity.type == EntityType.PLAYER:
+                    if entity.uuid == self.playerUUID:
+                        if self.ignore_self_control:
+                            continue
+                    player = entity
+                    player._update_bar()
+
+        if self.is_client:
+            # Do controller
+            self.ttc_tick += 1
+            if self.ttc_tick == self.ttc:
+                self.control()
+                self.ttc_tick = 0
+            self.space.step(1 / self.tps)
 
     def destroy(self):
         if self.debug_render:
@@ -385,10 +510,22 @@ class Engine:
 
     def _move_player_keys(self, keys) -> None:
         """`keys` dict where [MovePlayer.KEY] is True or False"""
+        if self.player is None:
+            return
         self.player.process_move_keys(keys)
 
     def _move_bar_keys(self, keys) -> None:
+        if self.player is None:
+            return
         self.player.process_bar_keys(keys)
+
+    def _process_player_keys(self, player_uuid, keys):
+
+        player = self.entities.get(player_uuid, None)
+        if player is None:
+            return
+        player.process_move_keys(keys)
+        player.process_bar_keys(keys)
 
     #########################################
     # Event emitter
@@ -409,12 +546,13 @@ class Engine:
     def hook(self, callback):
         """
         Emits events using the value
+
         `callback(event_name, event_value)`
         """
         self._hooks[callback] = callback
 
     def unhook(self, callback):
-        del self._hooks[callback]
+        self._hooks.pop(callback)
 
 
 class DebugRender:
@@ -445,7 +583,7 @@ class DebugRender:
                     self.quitcb()
                     return
                 # Compensate for the calculation time in tick
-                await asyncio.sleep(1 / 60 - (time.time() - t))
+                await asyncio.sleep(1 / 40 - (time.time() - t))
         except asyncio.CancelledError:
             print("game closed")
             return
@@ -464,7 +602,8 @@ class DebugRender:
             except AttributeError:
                 pass
             except Exception as e:
-                print(e)
+                pass
+                # print(e)
         self.screen.fill("WHITE")
         self.space.debug_draw(self.draw_options)
         pygame.display.update()
