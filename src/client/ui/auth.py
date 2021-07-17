@@ -140,7 +140,10 @@ class Auth(UI):
             self.widgets[self.selected_widget].selected = True
 
         elif key == keyboard.Key.enter:
-            self.widgets[self.selected_widget].toggle()
+            if self.selected_widget == 1:
+                self.widgets[self.selected_widget].toggle()
+            elif self.selected_widget == 0:
+                self.open_auth_page()
 
 
 auth = Auth()

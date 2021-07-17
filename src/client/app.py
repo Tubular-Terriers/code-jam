@@ -145,9 +145,9 @@ class App:
             elif self.state == AppState.CREDITS_SCR:
                 self.state = await self.set_ui(self.ui.credit)
             elif self.state == AppState.SETTINGS_SCR:
-                self.state == await self.set_ui(self.ui.settings)
+                self.state = await self.set_ui(self.ui.settings)
             elif self.state == AppState.AUTH_SCR:
-                self.state == await self.set_ui(self.ui.auth)
+                self.state = await self.set_ui(self.ui.auth)
             elif self.state == AppState.EXIT:
                 break
             else:
