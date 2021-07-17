@@ -1,5 +1,6 @@
 import asyncio
 import curses
+import traceback
 
 from pynput import keyboard
 
@@ -14,8 +15,6 @@ from ._ui import UI
 from .widget.progress_bar import ProgressBar
 from .widget.simple_button import Button
 from .widget.simple_textbox import Box
-
-import traceback
 
 
 def clamp(a, b, c):
