@@ -7,7 +7,7 @@ import websockets
 
 import packet
 
-from ..website.dcauth.auth_manager import AuthManager
+from website.dcauth.auth_manager import AuthManager
 from .lobby import Lobby
 
 
@@ -84,7 +84,7 @@ class Server:
                         uuid = packet_data["packet_id"]
                         print(f"uuid was {uuid}")
 
-                    # Verify packet
+                    #    packet
                     if action_type == packet.Verify.ACTION:
                         if AuthManager.check(uuid):  # HERE HERE ADD AUTH
                             self.send_sync(
