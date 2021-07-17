@@ -40,8 +40,8 @@ class Main_menu(UI):
         self.ball = "●"
         self.ball_pos_x = None
         self.ball_pos_y = None
-        self.ball_speed_y = random.choice([num for num in range(-2, 2) if num != 0])
-        self.ball_speed_x = random.choice([num for num in range(-2, 2) if num != 0])
+        self.ball_speed_y = random.choice([num for num in range(-1, 1) if num != 0])
+        self.ball_speed_x = random.choice([num for num in range(-1, 1) if num != 0])
         self.board_start_y = None
         self.board_end_y = None
         self.board_start_x = 10
