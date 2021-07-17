@@ -241,7 +241,7 @@ class Main_menu(UI):
             width=14,
             key=keyboard.Key.enter,
             go_to=AppState.GAME,
-            selected=self.selected_widget == 0,
+            selected=self.selected_widget == 1,
         )
 
         settings_button = Button(
@@ -253,7 +253,7 @@ class Main_menu(UI):
             frame_color_pair_id=5,
             key=keyboard.Key.enter,
             go_to=AppState.SETTINGS_SCR,
-            selected=self.selected_widget == 1,
+            selected=self.selected_widget == 2,
         )
 
         credits_button = Button(
@@ -265,7 +265,7 @@ class Main_menu(UI):
             frame_color_pair_id=5,
             key=keyboard.Key.enter,
             go_to=AppState.CREDITS_SCR,
-            selected=self.selected_widget == 2,
+            selected=self.selected_widget == 3,
         )
 
         exit_button = Button(
@@ -277,7 +277,7 @@ class Main_menu(UI):
             width=14,
             key=keyboard.Key.enter,
             go_to=AppState.EXIT,
-            selected=self.selected_widget == 3,
+            selected=self.selected_widget == 4,
         )
         self.widgets = [
             play_button,

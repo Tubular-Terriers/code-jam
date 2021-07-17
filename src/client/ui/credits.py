@@ -44,9 +44,10 @@ class Credits(UI):
         # Required
         super().view(app)
         self.height, self.width = self.window.getmaxyx()
-        for _ in range(self.stars_count):
-            self.locations_x.append(random.randint(0, self.width - 1))
-            self.locations_y.append(random.randint(0, self.height - 1))
+        if len(self.locations_x) == 0:
+            for _ in range(self.stars_count):
+                self.locations_x.append(random.randint(0, self.width - 1))
+                self.locations_y.append(random.randint(0, self.height - 1))
         curses.start_color()
         curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)
         curses.init_pair(2, 215, curses.COLOR_BLACK)
@@ -57,8 +58,8 @@ class Credits(UI):
         curses.init_pair(7, curses.COLOR_GREEN, curses.COLOR_BLACK)
         curses.init_pair(8, curses.COLOR_YELLOW, curses.COLOR_BLACK)
 
-        width = 25
-        menu_button = Button(
+        width = 12
+        self.menu_button = Button(
             self.height - self.height // 5,
             self.width // 2 - (width // 2),
             text_color_pair_id=4,
@@ -70,12 +71,12 @@ class Credits(UI):
             selected=True,
         )
 
-        self.widgets = [menu_button]
-
+        self.widgets = [self.menu_button]
+        self.draw()
         self.refresh()
 
         while True:
-            if res := self.refresh():
+            if res := self.menu_button.refresh():
                 break
             self.draw()
             curses.doupdate()
