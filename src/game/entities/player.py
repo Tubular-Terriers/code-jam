@@ -59,14 +59,13 @@ class Player(Entity, pymunk.Body):
             )
             return b
 
-        if not self.horizontal:
-            self.hitbox_vert = hb_fact(self.hitbox_width, 0)
-            self.bb = self, self.bounding_box, self.hitbox_vert
-        else:
-            self.hitbox_hori = (
-                hb_fact(0, self.hitbox_width) if self.horizontal else None
-            )
-            self.bb = self, self.bounding_box, self.hitbox_hori
+        self.hitbox_vert = hb_fact(self.hitbox_width, 0)
+        self.hitbox_hori = hb_fact(0, self.hitbox_width)
+
+        self.hitbox_vert.horizontal = False
+        self.hitbox_hori.horizontal = True
+
+        self.bb = self, self.bounding_box, self.hitbox_hori, self.hitbox_vert
 
         ##################################################
         # This is a whole different body on top of player
@@ -141,6 +140,16 @@ class Player(Entity, pymunk.Body):
             if self.horizontal:
                 # Align the bar first
                 self.bar_loc = copysign(self.bar_loc, bar_vert)
+                # self.hitbox_vert.collision_type = collision_type.HITBOX
+                # self.hitbox_vert.filter = pymunk.ShapeFilter(
+                #     categories=category.HITBOX, mask=category.MASK.HITBOX
+                # )
+                # self.hitbox_hori.collision_type = collision_type.VOID
+                # self.hitbox_hori.filter = pymunk.ShapeFilter(
+                #     categories=category.VOID, mask=category.MASK.VOID
+                # )
+                # self.hitbox_vert.update()
+                # self.hitbox_hori.update()
             # Apply the position change
             self.bar_loc += copysign(self.bar_speed, bar_vert)
             self.horizontal = False
@@ -149,6 +158,16 @@ class Player(Entity, pymunk.Body):
             if not self.horizontal:
                 # Align the bar first
                 self.bar_loc = copysign(self.bar_loc, bar_hori)
+                # self.hitbox_hori.collision_type = collision_type.VOID
+                # self.hitbox_hori.filter = pymunk.ShapeFilter(
+                #     categories=category.VOID, mask=category.MASK.VOID
+                # )
+                # self.hitbox_vert.collision_type = collision_type.HITBOX
+                # self.hitbox_vert.filter = pymunk.ShapeFilter(
+                #     categories=category.HITBOX, mask=category.MASK.HITBOX
+                # )
+                # self.hitbox_vert.update()
+                # self.hitbox_hori.update()
             # Apply the position change
             self.bar_loc += copysign(self.bar_speed, bar_hori)
             self.horizontal = True
@@ -180,8 +199,14 @@ class Player(Entity, pymunk.Body):
         """Callback"""
 
     def load_data(self, data):
-        super().load_data({**data, "bar_loc": self.bar_loc})
+        super().load_data(data)
+        self.bar_loc = data["bar_loc"]
+        self.horizontal = data["horizontal"]
 
     def dump_data(self):
-        data = {**super().dump_data(), "bar_loc": self.bar_loc}
+        data = {
+            **super().dump_data(),
+            "bar_loc": self.bar_loc,
+            "horizontal": self.horizontal,
+        }
         return data
