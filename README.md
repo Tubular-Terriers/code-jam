@@ -47,6 +47,30 @@ The first game ever developed was `Pong` in `Nov 29, 1972`. The game was nothing
 `data pipelines`
 > The game data can go in all places. It is important to know whether a module is above or below another. Sometimes, two modules have to coexist. This is why a nice data pipeline diagram can help our developers make modules.
 
+# The execution
+
+The execution is documented in `devlog/README.md`
+
+# Ending remarks
+
+Although we planned various elements ahead, we ran out of time. The end product is not even near its full potential.
+
+We doubt that we will win this jam but if we ever get to do another,
+
+We know that our team has created and developed one of the most ambitious projects in programming history
+
+ `pymunk`, `pygame`, `curses`, `advanced keyboard io stacks`, `event handlers`, `websockets`, `server verification and validation`, `django`, `sounds`, `json`, `application state manager`, `ui/data pipelines` etc all in 7 days
+
+Honestly, we do think that we overestimated our team's capabilities, but we are sure that once we pushed these limits, its gonna be much easier to reach them later
+
+A lot of the ui code and game engine elements have common themes that are exhibit in a lot of code that we will see later in our development journey
+
+Learning these structures can help us determine the next "logic" to achieve something.
+
+We hope that this jam taught us lessons.
+
+Every member was glad to have others as their 'team'
+
 # Developers
 
 > [nopeless](https://github.com/nopeless) - Team leader  
