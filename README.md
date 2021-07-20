@@ -81,10 +81,16 @@ Every member was glad to have others as their 'team'
 
 [YouTube](https://youtu.be/J6de4888TLU) - created by [nobalpha](https://github.com/nobalpha)
 
+![image](https://cdn.discordapp.com/attachments/862242420863139855/867091191665393694/GIj88ZdqXW.gif)
+
+(Since the physics engine has a bug, it is really hard to capture a ball bounce)
+
+![image](https://cdn.discordapp.com/attachments/862242420863139855/867091322057130054/pn9dni47Xs.gif)
+
 # Developers
 
 [nopeless](https://github.com/nopeless) (nope#6924) - Team leader
-> Lobying system, websocket configuration, authentication, real-time server game engine          construction, network manager, engine simulation to terminal rendering, player based camera, level & entity management
+> Lobying system, websocket configuration, authentication, real-time server game engine construction, network manager, engine simulation to terminal rendering, player based camera, level & entity management
 
 [Nickhil](https://github.com/Nickhil1737) (Nikhil#2622) - Team member
 > Full stack web page creation, backend authentication, django management
