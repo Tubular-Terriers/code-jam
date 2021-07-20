@@ -83,9 +83,20 @@ Every member was glad to have others as their 'team'
 
 # Developers
 
-> [nopeless](https://github.com/nopeless) - Team leader  
-> [Nickhil](https://github.com/Nickhil1737) - Team member  
-> [MePhew](https://github.com/Me-Phew) - Team member  
-> [Karthik_Mv](https://github.com/karthikmurakonda) - Team member  
-> [nobalpha](https://github.com/nobalpha) - Team member  
-> [madara uchiha](https://github.com/pritansh-sahsani) - Team member
+[nopeless](https://github.com/nopeless) (nope#6924) - Team leader
+> Lobying system, websocket configuration, authentication, real-time server game engine          construction, network manager, engine simulation to terminal rendering, player based camera, level & entity management
+
+[Nickhil](https://github.com/Nickhil1737) (Nikhil#2622) - Team member
+> Full stack web page creation, backend authentication, django management
+
+[MePhew](https://github.com/Me-Phew) (MePhew#2137) - Team member
+> Sound engine integration, main menu and credits page, discord rich presence
+
+[Karthik_Mv](https://github.com/karthikmurakonda) (karthik Mv#4674)- Team member
+> UI population, main menu, host a game and lobby page creation
+
+[nobalpha](https://github.com/nobalpha) (joshuqa#8200)- Team member
+> Early game engine prototyping, primitive simulation to terminal render engine, simple randomized map generation, custom map configuration, entity management, authentication + db design, small game logic and physics contributions
+
+[madara uchiha](https://github.com/pritansh-sahsani) (Madara Uchiha#3369)- Team member
+> Visual designer, logo creation, website and game frontend designer
