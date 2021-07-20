@@ -1,6 +1,12 @@
-# This will be the final md file that will replace `README.md`
+# Poing, the obvious remix
 
-nopeless will take care of renaming/deleting the readme files before submitting
+Most people, when thinking of revolutionary game ideas, try to make their game nothing like the games before. We took a "Think Inside The Box" approach.
+
+# The box
+
+The first game ever developed was `Pong` in `Nov 29, 1972`. The game was nothing in terms of graphics, controls and even user interface. Fast forward to `2021` we now have all the technology to make this old fashioned game one of the leading multiplayer one
+
+# The The plan
 
 # Developers
 
