@@ -77,6 +77,10 @@ We hope that this jam taught us lessons.
 
 Every member was glad to have others as their 'team'
 
+# Video showcase
+
+[YouTube](https://youtu.be/J6de4888TLU) - created by [nobalpha](https://github.com/nobalpha)
+
 # Developers
 
 > [nopeless](https://github.com/nopeless) - Team leader  
