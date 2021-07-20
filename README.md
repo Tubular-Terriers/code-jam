@@ -8,6 +8,12 @@ The first game ever developed was `Pong` in `Nov 29, 1972`. The game was nothing
 
 # The plan
 
+## One task: create a modern pong game, with no compromises
+
+We saw potential in this pong game; we are sure that with the new technology we have, the pong game can be fun to play just as other modern games
+
+So, we obviously had to glue together multiple aspects. Here are all the libraries/core elements we had to implement
+
 `pymunk`
 > An actual physics engine that can handle better edge cases than traditional ones. It also allows customization of collisions which allows us to create conditional physics. Compared to the silly 1 dimensional space in `Pong`, this new engine will allow a new experience to a low resolution physics sim
 
