@@ -1,6 +1,7 @@
 from types import SimpleNamespace
 
 # fmt: off
+VOID               = 0b00000  # noqa: E221
 BORDER             = 0b00000  # noqa: E221
 WALL               = 0b00001  # noqa: E221
 BOUNDING_BOX       = 0b00010  # noqa: E221
@@ -10,6 +11,7 @@ HITBOX             = 0b10000  # noqa: E221
 
 MASK = SimpleNamespace()
 
+MASK.VOID               = VOID  # noqa: E221
 MASK.BORDER             = BORDER  # noqa: E221
 MASK.WALL               = BOUNDING_BOX | BALL  # noqa: E221
 MASK.BOUNDING_BOX       = WALL  # noqa: E221

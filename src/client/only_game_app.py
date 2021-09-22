@@ -118,33 +118,33 @@ class App:
         if not self.valid:
             return
             # Run a custom curses error screen maybe
-        while True:  # To-do check this.
-            await self.set_ui(game_play)
-            # if (
-            #     self.stdscr.getmaxyx()[0] < self.target_height
-            #     or self.stdscr.getmaxyx()[1] < self.target_width
-            # ):  # Allow smaller screen temporarily
-            #     await self.set_ui(ss_error)
-            #     try:
-            #         curses.resize_term(self.target_height, self.target_width)
-            #     except Exception:  # noqa: S110
-            #         pass
-            # elif self.state == AppState.MENU:
-            #     self.state = await self.set_ui(self.ui.menu)
-            # elif self.state == AppState.MAIN_MENU:
-            #     self.state = await self.set_ui(self.ui.main_menu)
-            # elif self.state == AppState.GAME:
-            #     # TO-Do
-            #     break
-            # elif self.state == AppState.GAME_OVER:
-            #     self.state = await self.set_ui(self.ui.game_over)
-            # elif self.state == AppState.CREDITS_SCR:
-            #     self.state = await self.set_ui(self.ui.credit)
-            # elif self.state == AppState.EXIT:
-            #     break
-            # else:
-            #     break
-            # await asyncio.sleep(1)
+
+        await self.set_ui(game_play)
+        # if (
+        #     self.stdscr.getmaxyx()[0] < self.target_height
+        #     or self.stdscr.getmaxyx()[1] < self.target_width
+        # ):  # Allow smaller screen temporarily
+        #     await self.set_ui(ss_error)
+        #     try:
+        #         curses.resize_term(self.target_height, self.target_width)
+        #     except Exception:  # noqa: S110
+        #         pass
+        # elif self.state == AppState.MENU:
+        #     self.state = await self.set_ui(self.ui.menu)
+        # elif self.state == AppState.MAIN_MENU:
+        #     self.state = await self.set_ui(self.ui.main_menu)
+        # elif self.state == AppState.GAME:
+        #     # TO-Do
+        #     break
+        # elif self.state == AppState.GAME_OVER:
+        #     self.state = await self.set_ui(self.ui.game_over)
+        # elif self.state == AppState.CREDITS_SCR:
+        #     self.state = await self.set_ui(self.ui.credit)
+        # elif self.state == AppState.EXIT:
+        #     break
+        # else:
+        #     break
+        # await asyncio.sleep(1)
         self.destroy()
 
     def refresh(self):

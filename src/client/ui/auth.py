@@ -19,26 +19,20 @@ class Auth(UI):
     def __init__(self):
         super().__init__("main_menu_scr")
         self.message = [
-            "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@@@@*/(@@@@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@@%%%%%%,@@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@(  *% ,%#@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@@#%  %(%@@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@%% . ..%%@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@#*, //@%%%%%%%%/* *@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@*      ////@@@. @@@///     #@@@@@@@@@@@",
-            "@@@@@@@@@@@        ////@@  @@//,       *@@@@@@@@@@",
-            "@@@@@@@@@@@*      *  ///@   ///        (@@@@@@@@@@",
-            "@@@@@@@@@@@.     # /%%,.  @@%%%         @@@@@@@@@@",
-            "@@@@@@@@@@@     .%#%        &          ,@@@@@@@@@@",
-            "@@@@@@@@@@@@        .     &       ,   *@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@*,          .*         ,@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@             @@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@..,**//((##%%@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
-            "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+            r"  _____________________________  ",
+            r" /                             \ ",
+            r"|    _______________________    |",
+            r"|   /       The poing       \   |",
+            r"|   |         _____         |   |",
+            r"|   |        |==   |        |   |",
+            r"|   |        |  o. |        |   |",
+            r"|   |        |__O__|        |   |",
+            r"|   |                       |   |",
+            r"|   | Insert disk 1 to begin|   |",
+            r"|   \_______________________/   |",
+            r"|  /|\ ATARI  SM124        _    |",
+            r" \_____________________________/ ",
+            r"   !_________________________!   ",
         ]
         self.horizontal_border = "─"
         self.vertical_border = "│"
@@ -49,9 +43,6 @@ class Auth(UI):
         self.clipboardManager = ClipboardManager()
         self.browserManager = BrowserManager()
         self.selected_widget = 0
-
-    def select_widget(self, widget_id):
-        pass
 
     def open_auth_page(self):
         return self.browserManager.open_browser("https://pongconsole.xyz/dcauth/login")
@@ -69,7 +60,7 @@ class Auth(UI):
         curses.init_pair(7, curses.COLOR_GREEN, curses.COLOR_BLACK)
         curses.init_pair(8, curses.COLOR_YELLOW, curses.COLOR_BLACK)
 
-        y = 0
+        y = height // 2 - len(self.message)
         for text in self.message:
             self.window.addstr(
                 y,
@@ -80,25 +71,26 @@ class Auth(UI):
             y += 1
 
         auth_button = Button(
-            len(self.message) + 5,
-            (width - 150) // 2,
-            width=150,
-            text="Wait! If you have a TOKEN, just copy it and my guy will know that; if not GET THE HE... No, "
-            "you're welcome. Just press enter to register...",
+            height - 25,
+            width // 2 - (100 // 2),
+            width=100,
+            text="Hello stranger, just press enter to register",
             text_color_pair_id=7,
             frame_color_pair_id=5,
             key=keyboard.Key.enter,
             callback=self.open_auth_page,
+            selected=True,
         )
 
         exit_button = Button(
-            (width - 25) // 2,
-            width=25,
-            text="end before it began...",
+            height - 15,
+            width // 2 - (45 // 2),
+            width=45,
+            text="End before it even began...",
             text_color_pair_id=6,
             frame_color_pair_id=5,
             key=keyboard.Key.enter,
-            go_to=AppState.EXIT,
+            go_to=AppState.MAIN_MENU,
         )
 
         self.input_manager = app.input_manager

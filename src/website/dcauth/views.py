@@ -12,26 +12,30 @@ from django.views.generic.edit import FormView
 from dotenv import load_dotenv
 
 from .auth_manager import AuthManager
+from .md_manager import MarkdownManager
 
 load_dotenv()
 
-GAMESERVER_URL = "https://pongconsole.xyz/dcauth/"
-DEBUG_URL = "http://127.0.0.1:8000/dcauth/"
+GAMESERVER_URL = "https://pongconsole.xyz/"
+DEBUG_URL = "http://127.0.0.1:8000/"
 
 CLIENT_ID = os.environ.get("CLIENT_ID")
 CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
 
 authmng = AuthManager()
+mdmng = MarkdownManager()
 
 
-class todoHome(TemplateView):
-    def get(self, request, *args, **kwargs):
+def Homepage(request):
+    return render(request, "index.html")
 
-        return render(request, "index.html")
+
+def devlog(request):
+    return render(request, "devlog.html", {"pages": mdmng.parse()})
 
 
 def login_via_discord(request):
-    REDIRECT_URI = f"{GAMESERVER_URL}login-success"
+    REDIRECT_URI = f"{GAMESERVER_URL}success"
 
     discord_auth_url = (
         "https://discord.com/api/oauth2/authorize?"
@@ -52,7 +56,7 @@ def login_success(request):
 # Tools
 def get_access_token(code):
     API_ENDPOINT = "https://discord.com/api"
-    REDIRECT_URI = f"{GAMESERVER_URL}login-success"
+    REDIRECT_URI = f"{GAMESERVER_URL}success"
     data = {
         "client_id": CLIENT_ID,
         "client_secret": CLIENT_SECRET,

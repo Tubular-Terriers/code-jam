@@ -10,15 +10,18 @@ load_dotenv()
 class AuthManager:
     def __init__(self, salt=os.environ.get("SALT")):
         self.SALT = salt
-        self.db_path = "/srv/code-jam/src/creds.json"
+        self.db_path = os.path.join(os.path.dirname(__file__), "../../creds.json")
         self.db_file = open(self.db_path, "r+")
         self.db = json.load(self.db_file)
 
     def test(self):
         print(self.db)
 
-    def check(self, uid):
-        return uid in self.db.keys()
+    def check(self, key):
+        if len(key) == 36:  # it's uid
+            return key in self.db.keys()
+        elif len(key) == 64:  # it's token
+            return key in self.db.values()
 
     def add(self, uid):
         SECRET_SALT = os.environ.get("SALT")

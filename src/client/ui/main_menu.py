@@ -40,8 +40,8 @@ class Main_menu(UI):
         self.ball = "●"
         self.ball_pos_x = None
         self.ball_pos_y = None
-        self.ball_speed_y = random.choice([num for num in range(-2, 2) if num != 0])
-        self.ball_speed_x = random.choice([num for num in range(-2, 2) if num != 0])
+        self.ball_speed_y = random.choice([num for num in range(-1, 1) if num != 0])
+        self.ball_speed_x = random.choice([num for num in range(-1, 1) if num != 0])
         self.board_start_y = None
         self.board_end_y = None
         self.board_start_x = 10
@@ -67,14 +67,14 @@ class Main_menu(UI):
             self.ball_pos_y = self.board_end_y - 1
             self.ball_speed_y = -self.ball_speed_y
 
-            if is_focused():
+            if is_focused() or not bool(
+                self.config.get(Settings.MUTE_GAME_ON_FOCUS_LOSS)
+            ):
                 self.sound_engine.play_sound(SoundEffects.WALL_BOUNCE)
 
             self.window.addstr(self.board_end_y, self.ball_pos_x, " ")
-            if (
-                self.ball_pos_y == self.board_end_y - 1
-                and self.ball_pos_x == self.board_end_x - 1
-            ):
+
+            if self.ball_pos_x == self.board_end_x - 1:
                 self.window.addstr(
                     self.board_end_y, self.board_end_x, self.bottom_right_corner
                 )
@@ -90,9 +90,15 @@ class Main_menu(UI):
             self.ball_pos_y = self.board_start_y + 1
             self.ball_speed_y = -self.ball_speed_y
 
+            if is_focused() or not bool(
+                self.config.get(Settings.MUTE_GAME_ON_FOCUS_LOSS)
+            ):
+                self.sound_engine.play_sound(SoundEffects.WALL_BOUNCE)
+
             self.window.addstr(self.board_start_y, self.ball_pos_x, " ")
+
             self.window.addstr(
-                self.board_end_y, self.ball_pos_x, self.horizontal_border
+                self.board_start_y, self.ball_pos_x, self.horizontal_border
             )
 
             self.switch_ball_color()
@@ -100,6 +106,12 @@ class Main_menu(UI):
         if self.ball_pos_x >= self.board_end_x:
             self.ball_pos_x = self.board_end_x - 1
             self.ball_speed_x = -self.ball_speed_x
+
+            if is_focused() or not bool(
+                self.config.get(Settings.MUTE_GAME_ON_FOCUS_LOSS)
+            ):
+                self.sound_engine.play_sound(SoundEffects.WALL_BOUNCE)
+
             self.window.addstr(self.ball_pos_y, self.board_end_x, " ")
             self.window.addstr(self.ball_pos_y, self.board_end_x, self.vertical_border)
 
@@ -108,6 +120,12 @@ class Main_menu(UI):
         if self.ball_pos_x <= self.board_start_x:
             self.ball_pos_x = self.board_start_x + 1
             self.ball_speed_x = -self.ball_speed_x
+
+            if is_focused() or not bool(
+                self.config.get(Settings.MUTE_GAME_ON_FOCUS_LOSS)
+            ):
+                self.sound_engine.play_sound(SoundEffects.WALL_BOUNCE)
+
             self.window.addstr(self.ball_pos_y, self.board_start_x, " ")
             self.window.addstr(
                 self.ball_pos_y, self.board_start_x, self.vertical_border
@@ -162,7 +180,9 @@ class Main_menu(UI):
         self.board_end_y = height - 15
 
         for x in range(self.board_start_x, self.board_end_x):
-            self.window.addstr(self.board_start_y, x, self.horizontal_border)
+            self.window.addstr(
+                self.board_start_y, x, self.horizontal_border, curses.color_pair(1)
+            )
 
         for y in range(self.board_start_y + 1, self.board_end_y):
             self.window.addstr(y, self.board_start_x, self.vertical_border)
@@ -200,58 +220,75 @@ class Main_menu(UI):
         self.window.attroff(curses.color_pair(3))
         self.window.attroff(curses.A_BOLD)
 
-        play_button = Button(
+        host_game_button = Button(
             self.board_end_y + 5,
-            self.board_end_x // 3,
-            text="Play",
+            self.board_end_x // 6,
+            text="Host a game",
             text_color_pair_id=7,
             frame_color_pair_id=5,
+            width=17,
             key=keyboard.Key.enter,
-            go_to=AppState.GAME,
+            go_to=AppState.HOST_GAME,
             selected=self.selected_widget == 0,
         )
 
-        exit_button = Button(
+        join_game_button = Button(
             self.board_end_y + 5,
-            self.board_end_x - self.board_end_x // 3,
-            text="Exit",
-            text_color_pair_id=6,
+            (self.board_end_x // 6) * 2,
+            text="Join a game",
+            text_color_pair_id=7,
             frame_color_pair_id=5,
+            width=17,
             key=keyboard.Key.enter,
-            go_to=AppState.EXIT,
-            selected=self.selected_widget == 3,
+            go_to=AppState.JOIN_GAME,
+            selected=self.selected_widget == 1,
         )
-
-        self.button_spacing = (exit_button.x - play_button.x) // 3
 
         settings_button = Button(
             self.board_end_y + 5,
-            play_button.x + self.button_spacing,
-            width=12,
+            (self.board_end_x // 6) * 3,
+            width=18,
             text="Settings",
-            text_color_pair_id=4,
+            text_color_pair_id=1,
             frame_color_pair_id=5,
             key=keyboard.Key.enter,
             go_to=AppState.SETTINGS_SCR,
-            selected=self.selected_widget == 1,
+            selected=self.selected_widget == 2,
         )
 
         credits_button = Button(
             self.board_end_y + 5,
-            settings_button.x + self.button_spacing,
+            (self.board_end_x // 6) * 4,
+            width=17,
             text="Credits",
-            text_color_pair_id=8,
+            text_color_pair_id=1,
             frame_color_pair_id=5,
             key=keyboard.Key.enter,
             go_to=AppState.CREDITS_SCR,
-            selected=self.selected_widget == 2,
+            selected=self.selected_widget == 3,
         )
 
-        self.widgets = [play_button, settings_button, credits_button, exit_button]
+        exit_button = Button(
+            self.board_end_y + 5,
+            (self.board_end_x // 6) * 5,
+            text="Exit",
+            text_color_pair_id=6,
+            frame_color_pair_id=5,
+            width=18,
+            key=keyboard.Key.enter,
+            go_to=AppState.EXIT,
+            selected=self.selected_widget == 4,
+        )
+        self.widgets = [
+            host_game_button,
+            join_game_button,
+            settings_button,
+            credits_button,
+            exit_button,
+        ]
         self.refresh()
 
         while True:
-            self.window.addstr(0, 0, str(self.selected_widget))
             if res := self.refresh():
                 break
             await self.move_ball()

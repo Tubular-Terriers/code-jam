@@ -4,7 +4,6 @@ import random
 import pymunk
 
 from .. import category, collision_type
-from .._objects import border
 from .ball import Ball
 from .entity import Entity
 from .entity_type import EntityType
@@ -16,6 +15,10 @@ class Border(Entity, pymunk.Body):
         pymunk.Body.__init__(self, mass=1, moment=1, body_type=pymunk.Body.KINEMATIC)
         self.icoords = x1, y1
         self.fcords = x2, y2
+
+        def border(body, x1, y1, x2, y2):
+            return pymunk.Segment(body, (x1, y1), (x2, y2), radius=4)
+
         self.border = border(self._body, x1, y1, x2, y2)
         self.borderelasticity = 1
         self.border.friction = 0
@@ -27,6 +30,9 @@ class Border(Entity, pymunk.Body):
 
     def add_space(self, space, object=None):
         space.add(*self.tuple)
+
+    def reset(self):
+        pass
 
     def get_segment(self):
         return self.border

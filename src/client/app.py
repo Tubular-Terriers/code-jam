@@ -10,6 +10,9 @@ from client.ui.auth import auth
 from client.ui.credits import credits_scr
 from client.ui.error_sc import ss_error
 from client.ui.game_over import game_over
+from client.ui.game_play import GamePlay
+from client.ui.host_scr import host_game
+from client.ui.join_scr import join_game
 from client.ui.main_menu import main_menu
 from client.ui.menu import menu
 from client.ui.settings import settings
@@ -36,6 +39,7 @@ class App:
         self.target_width = 130
 
         self.valid = True
+        self.game_code = None
 
         if not stdscr:
             li = os.get_terminal_size().lines
@@ -69,10 +73,13 @@ class App:
         self.ui.menu = menu
         self.ui.main_menu = main_menu
         self.ui.game_over = game_over
+        self.ui.GamePlay = GamePlay
         self.ui.ss_error = ss_error  # TODO: Remove or use this
         self.ui.credit = credits_scr
         self.ui.settings = settings
         self.ui.auth = auth
+        self.ui.host_game = host_game
+        self.ui.join_game = join_game
 
         # Register input_manager
         self.input_manager = input_manager
@@ -138,8 +145,7 @@ class App:
             elif self.state == AppState.MAIN_MENU:
                 self.state = await self.set_ui(self.ui.main_menu)
             elif self.state == AppState.GAME:
-                # TO-Do
-                break
+                self.state = await self.set_ui(self.ui.GamePlay())
             elif self.state == AppState.GAME_OVER:
                 self.state = await self.set_ui(self.ui.game_over)
             elif self.state == AppState.CREDITS_SCR:
@@ -148,6 +154,10 @@ class App:
                 self.state = await self.set_ui(self.ui.settings)
             elif self.state == AppState.AUTH_SCR:
                 self.state = await self.set_ui(self.ui.auth)
+            elif self.state == AppState.HOST_GAME:
+                self.state = await self.set_ui(self.ui.host_game)
+            elif self.state == AppState.JOIN_GAME:
+                self.state = await self.set_ui(self.ui.join_game)
             elif self.state == AppState.EXIT:
                 break
             else:

@@ -94,7 +94,12 @@ async def counter(websocket, path):
             if action_type == packet.Verify.ACTION:
                 p = packet.Verify.load(pl)
                 print(f"token is {p.token}")
-                if p.token[-1] == "n":
+                if True:  # HERE HERE This is a debug line
+                    asyncio.create_task(
+                        websocket.send(packet.VerifyResponse(True).send())
+                    )
+                    print("debug true so token is validated")
+                elif p.token[-1] == "n":
                     asyncio.create_task(
                         websocket.send(packet.VerifyResponse(True).send())
                     )
@@ -130,4 +135,5 @@ async def counter(websocket, path):
 start_server = websockets.serve(counter, "localhost", 3001)
 
 asyncio.get_event_loop().run_until_complete(start_server)
-asyncio.get_event_loop().run_forever()
+if __name__ == "__main__":
+    asyncio.get_event_loop().run_forever()

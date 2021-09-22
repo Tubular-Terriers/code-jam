@@ -1,5 +1,4 @@
 import curses
-import sys
 import time
 
 from pynput import keyboard
@@ -7,8 +6,8 @@ from pynput import keyboard
 from ._widget import Widget
 
 
-class Box(Widget):
-    """The widget for making a text box to get a value"""
+class password(Widget):
+    """The widget for making a text box to get a password"""
 
     def __init__(self, h, w, y, x):
         super().__init__("text box")
@@ -20,7 +19,7 @@ class Box(Widget):
     def refresh(self):
         self.window.erase()
         self.window.border(0)
-        self.window.addstr(1, 1, self.text)
+        self.window.addstr(1, 1, "*")
         if self.typing:
             self.window.addstr(2, 1, "TYPING")
         self.window.noutrefresh()
@@ -37,7 +36,7 @@ class Box(Widget):
 
     def update_text_on(self, text, *_):
         if text is None:
-            self.text = "enter a value"
+            self.text = "enter your password"
             self.refresh()
             curses.doupdate()
             return
@@ -48,6 +47,3 @@ class Box(Widget):
 
     def end_text_on(self, *_):
         self.typing = False
-
-    def toggle(self):
-        pass

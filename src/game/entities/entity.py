@@ -5,7 +5,7 @@ from .entity_type import EntityType
 
 class Entity:
     def __init__(self, type: EntityType, uuid):
-        self.uuid = uuid if uuid else uuid4()
+        self.uuid = uuid if uuid else str(uuid4())
         self.type = type
 
     # Partial
@@ -15,6 +15,7 @@ class Entity:
         self.velocity = data["velocity"]
         self.angular_velocity = data["angular_velocity"]
         self.angle = data["angle"]
+        self.type = data["type"]
 
     # Partial
     def dump_data(self):

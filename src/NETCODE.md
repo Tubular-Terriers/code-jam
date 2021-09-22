@@ -4,18 +4,23 @@
 
 ```json
 {
+    "packet_id":"present in only request packets (notated by * in front of action name)",
     "action": "verify|verify_response|game_init|game",
     "payload": {
         // the actual payload here
     }
 }
 ```
+
+
+
 action name      |client                 |server
 -                |-                      |-
-verify           | sends token           |
-verify_response  |                       | response to `verify`
+*verify          | sends token           | returns response status
+*request_lobby   | lobby join request    | returns lobby data
+*status          |                       | returns a response status
 game_init        |                       | sends player's `uuid` and game data to client
-game (symmetric) | send game data        | send game data
+game (symmetric) | send game data(event) | send game data(dump)
 
 ## Verification
 
@@ -32,7 +37,7 @@ when verification is success, the server returns
 
 ```json
 {
-    "action": "verify_response",
+    "action": "status",
     "payload": {
         "status": "OK",
         "error": ""
@@ -50,6 +55,28 @@ when the verification fails, the server returns
     }
 }
 ```
+
+## Lobby join
+
+```json
+{
+    "action": "request_lobby",
+    "payload": {
+        "username": "josh",
+
+        // The below is not implemented
+        "lobby_id": "the lobby id",
+        // optional
+        "password": "12345678"
+    }
+}
+```
+
+When the request succeeds, the server sends a status `OK` and a `game_init` shortly after
+
+When the request fails, the server sends a status `ERROR`
+
+The player cannot know which lobby they joined
 
 ## Game init
 
@@ -71,12 +98,10 @@ Throughout the game play lifecycle, these are constantly sent
 {
     "action": "game",
     "payload": {
-        "events":[
-            {
-                "name": "EVENT ID HERE",
-                "value": {} // value or object. Different for every event
-            }
-        ]
+        "events":{
+            // due to lack of time, this is just a key dictionary of player input
+            "KEY": true
+        }
     }
 }
 ```

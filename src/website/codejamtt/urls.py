@@ -23,12 +23,13 @@ urlpatterns = [
 from django.urls import include
 
 urlpatterns += [
-    path("dcauth/", include("dcauth.urls")),
+    path("", include("dcauth.urls")),
+    # might have to include '/' here
 ]
 from django.views.generic import RedirectView
 
 urlpatterns += [
-    path("", RedirectView.as_view(url="dcauth/", permanent=True)),
+    path("", RedirectView.as_view(url="", permanent=True)),
 ]
 from django.conf import settings
 from django.conf.urls.static import static
