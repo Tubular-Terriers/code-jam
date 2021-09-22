@@ -92,7 +92,6 @@ class Auth(UI):
         )
 
         exit_button = Button(
-            len(self.message) + auth_button.height + 5,
             (width - 25) // 2,
             width=25,
             text="end before it began...",
